@@ -53,6 +53,7 @@ class MainScene(Scene):
 ```
 
 ### Output
-<video id="video" controls>
-    <source src="media/Array_Example.mp4" type="video/mp4">
-</video>
+
+
+https://user-images.githubusercontent.com/56049229/203757924-6f3aed6d-e870-468f-a269-a572350355b1.mp4
+
