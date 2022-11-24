@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "manim-data-structures"
+version = "0.1.0"
+description = "A Manim implementation for data structures"
+authors = ["Hammad Nasir <hammadn99@gmail.com>"]
+readme = "README.md"
+packages = [{include = "manim_data_structures", from = "src"}]
+repository = "https://github.com/drageelr/manim-data-structures"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.plugins."manim.plugins"]
+"manim_data_structures" = "manim_data_structures"
