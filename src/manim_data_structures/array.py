@@ -1,3 +1,5 @@
+"""Contains classes to construct an array."""
+
 from manim import *
 
 
