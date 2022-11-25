@@ -2,7 +2,35 @@ from manim import *
 
 
 class MArrayElement(VGroup):
+    """A class that represents an array element.
+    
+    Parameters
+    ----------
+    mob_square_args : :class:`dict`
+        Arguments for :class:`manim.Square` that represents the element body.
+    mob_value_args : :class:`dict`
+        Arguments for :class:`manim.Text` that represents the element value.
+    mob_index_args : :class:`dict`
+        Arguments for :class:`manim.Text` that represents the element index.
+
+    Attributes
+    ----------
+    __mob_square_props : :class:`dict`
+        Default arguments passed to :class:`manim.Square` that represents the element body.
+    __mob_value_props : :class:`dict`
+        Default arguments passed to :class:`manim.Text` that represents the element value.
+    __mob_index_props : :class:`dict`
+        Default arguments passed to :class:`manim.Text` that represents the element index.
+    __mob_square : :class:`manim.Square`
+        :class:`manim.Mobject` that represents the element body.
+    __mob_value : :class:`manim.Text`
+        :class:`manim.Mobject` that represents the element index.
+    __mob_index : :class:`manim.Text`
+        :class:`manim.Mobject` that represents the element value.
+    """
     def __init_props(self) -> None:
+        """Initializes the attributes for the class."""
+        
         self.__mob_square_props = {
             "color": BLUE_B,
             "fill_color": BLUE_D,
@@ -18,6 +46,18 @@ class MArrayElement(VGroup):
         mob_value_args: dict = {},
         mob_index_args: dict = {},
     ) -> None:
+        """Updates the attributes of the class.
+        
+        Parameters
+        ----------
+        mob_square_args : :class:`dict`
+            Arguments for :class:`manim.Square` that represents the element body.
+        mob_value_args : :class:`dict`
+            Arguments for :class:`manim.Text` that represents the element value.
+        mob_index_args : :class:`dict`
+            Arguments for :class:`manim.Text` that represents the element index.
+        """
+
         self.__mob_square_props.update(mob_square_args)
         self.__mob_value_props.update(mob_value_args)
         self.__mob_index_props.update(mob_index_args)
@@ -34,6 +74,18 @@ class MArrayElement(VGroup):
         init_value: bool = False,
         init_index: bool = False,
     ) -> None:
+        """Initializes the :class:`Mobject`s for the class.
+
+        Parameters
+        ----------
+        init_square : :class:`bool`
+            Instantiates a :class:`manim.Sqaure` and adds it to :attr:`__mob_square`.
+        init_value : :class:`bool`
+            Instantiates a :class:`manim.Text` and adds it to :attr:`__mob_value`.
+        init_index: :class:`bool`
+            Instantiates a :class:`manim.Text` and adds it to :attr:`__mob_index`.
+        """
+
         if init_square:
             self.__mob_square = Square(**self.__mob_square_props)
             self.add(self.__mob_square)
@@ -55,6 +107,18 @@ class MArrayElement(VGroup):
         mob_index_args: dict = {},
         **kwargs
     ) -> None:
+        """Initializes the class.
+        
+        Parameters
+        ----------
+        mob_square_args : :class:`dict`
+            Arguments for :class:`manim.Square` that represents the element body.
+        mob_value_args : :class:`dict`
+            Arguments for :class:`manim.Text` that represents the element value.
+        mob_index_args : :class:`dict`
+            Arguments for :class:`manim.Text` that represents the element index.
+        """
+
         super().__init__(**kwargs)
 
         # Initialize props
@@ -67,15 +131,52 @@ class MArrayElement(VGroup):
         self.__init_mobs(True, True, True)
 
     def fetch_mob_square(self) -> Square:
+        """Fetches the :class:`manim.Square` that represents the element body.
+        
+        Returns
+        -------
+        :class:`manim.Square`
+            Represents the element body.
+        """
+
         return self.__mob_square
 
     def fetch_mob_text(self) -> Text:
+        """Fetches the :class:`manim.Text` that represents the element value.
+        
+        Returns
+        -------
+        :class:`manim.Text`
+            Represents the element value.
+        """
+
         return self.__mob_value
 
     def fetch_mob_index(self) -> Text:
+        """Fetches the :class:`manim.Text` that represents the element index.
+        
+        Returns
+        -------
+        :class:`manim.Text`
+            Represents the element index.
+        """
+        
         return self.__mob_index
 
     def update_mob_value(self, mob_value_args: dict = {}) -> Text:
+        """Re-intializes the :class:`manim.Text` that represents the element value.
+        
+        Parameters
+        ----------
+        mob_value_args : :class:`dict`
+            Arguments for :class:`manim.Text` that represents the element value.
+
+        Returns
+        -------
+        :class:`manim.Text`
+            Represents the updated element value.
+        """
+
         self.__update_props(mob_value_args=mob_value_args)
         self.remove(self.__mob_value)
         self.__init_mobs(init_value=True)
@@ -83,6 +184,19 @@ class MArrayElement(VGroup):
         return self.__mob_value
 
     def update_mob_index(self, mob_index_args: dict = {}) -> Text:
+        """Re-intializes the :class:`manim.Text` that represents the element index.
+        
+        Parameters
+        ----------
+        mob_index_args : :class:`dict`
+            Arguments for :class:`manim.Text` that represents the element index.
+
+        Returns
+        -------
+        :class:`manim.Text`
+            Represents the updated element index.
+        """
+        
         self.__update_props(mob_index_args=mob_index_args)
         self.remove(self.__mob_index)
         self.__init_mobs(init_index=True)
@@ -90,12 +204,36 @@ class MArrayElement(VGroup):
         return self.__mob_index
 
     def animate_mob_square(self) -> Square.animate:
+        """Invokes the :meth:`manim.Square.animate` property of :class:`Square` for the element body.
+        
+        Returns
+        -------
+        :class:`_AnimationBuilder`
+            Value returned by :meth:`manim.Square.animate` property of :class:`Square`.
+        """
+
         return self.__mob_square.animate
 
     def animate_mob_text(self) -> Text.animate:
+        """Invokes the :meth:`manim.Text.animate` property of :class:`Text` for the element value.
+        
+        Returns
+        -------
+        :class:`_AnimationBuilder`
+            Value returned by :meth:`manim.Text.animate` property of :class:`Text`.
+        """
+
         return self.__mob_value.animate
 
     def animate_mob_index(self) -> Text.animate:
+        """Invokes the :meth:`manim.Text.animate` property of :class:`Text` for the element index.
+        
+        Returns
+        -------
+        :class:`_AnimationBuilder`
+            Value returned by :meth:`manim.Text.animate` property of :class:`Text`.
+        """
+
         return self.__mob_index.animate
 
 
