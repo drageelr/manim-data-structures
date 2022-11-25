@@ -3,7 +3,7 @@ from manim import *
 
 class MArrayElement(VGroup):
     """A class that represents an array element.
-    
+
     Parameters
     ----------
     mob_square_args : :class:`dict`
@@ -31,7 +31,7 @@ class MArrayElement(VGroup):
 
     def __init_props(self) -> None:
         """Initializes the attributes for the class."""
-        
+
         self.__mob_square_props = {
             "color": BLUE_B,
             "fill_color": BLUE_D,
@@ -48,7 +48,7 @@ class MArrayElement(VGroup):
         mob_index_args: dict = {},
     ) -> None:
         """Updates the attributes of the class.
-        
+
         Parameters
         ----------
         mob_square_args : :class:`dict`
@@ -109,7 +109,7 @@ class MArrayElement(VGroup):
         **kwargs
     ) -> None:
         """Initializes the class.
-        
+
         Parameters
         ----------
         mob_square_args : :class:`dict`
@@ -133,7 +133,7 @@ class MArrayElement(VGroup):
 
     def fetch_mob_square(self) -> Square:
         """Fetches the :class:`manim.Square` that represents the element body.
-        
+
         Returns
         -------
         :class:`manim.Square`
@@ -144,7 +144,7 @@ class MArrayElement(VGroup):
 
     def fetch_mob_text(self) -> Text:
         """Fetches the :class:`manim.Text` that represents the element value.
-        
+
         Returns
         -------
         :class:`manim.Text`
@@ -155,18 +155,18 @@ class MArrayElement(VGroup):
 
     def fetch_mob_index(self) -> Text:
         """Fetches the :class:`manim.Text` that represents the element index.
-        
+
         Returns
         -------
         :class:`manim.Text`
             Represents the element index.
         """
-        
+
         return self.__mob_index
 
     def update_mob_value(self, mob_value_args: dict = {}) -> Text:
         """Re-intializes the :class:`manim.Text` that represents the element value.
-        
+
         Parameters
         ----------
         mob_value_args : :class:`dict`
@@ -186,7 +186,7 @@ class MArrayElement(VGroup):
 
     def update_mob_index(self, mob_index_args: dict = {}) -> Text:
         """Re-intializes the :class:`manim.Text` that represents the element index.
-        
+
         Parameters
         ----------
         mob_index_args : :class:`dict`
@@ -197,7 +197,7 @@ class MArrayElement(VGroup):
         :class:`manim.Text`
             Represents the updated element index.
         """
-        
+
         self.__update_props(mob_index_args=mob_index_args)
         self.remove(self.__mob_index)
         self.__init_mobs(init_index=True)
@@ -206,7 +206,7 @@ class MArrayElement(VGroup):
 
     def animate_mob_square(self) -> Square.animate:
         """Invokes the :meth:`manim.Square.animate` property of :class:`manim.Square` for the element body.
-        
+
         Returns
         -------
         :class:`_AnimationBuilder`
@@ -217,7 +217,7 @@ class MArrayElement(VGroup):
 
     def animate_mob_text(self) -> Text.animate:
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` for the element value.
-        
+
         Returns
         -------
         :class:`_AnimationBuilder`
@@ -228,7 +228,7 @@ class MArrayElement(VGroup):
 
     def animate_mob_index(self) -> Text.animate:
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` for the element index.
-        
+
         Returns
         -------
         :class:`_AnimationBuilder`
@@ -240,7 +240,7 @@ class MArrayElement(VGroup):
 
 class MArray(VGroup):
     """A class that represents an array.
-    
+
     Parameters
     ----------
     arr : :class:`list`, default: `[]`
@@ -351,7 +351,7 @@ class MArray(VGroup):
 
     def update_elem_value(self, index: int, value, mob_value_args: dict = {}) -> Text:
         """Updates the elements value.
-        
+
         Parameters
         ----------
         index : :class:`int`
@@ -376,7 +376,7 @@ class MArray(VGroup):
 
     def update_elem_index(self, index: int, value, mob_index_args: dict = {}) -> Text:
         """Updates the elements index.
-        
+
         Parameters
         ----------
         index : :class:`int`
@@ -391,7 +391,7 @@ class MArray(VGroup):
         :class:`manim.Text`
             Represents the updated element index.
         """
-        
+
         if index < 0 or index > len(self.__mob_arr):
             raise Exception("Index out of bounds!")
 
@@ -400,7 +400,7 @@ class MArray(VGroup):
 
     def animate_elem(self, index: int) -> MArrayElement.animate:
         """Invokes the :meth:`MArrayElement.animate` property of :class:`MArrayElement` on specified index of :attr:`__mob_arr`.
-        
+
         Parameters
         ----------
         index : :class:`int`
@@ -419,7 +419,7 @@ class MArray(VGroup):
 
     def animate_elem_square(self, index: int) -> Square.animate:
         """Invokes the :meth:`manim.Square.animate` property of :class:`manim.Square` on specified index of :attr:`__mob_arr`.
-        
+
         Parameters
         ----------
         index : :class:`int`
@@ -438,7 +438,7 @@ class MArray(VGroup):
 
     def animate_elem_value(self, index: int) -> Text.animate:
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` on specified index of :attr:`__mob_arr`.
-        
+
         Parameters
         ----------
         index : :class:`int`
@@ -457,7 +457,7 @@ class MArray(VGroup):
 
     def animate_elem_index(self, index: int) -> Text.animate:
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` on specified index of :attr:`__mob_arr`.
-        
+
         Parameters
         ----------
         index : :class:`int`
@@ -493,7 +493,7 @@ class MArray(VGroup):
             Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
-        
+
         Returns
         -------
         :class:`MArrayElement`
@@ -505,7 +505,7 @@ class MArray(VGroup):
 
     def fetch_arr(self) -> list:
         """Fetches :attr:`__arr`.
-        
+
         Returns
         -------
         :class:`list`
@@ -516,7 +516,7 @@ class MArray(VGroup):
 
     def fetch_mob_arr(self) -> List[MArrayElement]:
         """Fetches :attr:`__mob_arr`.
-        
+
         Returns
         -------
         List[:class:`MArrayElement`]
