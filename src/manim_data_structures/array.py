@@ -144,7 +144,7 @@ class MArrayElement(VGroup):
 
         return self.__mob_square
 
-    def fetch_mob_text(self) -> Text:
+    def fetch_mob_value(self) -> Text:
         """Fetches the :class:`manim.Text` that represents the element value.
 
         Returns
@@ -217,7 +217,7 @@ class MArrayElement(VGroup):
 
         return self.__mob_square.animate
 
-    def animate_mob_text(self) -> Text.animate:
+    def animate_mob_value(self) -> Text.animate:
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` for the element value.
 
         Returns
@@ -455,7 +455,7 @@ class MArray(VGroup):
         if index < 0 or index > len(self.__mob_arr):
             raise Exception("Index out of bounds!")
 
-        return self.__mob_arr[index].animate_mob_text()
+        return self.__mob_arr[index].animate_mob_value()
 
     def animate_elem_index(self, index: int) -> Text.animate:
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` on specified index of :attr:`__mob_arr`.
