@@ -28,6 +28,7 @@ class MArrayElement(VGroup):
     __mob_index : :class:`manim.Text`
         :class:`manim.Mobject` that represents the element value.
     """
+
     def __init_props(self) -> None:
         """Initializes the attributes for the class."""
         
@@ -204,41 +205,89 @@ class MArrayElement(VGroup):
         return self.__mob_index
 
     def animate_mob_square(self) -> Square.animate:
-        """Invokes the :meth:`manim.Square.animate` property of :class:`Square` for the element body.
+        """Invokes the :meth:`manim.Square.animate` property of :class:`manim.Square` for the element body.
         
         Returns
         -------
         :class:`_AnimationBuilder`
-            Value returned by :meth:`manim.Square.animate` property of :class:`Square`.
+            Value returned by :meth:`manim.Square.animate` property of :class:`manim.Square`.
         """
 
         return self.__mob_square.animate
 
     def animate_mob_text(self) -> Text.animate:
-        """Invokes the :meth:`manim.Text.animate` property of :class:`Text` for the element value.
+        """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` for the element value.
         
         Returns
         -------
         :class:`_AnimationBuilder`
-            Value returned by :meth:`manim.Text.animate` property of :class:`Text`.
+            Value returned by :meth:`manim.Text.animate` property of :class:`manim.Text`.
         """
 
         return self.__mob_value.animate
 
     def animate_mob_index(self) -> Text.animate:
-        """Invokes the :meth:`manim.Text.animate` property of :class:`Text` for the element index.
+        """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` for the element index.
         
         Returns
         -------
         :class:`_AnimationBuilder`
-            Value returned by :meth:`manim.Text.animate` property of :class:`Text`.
+            Value returned by :meth:`manim.Text.animate` property of :class:`manim.Text`.
         """
 
         return self.__mob_index.animate
 
 
 class MArray(VGroup):
+    """A class that represents an array.
+    
+    Parameters
+    ----------
+    arr : :class:`list`, default: `[]`
+        Array to represent. Elements must be convertible to :class:`str`.
+    index_offset : :class:`int`, default: `1`
+        Difference between successive indices.
+    index_start : :class:`int`, default: `0`
+        Starting value of index.
+    index_hex_display : :class:`bool`, default: `False`
+        Displays indices in hex if `True` otherwise in decimal.
+    mob_square_args : :class:`dict`, default: `{}`
+        Arguments for :class:`manim.Square` that represents the element body of :class:`MArrayElement`.
+    mob_value_args : :class:`dict`, default: `{}`
+        Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
+    mob_index_args : :class:`dict`, default: `{}`
+        Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
+    **kwargs
+        Forwarded to constructor of the parent.
+
+    Attributes
+    ----------
+    __arr : :class:`list`
+        Array to represent. Elements must be convertible to :class:`str`.
+    __mob_arr : List[:class:`MArrayElement`]
+        Array containing the manim objects.
+    __index_offset : :class:`int`
+        Difference between successive indices.
+    __index_start : :class:`int`
+        Starting value of index.
+    __index_hex_display : :class:`bool`
+        Displays indices in hex if `True` otherwise in decimal.
+    """
+
     def __calc_index(self, index: int) -> typing.Union[int, str]:
+        """Calculates and returns the index based on attributes set at initialization.
+
+        Parameters
+        ----------
+        index : :class:`int`
+            Index of the :attr:`__arr` for which to compute the displayable index.
+
+        Returns
+        -------
+        Union[:class:`int`, :class:`str`]
+            Displayable index.
+        """
+
         return (
             self.__index_start + self.__index_offset * index
             if self.__index_hex_display == False
@@ -252,6 +301,20 @@ class MArray(VGroup):
         mob_value_args: dict = {},
         mob_index_args: dict = {},
     ) -> None:
+        """Creates a new :class:`MArrayElement` and appends it to :attr:`__mob_arr`.
+
+        Parameters
+        ----------
+        value
+            Value to append.
+        mob_square_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Square` that represents the element body of :class:`MArrayElement`.
+        mob_value_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
+        mob_index_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
+        """
+
         mob_value_args["text"] = value
         mob_index_args["text"] = self.__calc_index(len(self.__mob_arr))
         self.__mob_arr.append(
@@ -287,6 +350,23 @@ class MArray(VGroup):
             self.__append_elem(v, mob_square_args, mob_value_args, mob_index_args)
 
     def update_elem_value(self, index: int, value, mob_value_args: dict = {}) -> Text:
+        """Updates the elements value.
+        
+        Parameters
+        ----------
+        index : :class:`int`
+            Index of :attr:`__mob_arr` to update.
+        value
+            New value to be assigned.
+        mob_value_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
+
+        Returns
+        -------
+        :class:`manim.Text`
+            Represents the updated element value.
+        """
+
         if index < 0 or index > len(self.__mob_arr):
             raise Exception("Index out of bounds!")
 
@@ -295,6 +375,23 @@ class MArray(VGroup):
         return self.__mob_arr[index].update_mob_value(mob_value_args)
 
     def update_elem_index(self, index: int, value, mob_index_args: dict = {}) -> Text:
+        """Updates the elements index.
+        
+        Parameters
+        ----------
+        index : :class:`int`
+            Index of :attr:`__mob_arr` to update.
+        value
+            New value to be assigned.
+        mob_index_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
+
+        Returns
+        -------
+        :class:`manim.Text`
+            Represents the updated element index.
+        """
+        
         if index < 0 or index > len(self.__mob_arr):
             raise Exception("Index out of bounds!")
 
@@ -302,24 +399,76 @@ class MArray(VGroup):
         return self.__mob_arr[index].update_mob_index(mob_index_args)
 
     def animate_elem(self, index: int) -> MArrayElement.animate:
+        """Invokes the :meth:`MArrayElement.animate` property of :class:`MArrayElement` on specified index of :attr:`__mob_arr`.
+        
+        Parameters
+        ----------
+        index : :class:`int`
+            Index of :attr:`__mob_arr` to animate.
+
+        Returns
+        -------
+        :class:`_AnimationBuilder`
+            Value returned by :meth:`MArrayElement.animate` property of :class:`MArrayElement`.
+        """
+
         if index < 0 or index > len(self.__mob_arr):
             raise Exception("Index out of bounds!")
 
         return self.__mob_arr[index].animate
 
     def animate_elem_square(self, index: int) -> Square.animate:
+        """Invokes the :meth:`manim.Square.animate` property of :class:`manim.Square` on specified index of :attr:`__mob_arr`.
+        
+        Parameters
+        ----------
+        index : :class:`int`
+            Index of :attr:`__mob_arr` to animate.
+
+        Returns
+        -------
+        :class:`_AnimationBuilder`
+            Value returned by :meth:`manim.Square.animate` property of :class:`manim.Square`.
+        """
+
         if index < 0 or index > len(self.__mob_arr):
             raise Exception("Index out of bounds!")
 
         return self.__mob_arr[index].animate_mob_square()
 
     def animate_elem_value(self, index: int) -> Text.animate:
+        """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` on specified index of :attr:`__mob_arr`.
+        
+        Parameters
+        ----------
+        index : :class:`int`
+            Index of :attr:`__mob_arr` to animate.
+
+        Returns
+        -------
+        :class:`_AnimationBuilder`
+            Value returned by :meth:`manim.Text.animate` property of :class:`manim.Text`.
+        """
+
         if index < 0 or index > len(self.__mob_arr):
             raise Exception("Index out of bounds!")
 
         return self.__mob_arr[index].animate_mob_text()
 
     def animate_elem_index(self, index: int) -> Text.animate:
+        """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` on specified index of :attr:`__mob_arr`.
+        
+        Parameters
+        ----------
+        index : :class:`int`
+            Index of :attr:`__mob_arr` to animate.
+
+        Returns
+        -------
+        :class:`_AnimationBuilder`
+            Value returned by :meth:`manim.Text.animate` property of :class:`manim.Text`.
+        """
+
         if index < 0 or index > len(self.__mob_arr):
             raise Exception("Index out of bounds!")
 
@@ -332,12 +481,46 @@ class MArray(VGroup):
         mob_value_args: dict = {},
         mob_index_args: dict = {},
     ) -> MArrayElement:
+        """Appends the `value` to :attr:`__arr` and creates a new :class:`MArrayElement` and appends it to :attr:`__mob_arr`.
+
+        Parameters
+        ----------
+        value
+            Value to append.
+        mob_square_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Square` that represents the element body of :class:`MArrayElement`.
+        mob_value_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
+        mob_index_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
+        
+        Returns
+        -------
+        :class:`MArrayElement`
+            Represents the appended element.
+        """
         self.__arr.append(value)
         self.__append_elem(value, mob_square_args, mob_value_args, mob_index_args)
         return self.__mob_arr[-1]
 
     def fetch_arr(self) -> list:
+        """Fetches :attr:`__arr`.
+        
+        Returns
+        -------
+        :class:`list`
+            Represents the array stored in :attr:`__arr`.
+        """
+
         return self.__arr
 
     def fetch_mob_arr(self) -> List[MArrayElement]:
+        """Fetches :attr:`__mob_arr`.
+        
+        Returns
+        -------
+        List[:class:`MArrayElement`]
+            Represents the array stored in :attr:`__mob_arr`.
+        """
+
         return self.__mob_arr
