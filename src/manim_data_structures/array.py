@@ -516,7 +516,7 @@ class MArray(VGroup):
 
         return self.__arr
 
-    def fetch_mob_arr(self) -> List[MArrayElement]:
+    def fetch_mob_arr(self) -> typing.List[MArrayElement]:
         """Fetches :attr:`__mob_arr`.
 
         Returns
