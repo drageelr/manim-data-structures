@@ -7,9 +7,7 @@ import os
 import sys
 from pathlib import Path
 
-# -- Path setup --------------------------------------------------------------
-
-sys.path.insert(0, os.path.abspath("../../src"))
+import manim_data_structures
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -38,4 +36,4 @@ exclude_patterns = []
 
 html_theme = 'furo'
 html_static_path = ['_static']
-html_title = f'Manim Data Structures v0.1.3'
+html_title = f'Manim Data Structures v{manim_data_structures.__version__}'
