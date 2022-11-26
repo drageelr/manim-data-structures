@@ -57,3 +57,8 @@ class MainScene(Scene):
 
 https://user-images.githubusercontent.com/56049229/203757924-6f3aed6d-e870-468f-a269-a572350355b1.mp4
 
+
+## Other Links
+
+- [Official Documentation](https://manim-data-structures.readthedocs.io/en/latest/)
+- [Changelog](https://github.com/drageelr/manim-data-structures/blob/main/CHANGELOG.md)

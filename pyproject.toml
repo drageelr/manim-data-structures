@@ -6,6 +6,7 @@ authors = ["Hammad Nasir <hammadn99@gmail.com>"]
 readme = "README.md"
 packages = [{include = "manim_data_structures", from = "src"}]
 repository = "https://github.com/drageelr/manim-data-structures"
+documentation = "https://manim-data-structures.readthedocs.io/en/latest/"
 
 [tool.poetry.dependencies]
 python = "^3.7"
