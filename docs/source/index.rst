@@ -29,8 +29,8 @@ To import the package in your script, add the following import statement:
 Next Steps
 ----------
 
-- Visit the `Guides <guides/index>` section to learn how to use the library.
-- Also check out the `Reference Manual <reference/index>` to view detailed documentation of the classes.
+- Visit the :doc:`guides/index` section to learn how to use the library.
+- Also check out the :doc:`reference/index` to view detailed documentation of the classes.
 
 
 Index

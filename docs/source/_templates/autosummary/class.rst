@@ -22,10 +22,10 @@ Qualified name: ``{{ fullname | escape }}``
 
    {% block attributes %}
    {%- if attributes %}
-   .. rubric:: {{ _('Attributes') }}
+   .. rubric:: {{ _('Inherited Attributes') }}
 
    .. autosummary::
-     {% for item in attributes %}
+     {% for item in attributes if item in inherited_members %}
      ~{{ name }}.{{ item }}
      {%- endfor %}
    {%- endif %}

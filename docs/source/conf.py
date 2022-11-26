@@ -7,11 +7,9 @@ import os
 import sys
 from pathlib import Path
 
-import manim_data_structures
-
 # -- Path setup --------------------------------------------------------------
 
-sys.path.insert(0, os.path.abspath("."))
+sys.path.insert(0, os.path.abspath("../../src"))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -19,7 +17,7 @@ sys.path.insert(0, os.path.abspath("."))
 project = 'Manim Data Structures'
 copyright = '2022, Hammad Nasir (aka DrageelR)'
 author = 'Hammad Nasir (aka DrageelR)'
-release = '0.1.1'
+release = '0.1.3'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -40,4 +38,4 @@ exclude_patterns = []
 
 html_theme = 'furo'
 html_static_path = ['_static']
-html_title = f'Manim Data Structures v{manim_data_structures.__version__}'
+html_title = f'Manim Data Structures v0.1.3'

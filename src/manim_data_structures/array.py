@@ -206,7 +206,7 @@ class MArrayElement(VGroup):
         self.add(self.__mob_index)
         return self.__mob_index
 
-    def animate_mob_square(self) -> Square.animate:
+    def animate_mob_square(self) -> '_AnimationBuilder': # type: ignore
         """Invokes the :meth:`manim.Square.animate` property of :class:`manim.Square` for the element body.
 
         Returns
@@ -217,7 +217,7 @@ class MArrayElement(VGroup):
 
         return self.__mob_square.animate
 
-    def animate_mob_value(self) -> Text.animate:
+    def animate_mob_value(self) -> '_AnimationBuilder': # type: ignore
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` for the element value.
 
         Returns
@@ -228,7 +228,7 @@ class MArrayElement(VGroup):
 
         return self.__mob_value.animate
 
-    def animate_mob_index(self) -> Text.animate:
+    def animate_mob_index(self) -> '_AnimationBuilder': # type: ignore
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` for the element index.
 
         Returns
@@ -400,7 +400,7 @@ class MArray(VGroup):
         mob_index_args["text"] = value
         return self.__mob_arr[index].update_mob_index(mob_index_args)
 
-    def animate_elem(self, index: int) -> MArrayElement.animate:
+    def animate_elem(self, index: int) -> '_AnimationBuilder': # type: ignore
         """Invokes the :meth:`MArrayElement.animate` property of :class:`MArrayElement` on specified index of :attr:`__mob_arr`.
 
         Parameters
@@ -419,7 +419,7 @@ class MArray(VGroup):
 
         return self.__mob_arr[index].animate
 
-    def animate_elem_square(self, index: int) -> Square.animate:
+    def animate_elem_square(self, index: int) -> '_AnimationBuilder': # type: ignore
         """Invokes the :meth:`manim.Square.animate` property of :class:`manim.Square` on specified index of :attr:`__mob_arr`.
 
         Parameters
@@ -438,7 +438,7 @@ class MArray(VGroup):
 
         return self.__mob_arr[index].animate_mob_square()
 
-    def animate_elem_value(self, index: int) -> Text.animate:
+    def animate_elem_value(self, index: int) -> '_AnimationBuilder': # type: ignore
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` on specified index of :attr:`__mob_arr`.
 
         Parameters
@@ -457,7 +457,7 @@ class MArray(VGroup):
 
         return self.__mob_arr[index].animate_mob_value()
 
-    def animate_elem_index(self, index: int) -> Text.animate:
+    def animate_elem_index(self, index: int) -> '_AnimationBuilder': # type: ignore
         """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` on specified index of :attr:`__mob_arr`.
 
         Parameters
