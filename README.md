@@ -1,4 +1,9 @@
-# Manim Data Structures
+<picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/drageelr/manim-data-structures/main/docs/source/_static/logo-white-no-bg.svg">
+    <img alt="Light Mode Logo" src="https://raw.githubusercontent.com/drageelr/manim-data-structures/main/docs/source/_static/logo-color-no-bg.svg">
+</picture>
+<br />
+<br />
 <p align="center">
     <a href="https://pypi.org/project/manim-data-structures/"><img src="https://img.shields.io/pypi/v/manim-data-structures.svg?style=plastic&logo=pypi" alt="PyPI Latest Release"></a>
     <a href="http://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=plastic" alt="MIT License"></a>
