@@ -24,6 +24,7 @@ extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
+    'manim.utils.docbuild.manim_directive',
 ]
 
 templates_path = ['_templates']
@@ -37,3 +38,4 @@ exclude_patterns = []
 html_theme = 'furo'
 html_static_path = ['_static']
 html_title = f'Manim Data Structures v{manim_data_structures.__version__}'
+html_css_files = ["custom.css"]

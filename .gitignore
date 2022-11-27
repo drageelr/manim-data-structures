@@ -4,3 +4,7 @@ dist
 __pycache__
 env
 playground
+docs/source/media
+generated
+.vscode
+rendering_times.csv
