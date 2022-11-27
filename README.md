@@ -1,5 +1,14 @@
 # Manim Data Structures
-A plugin that contains common data structures to create Manimations.
+<p align="center">
+    <a href="https://pypi.org/project/manim-data-structures/"><img src="https://img.shields.io/pypi/v/manim-data-structures.svg?style=plastic&logo=pypi" alt="PyPI Latest Release"></a>
+    <a href="http://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=plastic" alt="MIT License"></a>
+    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg?style=plastic" alt="Code style: black">
+    <a href="https://manim-data-structures.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/manim-data-structures/badge/?version=latest&style=plastic" alt="Documentation Status"></a>
+    <a href="https://pepy.tech/project/manim-data-structures"><img src="https://pepy.tech/badge/manim-data-structures/month?style=plastic" alt="Downloads"> </a>
+    <br />
+    <br />
+    <i>A plugin that contains common data structures to create Manimations.</i>
+</p>
 
 ## Installation
 To install, simply run the following command:
