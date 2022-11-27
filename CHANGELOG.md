@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- [`MArray`](https://github.com/drageelr/manim-data-structures/blob/1854335f2311c3157f19e6d328165013fc64cbf6/src/manim_data_structures/array.py#L243) class can now grow in any of the four directions; Up, Down, Right & Left.
+- [`MArray`](https://github.com/drageelr/manim-data-structures/blob/251d6ff130243e4408ef6a9453cc7ad27f62d372/src/manim_data_structures/array.py#L292) class can now grow in any of the four directions; Up, Down, Right & Left.
+- [`MArray`](https://github.com/drageelr/manim-data-structures/blob/251d6ff130243e4408ef6a9453cc7ad27f62d372/src/manim_data_structures/array.py#L292) class has hidden indices now.
 
 ## [0.1.3] - 2022-11-25
 
