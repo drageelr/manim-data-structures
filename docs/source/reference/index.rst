@@ -10,3 +10,4 @@ Module Index
    :maxdepth: 2
 
    arrays
+   enums

@@ -15,7 +15,7 @@ import manim_data_structures
 project = 'Manim Data Structures'
 copyright = '2022, Hammad Nasir (aka DrageelR)'
 author = 'Hammad Nasir (aka DrageelR)'
-release = '0.1.3'
+release = manim_data_structures.__version__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

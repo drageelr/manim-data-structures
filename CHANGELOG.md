@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] - 2022-11-27
+
+### Added
+
+- [`MArray`](https://github.com/drageelr/manim-data-structures/blob/1854335f2311c3157f19e6d328165013fc64cbf6/src/manim_data_structures/array.py#L243) class can now grow in any of the four directions; Up, Down, Right & Left.
+
 ## [0.1.3] - 2022-11-25
 
 ### Changed
