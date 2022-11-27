@@ -36,6 +36,16 @@ exclude_patterns = []
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'furo'
+html_favicon = str(Path("_static/favicon.ico"))
 html_static_path = ['_static']
 html_title = f'Manim Data Structures v{manim_data_structures.__version__}'
 html_css_files = ["custom.css"]
+
+html_theme_options = {
+    "source_repository": "https://github.com/ManimCommunity/manim/",
+    "source_branch": "main",
+    "source_directory": "docs/source/",
+    "top_of_page_button": None,
+    "light_logo": "logo-color-no-bg.svg",
+    "dark_logo": "logo-white-no-bg.svg",
+}

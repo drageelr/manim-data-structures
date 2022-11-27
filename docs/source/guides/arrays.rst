@@ -209,7 +209,7 @@ To do this, simply pass your preferred direction enum from :py:class:`MArrayDire
 .. currentmodule:: manim_data_structures.array
 
 Hex Indices
-^^^^^^^^^
+^^^^^^^^^^^
 
 Lets say you want to show a 4-byte integer array with its addresses. You can simply achieve this by using ``index_hex_display`` and ``index_offset`` arguments of the :py:class:`MArray` constructor.
 
