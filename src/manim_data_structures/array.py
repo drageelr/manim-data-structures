@@ -122,7 +122,7 @@ class MArrayElement(VGroup):
 
         if init_square:
             self.__mob_square = Square(**self.__mob_square_props)
-            if next_to_mob != None:
+            if next_to_mob is not None:
                 self.__mob_square.next_to(
                     next_to_mob.fetch_mob_square(), next_to_dir, 0
                 )
@@ -360,7 +360,7 @@ class MArray(VGroup):
             if self.__hide_index
             else (
                 self.__index_start + self.__index_offset * index
-                if self.__index_hex_display == False
+                if self.__index_hex_display is False
                 else hex(self.__index_start + self.__index_offset * index)
             )
         )
