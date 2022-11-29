@@ -18,13 +18,13 @@ The most basic data structure this package provides is the :py:class:`MArray` (s
             self.wait(1)
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):
@@ -39,17 +39,17 @@ Animating MArray
 To animate the :py:class:`MArray`, simply invoke the ``animate`` property as shown below:
 
 .. code-block:: python
-    
+
     self.play(arr.animate.shift(UP * 2 + LEFT * 5))
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):
@@ -66,13 +66,13 @@ Moreover, you can also use the :py:func:`MArray.animate_elem` method to animate 
     self.play(arr.animate_elem(1).shift(DOWN))
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):
@@ -93,13 +93,13 @@ Lastly, you can also animate the body, value and the index of any element using 
     )
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):
@@ -128,13 +128,13 @@ The :py:class:`MArray` also allows you to alter the way your array looks. While 
     )
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):
@@ -179,13 +179,13 @@ To do this, simply pass your preferred direction enum from :py:class:`MArrayDire
             self.wait(1)
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):
@@ -227,13 +227,13 @@ Lets say you want to show a 4-byte integer array with its addresses. You can sim
             self.wait(1)
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):
@@ -264,13 +264,13 @@ Or if you don't want to show the indices at all, simply pass ``True`` as the ``h
             self.wait(1)
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):
@@ -304,13 +304,13 @@ For an existing array, you can also append an element simply by invoking the :py
             self.wait(1)
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):
@@ -345,13 +345,13 @@ You can also update the value and the index of an existing array using the :py:c
             self.wait(1)
 
 .. raw:: html
-    
+
     <div>
 
 .. manim:: MyScene
     :hide_source:
     :quality: low
-    
+
     from manim_data_structures import *
 
     class MyScene(Scene):

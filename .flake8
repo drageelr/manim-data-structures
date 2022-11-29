@@ -1,6 +1,10 @@
 [flake8]
-# Exclude the grpc generated code
-exclude = ./manim/grpc/gen/*
+exclude =
+    .vscode,
+    .git,
+    dist,
+    docs/build,
+    *.__pycache__,
 max-complexity = 15
 max-line-length = 88
 statistics = True
