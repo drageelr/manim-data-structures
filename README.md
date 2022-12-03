@@ -10,6 +10,7 @@
     <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg?style=plastic" alt="Code style: black">
     <a href="https://manim-data-structures.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/manim-data-structures/badge/?version=latest&style=plastic" alt="Documentation Status"></a>
     <a href="https://pepy.tech/project/manim-data-structures"><img src="https://pepy.tech/badge/manim-data-structures/month?style=plastic" alt="Downloads"> </a>
+    <a href=""><img src="https://github.com/drageelr/manim-data-structures/actions/workflows/publish-package.yml/badge.svg?style=plastic&branch=main"></a>
     <br />
     <br />
     <i>A plugin that contains common data structures to create Manimations.</i>

@@ -1,0 +1,51 @@
+name: PYPI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Set Up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+      - name: Install PyPI Package
+        run: pip install manim-data-structures
+      - name: Fetch PyPI Package Version
+        id: mds_pypi_ver
+        run: "echo MDS_PYPI_VER=$(pip show manim-data-structures | grep 'Version: ' | sed 's/^.*: //') >> $GITHUB_ENV"
+      - name: Uninstall PyPI Package
+        run: pip uninstall -y manim-data-structures
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: '1.2.2'
+      - name: Install Repo Package
+        run: |
+          poetry install
+          pip install .
+      - name: Fetch Repo Package Version
+        id: mds_repo_ver
+        run: "echo MDS_REPO_VER=$(pip show manim-data-structures | grep 'Version: ' | sed 's/^.*: //') >> $GITHUB_ENV"
+      - name: Check Version
+        run: |
+          chmod +x .github/workflows/comp_ver.sh
+          .github/workflows/comp_ver.sh "${{ env.MDS_REPO_VER }}" "${{ env.MDS_PYPI_VER }}"
+      - name: Build Package
+        run: poetry build
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: ${{ format('dist/manim_data_structures-{0}*', env.MDS_REPO_VER) }}
+          name: ${{ format('Manim Data Structures v{0}', env.MDS_REPO_VER) }}
+          tag: ${{ env.MDS_REPO_VER }}
+      - name: Publish to PYPI
+        run: |
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }} --local
+          poetry publish
