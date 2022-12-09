@@ -1,10 +1,9 @@
-Arrays
-======
+Variables
+=========
 
 .. currentmodule:: manim_data_structures
 
 .. autosummary::
     :toctree: generated
 
-    ~m_array.MArrayElement
-    ~m_array.MArray
+    ~m_variable.MVariable

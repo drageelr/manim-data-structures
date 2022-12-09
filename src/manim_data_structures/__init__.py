@@ -1,6 +1,13 @@
 __version__ = "0.1.4"
 
-from .array import *
+from .m_array import *
 from .m_enum import *
+from .m_variable import *
 
-__all__ = ["MArrayElement", "MArray", "MArrayDirection"]
+__all__ = [
+    "MArrayElement",
+    "MArray",
+    "MArrayDirection",
+    "MArrayElementComp",
+    "MVariable",
+]
