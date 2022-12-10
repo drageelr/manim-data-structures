@@ -205,17 +205,17 @@ class MArrayElement(VGroup):
         mob_label_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element label.
         index_pos : :class:`np.ndarray`, default: `UP`
-            Specifies the position of :attr:`__mob_index`
+            Specifies the position of :attr:`__mob_index`.
         index_gap : :class:`float`, default: `0.25`
-            Specifies the distance between :attr:`__mob_square` and :attr:`__mob_index`
+            Specifies the distance between :attr:`__mob_square` and :attr:`__mob_index`.
         label_pos : :class:`np.ndarray`, default: `LEFT`
-            Specifies the position of :attr:`__mob_label`
+            Specifies the position of :attr:`__mob_label`.
         label_gap : :class:`float`, default: `0.5`
             Specifies the distance between :attr:`__mob_square` and :attr:`__mob_label`
         next_to_mob : :class:`MArrayElement`, default: `None`
-            Specifies placement for :attr:`__mob_square`
+            Specifies placement for :attr:`__mob_square`.
         next_to_dir : :class:`np.ndarray`, default: `RIGHT`
-            Specifies direction of placement for :attr:`__mob_square`
+            Specifies direction of placement for :attr:`__mob_square`.
         """
 
         super().__init__(**kwargs)
@@ -447,6 +447,7 @@ class MArray(VGroup):
         Specifies whether to display indices or not.
     __arr_dir : :class:`.m_enum.MArrayDirection`, default: :attr:`.m_enum.MArrayDirection.RIGHT`
         Specifies the growing direction of array.
+    __mob_arr_label_props
     """
 
     __dir_map = [
@@ -456,6 +457,127 @@ class MArray(VGroup):
         {"arr": LEFT, "index": UP},
     ]
     """Maps :class:`.m_enum.MArrayDirection` to correct :class:`MArrayElement` placement."""
+
+    def __init_props(self) -> None:
+        """Initializes the attributes for the class."""
+
+        self.__mob_arr_label_props = {"text": "", "color": BLUE_A, "font_size": 38}
+
+    def __update_props(
+        self,
+        label: str = "",
+        mob_arr_label_args: dict = {},
+    ) -> None:
+        """Updates the attributes of the class.
+
+        Parameters
+        ----------
+        label : :class:`str`, default `''`
+            Specifies the textual value for :attr:`__mob_arr_label`
+        mob_arr_label_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the array label.
+        """
+
+        self.__mob_arr_label_props["text"] = label
+        self.__mob_arr_label_props.update(mob_arr_label_args)
+
+        if type(self.__mob_arr_label_props["text"]) != str:
+            self.__mob_arr_label_props["text"] = str(self.__mob_arr_label_props["text"])
+
+    def __sum_elem_len(self, index_start: int, index_end: int) -> int:
+        """Sums the length of :class:`manim.Square` elements between the specified bound.
+
+        Parameters
+        ----------
+        index_start : :class:`int`
+            Starting index of the bound (inclusive).
+        index_end : :class:`int`
+            Ending index of the bound (inclusive).
+
+        Returns
+        -------
+        :class:`int`
+            Total length of the elements.
+        """
+
+        if (
+            index_start < 0
+            or index_end < 0
+            or index_start > len(self.__mob_arr)
+            or index_end > len(self.__mob_arr)
+        ):
+            raise Exception("Index out of bounds!")
+
+        total_len = 0
+        for i in range(index_start, index_end + 1):
+            total_len += self.__mob_arr[i].fetch_mob_square().side_length
+        return total_len
+
+    def __calc_label_pos_and_mob(self) -> typing.Tuple[Square, np.ndarray]:
+        """Calculates the position of the label relative to :class:`MArrayElement` 's :class:`manim.Square` and returns them.
+
+        Returns
+        -------
+        :class:`Manim.Square`
+            Represents the :class:`manim.Mobject` next to which the label is positioned.
+        :class:`np.ndarray`
+            Represents the relative label's position.
+        """
+
+        # Label position is parallel to array growth direction
+        if np.array_equal(
+            self.__dir_map[self.__arr_label_pos.value]["arr"],
+            self.__dir_map[self.__arr_dir.value]["arr"],
+        ):
+            return (
+                self.__mob_arr[-1].fetch_mob_square(),
+                self.__dir_map[self.__arr_label_pos.value]["arr"],
+            )
+        elif np.array_equal(
+            self.__dir_map[self.__arr_label_pos.value]["arr"],
+            -self.__dir_map[self.__arr_dir.value]["arr"],
+        ):
+            return (
+                self.__mob_arr[0].fetch_mob_square(),
+                self.__dir_map[self.__arr_label_pos.value]["arr"],
+            )
+
+        # Label position is perpendicular to array growth direction
+        else:
+            middle_index = len_before = len_after = 0
+            if len(self.__mob_arr) > 1:
+                middle_index = int(len(self.__mob_arr) / 2)
+                len_before = self.__sum_elem_len(0, middle_index - 1)
+                len_after = self.__sum_elem_len(
+                    middle_index + 1, len(self.__mob_arr) - 1
+                )
+            return (
+                self.__mob_arr[middle_index].fetch_mob_square(),
+                self.__dir_map[self.__arr_label_pos.value]["arr"]
+                + self.__dir_map[self.__arr_dir.value]["arr"]
+                * ((len_after - len_before) / 2),
+            )
+
+    def __init_mobs(
+        self,
+        init_arr_label: bool = False,
+    ) -> None:
+        """Initializes the :class:`Mobject`s for the class.
+
+        Parameters
+        ----------
+        init_arr_label : :class:`bool`, default: `False`
+            Instantiates a :class:`manim.Text` and adds it to :attr:`__mob_arr_label`.
+        """
+
+        if init_arr_label:
+            self.__mob_arr_label = Text(**self.__mob_arr_label_props)
+            if len(self.__mob_arr):
+                (next_to_mob, label_pos) = self.__calc_label_pos_and_mob()
+                self.__mob_arr_label.next_to(
+                    next_to_mob, label_pos, self.__arr_label_gap
+                )
+            self.add(self.__mob_arr_label)
 
     def __calc_index(self, index: int) -> typing.Union[int, str]:
         """Calculates and returns the index based on attributes set at initialization.
@@ -496,25 +618,68 @@ class MArray(VGroup):
             else self.__dir_map[self.__arr_dir.value]["index"] * -1
         )
 
+    def __calc_label_shift_factor(self, mob: MArrayElement) -> float:
+        """Calculates how much to shift the :attr:`__mob_arr_label` after insertion/removal of an :class:`MArrayElement`.
+
+        Parameters
+        ----------
+        mob : :class:`MArrayElement`
+            The element that has been inserted or removed.
+
+        Returns
+        -------
+        :class:`int`
+            Factor by which to shift the :attr:`__mob_arr_label`.
+        """
+
+        if np.array_equal(
+            self.__dir_map[self.__arr_label_pos.value]["arr"],
+            self.__dir_map[self.__arr_dir.value]["arr"],
+        ):
+            return mob.fetch_mob_square().side_length
+        elif not np.array_equal(
+            self.__dir_map[self.__arr_label_pos.value]["arr"],
+            -self.__dir_map[self.__arr_dir.value]["arr"],
+        ):
+            return mob.fetch_mob_square().side_length / 2
+        return 0
+
     def __append_elem(
         self,
         value,
+        shift_label: bool = True,
+        append_anim: Animation = Write,
+        append_anim_args: dict = {},
+        append_anim_target: MArrayElementComp = None,
         mob_square_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
-    ) -> None:
+    ) -> typing.List[Animation]:
         """Creates a new :class:`MArrayElement` and appends it to :attr:`__mob_arr`.
 
         Parameters
         ----------
         value
             Value to append.
+        shift_label: :class:`bool`, default: `True`
+            Specifies whether to shift the :class:`__mob_arr_label` or not.
+        append_anim : :class:`manim.Animation`, default: :class:`manim.Write`
+            Specifies the :class:`manim.Animation` to be played on the :class:`MArrayElement` being appended.
+        append_anim_args : :class:`dict`, default: `{}`
+            Arguments for append :class:`manim.Animation`.
+        append_anim_target : :class:`.m_enum.MArrayElementComp`, default: `None`
+            Specifies the :class:`manim.Mobject` of the :class:`MArrayElement` on which the append :class:`manim.Animation` is to be played.
         mob_square_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Square` that represents the element body of :class:`MArrayElement`.
         mob_value_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
+
+        Returns
+        -------
+        List[:class:`manim.Animation`]
+            List of animations for appending.
         """
 
         mob_value_args["text"] = value
@@ -530,6 +695,23 @@ class MArray(VGroup):
             )
         )
         self.add(self.__mob_arr[-1])
+
+        anim_list = [
+            append_anim(
+                self.__mob_arr[-1].fetch_mob(append_anim_target), **append_anim_args
+            )
+        ]
+
+        if shift_label:
+            label_shift_factor = self.__calc_label_shift_factor(self.__mob_arr[-1])
+            anim_list.append(
+                ApplyMethod(
+                    self.__mob_arr_label.shift,
+                    self.__dir_map[self.__arr_dir.value]["arr"] * label_shift_factor,
+                )
+            )
+
+        return anim_list
 
     def __remove_elem(
         self,
@@ -582,8 +764,18 @@ class MArray(VGroup):
                     self.__mob_arr[i].shift,
                     -(
                         self.__dir_map[self.__arr_dir.value]["arr"]
-                        * self.__mob_arr[i].fetch_mob_square().side_length
+                        * removed_mob.fetch_mob_square().side_length
                     ),
+                )
+            )
+
+        label_shift_factor = self.__calc_label_shift_factor(removed_mob)
+
+        if label_shift_factor != 0:
+            anims_shift.append(
+                ApplyMethod(
+                    self.__mob_arr_label.shift,
+                    -self.__dir_map[self.__arr_dir.value]["arr"] * label_shift_factor,
                 )
             )
 
@@ -623,12 +815,16 @@ class MArray(VGroup):
     def __init__(
         self,
         arr: list = [],
+        label="",
         index_offset: int = 1,
         index_start: int = 0,
         index_hex_display: bool = False,
         hide_index: bool = False,
         arr_dir: MArrayDirection = MArrayDirection.RIGHT,
         switch_index_pos: bool = False,
+        arr_label_pos: MArrayDirection = MArrayDirection.LEFT,
+        arr_label_gap: float = 0.5,
+        mob_arr_label_args: dict = {},
         mob_square_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
@@ -650,14 +846,18 @@ class MArray(VGroup):
             Specifies whether to display indices or not.
         arr_dir : :class:`.m_enum.MArrayDirection`, default: :attr:`.m_enum.MArrayDirection.RIGHT`
             Specifies the growing direction of array.
+        arr_label_pos : :class:`.enum.MArrayDirection`, default: :attr:`.m_enum.MArrayDirection.LEFT`
+            Specifies the position of :attr:`__mob_arr_label`.
+        arr_label_gap : :class:`float`, default: `0.5`
+            Specifies the distance between :attr:`__mob_arr` and :attr:`__mob_arr_label`.
+        mob_arr_label_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the label for :class:`MArray`.
         mob_square_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Square` that represents the element body of :class:`MArrayElement`.
         mob_value_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
-        mob_arr_label_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the label for :class:`MArray`.
         **kwargs
             Forwarded to constructor of the parent.
         """
@@ -671,9 +871,22 @@ class MArray(VGroup):
         self.__hide_index = hide_index
         self.__arr_dir = arr_dir
         self.__switch_index_pos = switch_index_pos
+        self.__arr_label_pos = arr_label_pos
+        self.__arr_label_gap = arr_label_gap
+
+        self.__init_props()
+        self.__update_props(label=label, mob_arr_label_args=mob_arr_label_args)
 
         for v in arr:
-            self.__append_elem(v, mob_square_args, mob_value_args, mob_index_args)
+            self.__append_elem(
+                v,
+                False,
+                mob_square_args=mob_square_args,
+                mob_value_args=mob_value_args,
+                mob_index_args=mob_index_args,
+            )
+
+        self.__init_mobs(True)
 
     def update_elem_value(self, index: int, value, mob_value_args: dict = {}) -> Text:
         """Updates the elements value.
@@ -803,31 +1016,50 @@ class MArray(VGroup):
     def append_elem(
         self,
         value,
+        append_anim: Animation = Write,
+        append_anim_args: dict = {},
+        append_anim_target: MArrayElementComp = None,
         mob_square_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
-    ) -> MArrayElement:
+    ) -> typing.List[Animation]:
         """Appends the `value` to :attr:`__arr` and creates a new :class:`MArrayElement` and appends it to :attr:`__mob_arr`.
 
         Parameters
         ----------
         value
             Value to append.
+        append_anim : :class:`manim.Animation`, default: :class:`manim.Write`
+            Specifies the :class:`manim.Animation` to be played on the :class:`MArrayElement` being appended.
+        append_anim_args : :class:`dict`, default: `{}`
+            Arguments for append :class:`manim.Animation`.
+        append_anim_target : :class:`.m_enum.MArrayElementComp`, default: `None`
+            Specifies the :class:`manim.Mobject` of the :class:`MArrayElement` on which the append :class:`manim.Animation` is to be played.
         mob_square_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Square` that represents the element body of :class:`MArrayElement`.
         mob_value_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
+        shift_label: :class:`bool`, default: `True`
+            Specifies whether to shift the :class:`__mob_arr_label` or not.
 
         Returns
         -------
-        :class:`MArrayElement`
-            Represents the appended element.
+        List[:class:`manim.Animation`]
+            List of animations for appending.
         """
+
         self.__arr.append(value)
-        self.__append_elem(value, mob_square_args, mob_value_args, mob_index_args)
-        return self.__mob_arr[-1]
+        return self.__append_elem(
+            value,
+            mob_square_args=mob_square_args,
+            mob_value_args=mob_value_args,
+            mob_index_args=mob_index_args,
+            append_anim=append_anim,
+            append_anim_args=append_anim_args,
+            append_anim_target=append_anim_target,
+        )
 
     def remove_elem(
         self,
@@ -902,3 +1134,14 @@ class MArray(VGroup):
         """
 
         return self.__mob_arr
+
+    def fetch_arr_label(self) -> Text:
+        """Fetches the :class:`manim.Text` that represents the array label.
+
+        Returns
+        -------
+        :class:`manim.Text`
+            Represents the array label.
+        """
+
+        return self.__mob_arr_label
