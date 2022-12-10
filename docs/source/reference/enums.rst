@@ -7,3 +7,4 @@ Enums
     :toctree: generated
 
     ~m_enum.MArrayDirection
+    ~m_enum.MArrayElementComp

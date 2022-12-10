@@ -1,6 +1,5 @@
 """Contains classes to construct variable."""
 
-import numpy as np
 from manim import *
 
 from .m_array import MArrayElement
