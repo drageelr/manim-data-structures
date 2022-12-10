@@ -6,5 +6,5 @@ Arrays
 .. autosummary::
     :toctree: generated
 
-    ~array.MArrayElement
-    ~array.MArray
+    ~m_array.MArrayElement
+    ~m_array.MArray

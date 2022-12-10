@@ -1,7 +1,7 @@
 Animating Arrays
 ================
 
-.. currentmodule:: manim_data_structures.array
+.. currentmodule:: manim_data_structures.m_array
 
 Manim Array - MArray
 --------------------
@@ -39,6 +39,7 @@ Animating MArray
 To animate the :py:class:`MArray`, simply invoke the ``animate`` property as shown below:
 
 .. code-block:: python
+    :linenos:
 
     self.play(arr.animate.shift(UP * 2 + LEFT * 5))
 
@@ -62,6 +63,7 @@ To animate the :py:class:`MArray`, simply invoke the ``animate`` property as sho
 Moreover, you can also use the :py:func:`MArray.animate_elem` method to animate a single element of the :py:class:`MArray` as well:
 
 .. code-block:: python
+    :linenos:
 
     self.play(arr.animate_elem(1).shift(DOWN))
 
@@ -85,6 +87,7 @@ Moreover, you can also use the :py:func:`MArray.animate_elem` method to animate 
 Lastly, you can also animate the body, value and the index of any element using the :py:func:`MArray.animate_elem_square`, :py:func:`MArray.animate_elem_value` and :py:func:`MArray.animate_elem_index` respectively.
 
 .. code-block:: python
+    :linenos:
 
     self.play(
         arr.animate_elem_square(1).set_fill(BLACK),
@@ -119,6 +122,7 @@ Customizing MArray
 The :py:class:`MArray` also allows you to alter the way your array looks. While creating your array pass arguments to ``Square`` (used to represent the element body) and ``Text`` (used to represent the element value and index) mobjects.
 
 .. code-block:: python
+    :linenos:
 
     arr = MArray(
         [1, 2, 3],
@@ -206,7 +210,71 @@ To do this, simply pass your preferred direction enum from :py:class:`MArrayDire
 
             self.wait(1)
 
-.. currentmodule:: manim_data_structures.array
+Array Label
+^^^^^^^^^^^
+
+.. currentmodule:: manim_data_structures.m_array
+
+For an :py:class:`MArray`, you can also a label with the array via specifying the ``label`` argument.
+
+.. currentmodule:: manim_data_structures.m_enum
+
+Similar to how we specify the growth direction using :py:class:`MArrayDirection` enum, we can dictate the position of the label.
+
+.. code-block:: python
+    :linenos:
+
+    class MyScene(Scene):
+        def construct(self):
+            arr_label_left = MArray([1, 2, 3], label='Arr')
+            arr_label_right = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.RIGHT)
+            arr_label_down = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.DOWN)
+            arr_label_up = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.UP, arr_label_gap=0.75)
+
+            self.play(Create(arr_label_left))
+            self.play(arr_label_left.animate.shift(UP * 2 + LEFT * 4))
+            self.play(Create(arr_label_right))
+            self.play(arr_label_right.animate.shift(DOWN * 2 + LEFT * 4))
+            self.play(Create(arr_label_down))
+            self.play(arr_label_down.animate.shift(UP * 2 + RIGHT))
+            self.play(Create(arr_label_up))
+            self.play(arr_label_up.animate.shift(DOWN * 2 + RIGHT))
+
+            self.wait(1)
+
+.. raw:: html
+
+    <div>
+
+.. manim:: MyScene
+    :hide_source:
+    :quality: low
+
+    from manim_data_structures import *
+
+    class MyScene(Scene):
+        def construct(self):
+            arr_label_left = MArray([1, 2, 3], label='Arr')
+            arr_label_right = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.RIGHT)
+            arr_label_down = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.DOWN)
+            arr_label_up = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.UP, arr_label_gap=0.75)
+
+            self.play(Create(arr_label_left))
+            self.play(arr_label_left.animate.shift(UP * 2 + LEFT * 4))
+            self.play(Create(arr_label_right))
+            self.play(arr_label_right.animate.shift(DOWN * 2 + LEFT * 4))
+            self.play(Create(arr_label_down))
+            self.play(arr_label_down.animate.shift(UP * 2 + RIGHT))
+            self.play(Create(arr_label_up))
+            self.play(arr_label_up.animate.shift(DOWN * 2 + RIGHT))
+
+            self.wait(1)
+
+.. currentmodule:: manim_data_structures.m_array
+
+.. note::
+
+    The ``arr_label_gap`` argument specifies the distance between the :py:class:`MArrayElement` 's :py:class:`manim.Square` and the array label itself.
 
 Hex Indices
 ^^^^^^^^^^^
@@ -247,7 +315,7 @@ Lets say you want to show a 4-byte integer array with its addresses. You can sim
             self.wait(1)
 
 Hide Indices
-^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
 
 Or if you don't want to show the indices at all, simply pass ``True`` as the ``hide_index`` argument to the constructor
 
@@ -297,10 +365,10 @@ For an existing array, you can also append an element simply by invoking the :py
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3])
+            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
             self.add(arr)
             self.wait(1)
-            self.play(Write(arr.append_elem(4)))
+            self.play(*arr.append_elem(4))
             self.wait(1)
 
 .. raw:: html
@@ -315,15 +383,117 @@ For an existing array, you can also append an element simply by invoking the :py
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3])
+            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
             self.add(arr)
             self.wait(1)
-            self.play(Write(arr.append_elem(4)))
+            self.play(*arr.append_elem(4))
             self.wait(1)
 
 .. note::
 
     You can also pass ``mob_*_args`` to this method to customize the inserted element.
+
+Did you notice the the ``*`` before we invoked the :py:func:`MArray.append_elem` method? Since the method returns a list of :py:class:`manim.Animation` therefore, we unpack it while feeding it to the ``self.play`` method of the ``Scene``.
+
+Moreover, you can also specify the animation that is played for the inserted element via the ``append_anim`` argument. The code snippet below passes the :py:class:`manim.GrowFromCenter` animation to the :py:class:`MArray.append_elem` method:
+
+.. code-block:: python
+    :linenos:
+
+    self.play(*arr.append_elem(4, append_anim=GrowFromCenter))
+
+.. raw:: html
+
+    <div>
+
+.. manim:: MyScene
+    :hide_source:
+    :quality: low
+
+    from manim_data_structures import *
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
+            self.add(arr)
+            self.wait(1)
+            self.play(*arr.append_elem(4, append_anim=GrowFromCenter))
+            self.wait(1)
+
+.. currentmodule:: manim_data_structures.m_enum
+
+.. note::
+
+    You can also specify arguments to the passed animation via the ``append_anim_args`` parameter and also set the target of the animation using the ``append_anim_target`` parameter that takes in :py:class:`MArrayElementComp` enum.
+
+Remove Element
+^^^^^^^^^^^^^^
+
+.. currentmodule:: manim_data_structures.m_array
+
+To remove an element simply invoke the :py:class:`MArray.remove_elem` method with the index of element you wish to remove. The method returns two the removal animation and a function that udpates the indices of the remaining elements.
+
+.. code-block:: python
+    :linenos:
+
+    (remove_anim, update_indices) = arr.remove_elem(1)
+    self.play(remove_anim)
+    self.play(*update_indices())
+
+.. raw:: html
+
+    <div>
+
+.. manim:: MyScene
+    :hide_source:
+    :quality: low
+
+    from manim_data_structures import *
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
+            self.add(arr)
+            self.wait(1)
+            (remove_anim, update_indices) = arr.remove_elem(1)
+            self.play(remove_anim)
+            self.play(*update_indices())
+            self.wait(1)
+
+Similar to how you were able to pass the append animation to the :py:class:`MArray.append_elem` function, you can specify two animations for the :py:class:`MArray.remove_elem` method:
+1. Element removal animation via the ``removal_anim`` parameter.
+2. Indices update animation via the ``update_anim`` parameter.
+
+The code snippet below provides an example:
+
+.. code-block:: python
+    :linenos:
+
+    (remove_anim, update_indices) = arr.remove_elem(1, removal_anim=ShowPassingFlash , update_anim=Indicate)
+
+.. raw:: html
+
+    <div>
+
+.. manim:: MyScene
+    :hide_source:
+    :quality: low
+
+    from manim_data_structures import *
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
+            self.add(arr)
+            self.wait(1)
+            (remove_anim, update_indices) = arr.remove_elem(1, removal_anim=ShowPassingFlash , update_anim=Indicate)
+            self.play(remove_anim)
+            self.play(*update_indices())
+            self.wait(1)
+
+.. note::
+
+    You can also specify arguments to the passed animation via the ``*_anim_args`` parameter and also set the target of the animation using the ``*_anim_target`` parameter.
 
 Update Element
 ^^^^^^^^^^^^^^

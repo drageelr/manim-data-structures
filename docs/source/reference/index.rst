@@ -9,5 +9,6 @@ Module Index
 .. toctree::
    :maxdepth: 2
 
+   variables
    arrays
    enums

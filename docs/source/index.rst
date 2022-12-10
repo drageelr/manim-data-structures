@@ -26,6 +26,32 @@ To import the package in your script, add the following import statement:
 
    from manim_data_structures import *
 
+Variables
+~~~~~~~~~
+
+.. manim:: VarScene
+    :save_last_frame:
+
+    from manim_data_structures import *
+
+    class VarScene(Scene):
+        def construct(self):
+            var = MVariable(10, 0, 'Var')
+            self.add(var)
+
+Arrays
+~~~~~~
+
+.. manim:: ArrayScene
+    :save_last_frame:
+
+    from manim_data_structures import *
+
+    class ArrayScene(Scene):
+        def construct(self):
+            arr = MArray([1, 2, 3], label='Arr')
+            self.add(arr)
+
 Next Steps
 ----------
 

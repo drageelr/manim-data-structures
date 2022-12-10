@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.5] - 2022-12-10
+
+### PRs
+
+- [#1](https://github.com/drageelr/manim-data-structures/pull/1):
+    - `MVariable` added.
+    - `MArray.remove_elem()` added.
+    - `MArray.append_elem()` changed.
+    - `MArray` label and fetch method added.
+    - Generic `MArrayElement` sub-mobjects fetch method added.
+    - `MArrayElementComp` enum added.
+    - Changed `array.py` to `m_array.py`.
+    - Documentation updated.
+
 ## [0.1.4] - 2022-11-27
 
 ### Added
