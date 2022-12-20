@@ -11,6 +11,8 @@ class MArrayElement(VGroup):
 
     Parameters
     ----------
+    scene : :class:`manim.Scene`
+        The scene where the object should exist.
     mob_square_args : :class:`dict`, default: `{}`
         Arguments for :class:`manim.Square` that represents the element body.
     mob_value_args : :class:`dict`, default: `{}`
@@ -32,6 +34,8 @@ class MArrayElement(VGroup):
 
     Attributes
     ----------
+    __scene : :class:`manim.Scene`
+        The scene where the object should exist.
     __mob_square_props : :class:`dict`
         Default arguments passed to :class:`manim.Square` that represents the element body.
     __mob_value_props : :class:`dict`
@@ -56,6 +60,7 @@ class MArrayElement(VGroup):
 
     def __init_props(
         self,
+        scene: Scene,
         index_pos: np.ndarray,
         index_gap: float,
         label_pos: np.ndarray,
@@ -84,6 +89,7 @@ class MArrayElement(VGroup):
         self.__mob_value_props = {"text": "", "color": WHITE, "weight": BOLD}
         self.__mob_index_props = {"text": "", "color": BLUE_D, "font_size": 32}
         self.__mob_label_props = {"text": "", "color": BLUE_A, "font_size": 38}
+        self.__scene = scene
         self.__index_pos = index_pos
         self.__index_gap = index_gap
         self.__label_pos = label_pos
@@ -180,6 +186,7 @@ class MArrayElement(VGroup):
 
     def __init__(
         self,
+        scene: Scene,
         mob_square_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
@@ -196,6 +203,8 @@ class MArrayElement(VGroup):
 
         Parameters
         ----------
+        scene : :class:`manim.Scene`
+            The scene where the object should exist.
         mob_square_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Square` that represents the element body.
         mob_value_args : :class:`dict`, default: `{}`
@@ -221,7 +230,7 @@ class MArrayElement(VGroup):
         super().__init__(**kwargs)
 
         # Initialize props
-        self.__init_props(index_pos, index_gap, label_pos, label_gap)
+        self.__init_props(scene, index_pos, index_gap, label_pos, label_gap)
 
         # Update props
         self.__update_props(
@@ -300,13 +309,25 @@ class MArrayElement(VGroup):
         else:
             return self
 
-    def update_mob_value(self, mob_value_args: dict = {}) -> Text:
+    def update_mob_value(
+        self,
+        mob_value_args: dict = {},
+        update_anim: Animation = Indicate,
+        update_anim_args: dict = {},
+        play_anim: bool = True,
+    ) -> Text:
         """Re-intializes the :class:`manim.Text` that represents the element value.
 
         Parameters
         ----------
         mob_value_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element value.
+        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
+            Animation to be applied to the updated :class:`manim.Text`.
+        update_anim_args : :class:`dict`, default: `{}`
+            Arguments for update :class:`manim.Animation`.
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the update :class:`manim.Animation`.
 
         Returns
         -------
@@ -314,19 +335,43 @@ class MArrayElement(VGroup):
             Represents the updated element value.
         """
 
+        # Update props of mob_value
         self.__update_props(mob_value_args=mob_value_args)
+
+        # Remove current mob_value
         self.remove(self.__mob_value)
+
+        # Initialize new mob_value
         self.__init_mobs(init_value=True)
+
+        # Add new mob_value to group
         self.add(self.__mob_value)
+
+        # Animate change
+        if play_anim:
+            self.__scene.play(update_anim(self.__mob_value, **update_anim_args))
+
         return self.__mob_value
 
-    def update_mob_index(self, mob_index_args: dict = {}) -> Text:
+    def update_mob_index(
+        self,
+        mob_index_args: dict = {},
+        update_anim: Animation = Indicate,
+        update_anim_args: dict = {},
+        play_anim: bool = True,
+    ) -> Text:
         """Re-intializes the :class:`manim.Text` that represents the element index.
 
         Parameters
         ----------
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index.
+        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
+            Animation to be applied to the updated :class:`manim.Text`.
+        update_anim_args : :class:`dict`, default: `{}`
+            Arguments for update :class:`manim.Animation`.
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the update :class:`manim.Animation`.
 
         Returns
         -------
@@ -334,19 +379,43 @@ class MArrayElement(VGroup):
             Represents the updated element index.
         """
 
+        # Update props of mob_index
         self.__update_props(mob_index_args=mob_index_args)
+
+        # Remove current mob_index
         self.remove(self.__mob_index)
-        self.__init_mobs(init_index=True)
+
+        # Initialize new mob_index
+        self.__init_mobs(init_value=True)
+
+        # Add new mob_index to group
         self.add(self.__mob_index)
+
+        # Animate change
+        if play_anim:
+            self.__scene.play(update_anim(self.__mob_index, **update_anim_args))
+
         return self.__mob_index
 
-    def update_mob_label(self, mob_label_args: dict = {}) -> Text:
+    def update_mob_label(
+        self,
+        mob_label_args: dict = {},
+        update_anim: Animation = Indicate,
+        update_anim_args: dict = {},
+        play_anim: bool = True,
+    ) -> Text:
         """Re-intializes the :class:`manim.Text` that represents the element label.
 
         Parameters
         ----------
         mob_label_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element label.
+        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
+            Animation to be applied to the updated :class:`manim.Text`.
+        update_anim_args : :class:`dict`, default: `{}`
+            Arguments for update :class:`manim.Animation`.
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the update :class:`manim.Animation`.
 
         Returns
         -------
@@ -354,10 +423,22 @@ class MArrayElement(VGroup):
             Represents the updated element label.
         """
 
+        # Update props of mob_label
         self.__update_props(mob_label_args=mob_label_args)
+
+        # Remove current mob_label
         self.remove(self.__mob_label)
-        self.__init_mobs(init_label=True)
+
+        # Initialize new mob_label
+        self.__init_mobs(init_value=True)
+
+        # Add new mob_label to group
         self.add(self.__mob_label)
+
+        # Animate change
+        if play_anim:
+            self.__scene.play(update_anim(self.__mob_label, **update_anim_args))
+
         return self.__mob_label
 
     def animate_mob_square(self) -> "_AnimationBuilder":  # type: ignore
