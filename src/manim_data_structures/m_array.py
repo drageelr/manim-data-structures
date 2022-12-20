@@ -70,6 +70,8 @@ class MArrayElement(VGroup):
 
         Parameters
         ----------
+        scene : :class:`manim.Scene`
+            The scene where the object should exist.
         index_pos : :class:`np.ndarray`
             Specifies the position of :attr:`__mob_index`
         index_gap : :class:`float`
@@ -491,8 +493,12 @@ class MArray(VGroup):
 
     Parameters
     ----------
+    scene : :class:`manim.Scene`
+        The scene where the object should exist.
     arr : :class:`list`, default: `[]`
         Array to represent. Elements must be convertible to :class:`str`.
+    label : :class:`str`, default: `''`
+        Specifies the label of the array.
     index_offset : :class:`int`, default: `1`
         Difference between successive indices.
     index_start : :class:`int`, default: `0`
@@ -514,8 +520,12 @@ class MArray(VGroup):
 
     Attributes
     ----------
+    __scene : :class:`manim.Scene`
+        The scene where the object should exist.
     __arr : :class:`list`
         Array to represent. Elements must be convertible to :class:`str`.
+    __label : :class:`str`, default: `''`
+        Specifies the label of the array.
     __mob_arr : List[:class:`MArrayElement`]
         Array containing the manim objects.
     __index_offset : :class:`int`
@@ -538,32 +548,6 @@ class MArray(VGroup):
         {"arr": LEFT, "index": UP},
     ]
     """Maps :class:`.m_enum.MArrayDirection` to correct :class:`MArrayElement` placement."""
-
-    def __init_props(self) -> None:
-        """Initializes the attributes for the class."""
-
-        self.__mob_arr_label_props = {"text": "", "color": BLUE_A, "font_size": 38}
-
-    def __update_props(
-        self,
-        label: str = "",
-        mob_arr_label_args: dict = {},
-    ) -> None:
-        """Updates the attributes of the class.
-
-        Parameters
-        ----------
-        label : :class:`str`, default `''`
-            Specifies the textual value for :attr:`__mob_arr_label`
-        mob_arr_label_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the array label.
-        """
-
-        self.__mob_arr_label_props["text"] = label
-        self.__mob_arr_label_props.update(mob_arr_label_args)
-
-        if type(self.__mob_arr_label_props["text"]) != str:
-            self.__mob_arr_label_props["text"] = str(self.__mob_arr_label_props["text"])
 
     def __sum_elem_len(self, index_start: int, index_end: int) -> int:
         """Sums the length of :class:`manim.Square` elements between the specified bound.
@@ -638,27 +622,6 @@ class MArray(VGroup):
                 + self.__dir_map[self.__arr_dir.value]["arr"]
                 * ((len_after - len_before) / 2),
             )
-
-    def __init_mobs(
-        self,
-        init_arr_label: bool = False,
-    ) -> None:
-        """Initializes the :class:`Mobject`s for the class.
-
-        Parameters
-        ----------
-        init_arr_label : :class:`bool`, default: `False`
-            Instantiates a :class:`manim.Text` and adds it to :attr:`__mob_arr_label`.
-        """
-
-        if init_arr_label:
-            self.__mob_arr_label = Text(**self.__mob_arr_label_props)
-            if len(self.__mob_arr):
-                (next_to_mob, label_pos) = self.__calc_label_pos_and_mob()
-                self.__mob_arr_label.next_to(
-                    next_to_mob, label_pos, self.__arr_label_gap
-                )
-            self.add(self.__mob_arr_label)
 
     def __calc_index(self, index: int) -> typing.Union[int, str]:
         """Calculates and returns the index based on attributes set at initialization.
@@ -767,6 +730,7 @@ class MArray(VGroup):
         mob_index_args["text"] = self.__calc_index(len(self.__mob_arr))
         self.__mob_arr.append(
             MArrayElement(
+                scene=self.__scene,
                 mob_square_args=mob_square_args,
                 mob_value_args=mob_value_args,
                 mob_index_args=mob_index_args,
@@ -798,7 +762,7 @@ class MArray(VGroup):
         self,
         index: int,
         removal_anim: Animation = FadeOut,
-        update_anim: Animation = Write,
+        update_anim: Animation = Indicate,
         removal_anim_args: dict = {},
         update_anim_args: dict = {},
         removal_anim_target: MArrayElementComp = None,
@@ -893,10 +857,106 @@ class MArray(VGroup):
             update_indices,
         )
 
+    def __init_props(
+        self,
+        scene: Scene,
+        arr: list,
+        label: str,
+        index_offset: int,
+        index_start: int,
+        index_hex_display: bool,
+        hide_index: bool,
+        arr_dir: MArrayDirection,
+        switch_index_pos: bool,
+        arr_label_pos: MArrayDirection,
+        arr_label_gap: float,
+    ) -> None:
+        """Initializes the attributes for the class.
+
+        Parameters
+        ----------
+        scene : :class:`manim.Scene`
+            The scene where the object should exist.
+        arr : :class:`list`
+            Array to represent. Elements must be convertible to :class:`str`.
+        label : :class:`str`
+            Specifies the label of the array.
+        index_offset : :class:`int`
+            Difference between successive indices.
+        index_start : :class:`int`
+            Starting value of index.
+        index_hex_display : :class:`bool`
+            Displays indices in hex if `True` otherwise in decimal.
+        hide_index : :class:`bool`
+            Specifies whether to display indices or not.
+        arr_dir : :class:`.m_enum.MArrayDirection`
+            Specifies the growing direction of array.
+        arr_label_pos : :class:`.enum.MArrayDirection`
+            Specifies the position of :attr:`__mob_arr_label`.
+        arr_label_gap : :class:`float`
+            Specifies the distance between :attr:`__mob_arr` and :attr:`__mob_arr_label`.
+        """
+
+        self.__mob_arr_label_props = {"text": "", "color": BLUE_A, "font_size": 38}
+        self.__scene = scene
+        self.__arr = arr
+        self.__label = label
+        self.__mob_arr = []
+        self.__index_offset = index_offset
+        self.__index_start = index_start
+        self.__index_hex_display = index_hex_display
+        self.__hide_index = hide_index
+        self.__arr_dir = arr_dir
+        self.__switch_index_pos = switch_index_pos
+        self.__arr_label_pos = arr_label_pos
+        self.__arr_label_gap = arr_label_gap
+
+    def __update_props(
+        self,
+        mob_arr_label_args: dict = {},
+    ) -> None:
+        """Updates the attributes of the class.
+
+        Parameters
+        ----------
+        label : :class:`str`, default `''`
+            Specifies the textual value for :attr:`__mob_arr_label`
+        mob_arr_label_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the array label.
+        """
+
+        self.__mob_arr_label_props["text"] = self.__label
+        self.__mob_arr_label_props.update(mob_arr_label_args)
+
+        if type(self.__mob_arr_label_props["text"]) != str:
+            self.__mob_arr_label_props["text"] = str(self.__mob_arr_label_props["text"])
+
+    def __init_mobs(
+        self,
+        init_arr_label: bool = False,
+    ) -> None:
+        """Initializes the :class:`Mobject`s for the class.
+
+        Parameters
+        ----------
+        init_arr_label : :class:`bool`, default: `False`
+            Instantiates a :class:`manim.Text` and adds it to :attr:`__mob_arr_label`.
+        """
+
+        if init_arr_label:
+            self.__mob_arr_label = Text(**self.__mob_arr_label_props)
+            if len(self.__mob_arr):
+                (next_to_mob, label_pos) = self.__calc_label_pos_and_mob()
+                self.__mob_arr_label.next_to(
+                    next_to_mob, label_pos, self.__arr_label_gap
+                )
+            self.add(self.__mob_arr_label)
+
     def __init__(
         self,
+        scene: Scene,
         arr: list = [],
-        label="",
+        label: str = "",
         index_offset: int = 1,
         index_start: int = 0,
         index_hex_display: bool = False,
@@ -915,8 +975,12 @@ class MArray(VGroup):
 
         Parameters
         ----------
+        scene : :class:`manim.Scene`
+            The scene where the object should exist.
         arr : :class:`list`, default: `[]`
             Array to represent. Elements must be convertible to :class:`str`.
+        label : :class:`str`, default: `''`
+            Specifies the label of the array.
         index_offset : :class:`int`, default: `1`
             Difference between successive indices.
         index_start : :class:`int`, default: `0`
@@ -944,20 +1008,26 @@ class MArray(VGroup):
         """
 
         super().__init__(**kwargs)
-        self.__arr = arr
-        self.__mob_arr = []
-        self.__index_offset = index_offset
-        self.__index_start = index_start
-        self.__index_hex_display = index_hex_display
-        self.__hide_index = hide_index
-        self.__arr_dir = arr_dir
-        self.__switch_index_pos = switch_index_pos
-        self.__arr_label_pos = arr_label_pos
-        self.__arr_label_gap = arr_label_gap
 
-        self.__init_props()
-        self.__update_props(label=label, mob_arr_label_args=mob_arr_label_args)
+        # Initialize props
+        self.__init_props(
+            scene,
+            arr,
+            label,
+            index_offset,
+            index_start,
+            index_hex_display,
+            hide_index,
+            arr_dir,
+            switch_index_pos,
+            arr_label_pos,
+            arr_label_gap,
+        )
 
+        # Update props
+        self.__update_props(mob_arr_label_args)
+
+        # Append elements to __mob_arr
         for v in arr:
             self.__append_elem(
                 v,
@@ -967,9 +1037,18 @@ class MArray(VGroup):
                 mob_index_args=mob_index_args,
             )
 
+        # Initialize other mobjects (e.g. __arr_label)
         self.__init_mobs(True)
 
-    def update_elem_value(self, index: int, value, mob_value_args: dict = {}) -> Text:
+    def update_elem_value(
+        self,
+        index: int,
+        value,
+        mob_value_args: dict = {},
+        update_anim: Animation = Indicate,
+        update_anim_args: dict = {},
+        play_anim: bool = True,
+    ) -> Text:
         """Updates the elements value.
 
         Parameters
@@ -980,6 +1059,12 @@ class MArray(VGroup):
             New value to be assigned.
         mob_value_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
+        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
+            Animation to be applied to the updated :class:`manim.Text`.
+        update_anim_args : :class:`dict`, default: `{}`
+            Arguments for update :class:`manim.Animation`.
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the update :class:`manim.Animation`.
 
         Returns
         -------
@@ -992,9 +1077,19 @@ class MArray(VGroup):
 
         self.__arr[index] = value
         mob_value_args["text"] = value
-        return self.__mob_arr[index].update_mob_value(mob_value_args)
+        return self.__mob_arr[index].update_mob_value(
+            mob_value_args, update_anim, update_anim_args, play_anim
+        )
 
-    def update_elem_index(self, index: int, value, mob_index_args: dict = {}) -> Text:
+    def update_elem_index(
+        self,
+        index: int,
+        value,
+        mob_index_args: dict = {},
+        update_anim: Animation = Indicate,
+        update_anim_args: dict = {},
+        play_anim: bool = True,
+    ) -> Text:
         """Updates the elements index.
 
         Parameters
@@ -1005,6 +1100,12 @@ class MArray(VGroup):
             New value to be assigned.
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
+        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
+            Animation to be applied to the updated :class:`manim.Text`.
+        update_anim_args : :class:`dict`, default: `{}`
+            Arguments for update :class:`manim.Animation`.
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the update :class:`manim.Animation`.
 
         Returns
         -------
@@ -1016,7 +1117,9 @@ class MArray(VGroup):
             raise Exception("Index out of bounds!")
 
         mob_index_args["text"] = value
-        return self.__mob_arr[index].update_mob_index(mob_index_args)
+        return self.__mob_arr[index].update_mob_index(
+            mob_index_args, update_anim, update_anim_args, play_anim
+        )
 
     def animate_elem(self, index: int) -> "_AnimationBuilder":  # type: ignore
         """Invokes the :meth:`MArrayElement.animate` property of :class:`MArrayElement` on specified index of :attr:`__mob_arr`.
@@ -1100,10 +1203,11 @@ class MArray(VGroup):
         append_anim: Animation = Write,
         append_anim_args: dict = {},
         append_anim_target: MArrayElementComp = None,
+        play_anim: bool = True,
         mob_square_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
-    ) -> typing.List[Animation]:
+    ) -> None:
         """Appends the `value` to :attr:`__arr` and creates a new :class:`MArrayElement` and appends it to :attr:`__mob_arr`.
 
         Parameters
@@ -1116,6 +1220,8 @@ class MArray(VGroup):
             Arguments for append :class:`manim.Animation`.
         append_anim_target : :class:`.m_enum.MArrayElementComp`, default: `None`
             Specifies the :class:`manim.Mobject` of the :class:`MArrayElement` on which the append :class:`manim.Animation` is to be played.
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the :class:`manim.Animation`.
         mob_square_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Square` that represents the element body of :class:`MArrayElement`.
         mob_value_args : :class:`dict`, default: `{}`
@@ -1124,15 +1230,11 @@ class MArray(VGroup):
             Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
         shift_label: :class:`bool`, default: `True`
             Specifies whether to shift the :class:`__mob_arr_label` or not.
-
-        Returns
-        -------
-        List[:class:`manim.Animation`]
-            List of animations for appending.
         """
 
         self.__arr.append(value)
-        return self.__append_elem(
+
+        anim_list = self.__append_elem(
             value,
             mob_square_args=mob_square_args,
             mob_value_args=mob_value_args,
@@ -1141,6 +1243,9 @@ class MArray(VGroup):
             append_anim_args=append_anim_args,
             append_anim_target=append_anim_target,
         )
+
+        if play_anim:
+            self.__scene.play(*anim_list)
 
     def remove_elem(
         self,
@@ -1151,7 +1256,8 @@ class MArray(VGroup):
         update_anim_args: dict = {},
         removal_anim_target: MArrayElementComp = None,
         update_anim_target: MArrayElementComp = MArrayElementComp.INDEX,
-    ) -> typing.Tuple[Succession, typing.Callable[[], typing.List[Animation]]]:
+        play_anim: bool = True,
+    ) -> None:
         """Removes the element from :attr:`__arr` and removes :class:`MArrayElement` from :attr:`__mob_arr` at the specified index.
 
         Parameters
@@ -1170,13 +1276,8 @@ class MArray(VGroup):
             Specifies the :class:`manim.Mobject` of the :class:`MArrayElement` on which the removal :class:`manim.Animation` is to be played.
         update_anim_target : :class:`.m_enum.MArrayElementComp`, default: :attr:`.m_enum.MArrayElementComp.INDEX`
             Specifies the :class:`manim.Mobject` of the :class:`MArrayElement` on which the update :class:`manim.Animation` is to be played.
-
-        Returns
-        -------
-        :class:`manim.Succession`
-            Contains :class:`manim.Animations` played for removal and shifting of :class:`MArrayElement`.
-        Callable[[], List[:class:`manim.Animation`]]
-            Method that updates the indices of :class:`MArrayElement`(s) that occur after the removal and returns a list of update :class:`manim.Animation`(s).
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the :class:`manim.Animation`.
         """
 
         if index < 0 or index > len(self.__mob_arr):
@@ -1184,7 +1285,7 @@ class MArray(VGroup):
 
         self.__arr = self.__arr[0:index] + self.__arr[index + 1 :]
 
-        return self.__remove_elem(
+        (remove_anim, update_indices) = self.__remove_elem(
             index,
             removal_anim,
             update_anim,
@@ -1193,6 +1294,12 @@ class MArray(VGroup):
             removal_anim_target,
             update_anim_target,
         )
+
+        if play_anim:
+            self.__scene.play(remove_anim)
+            self.__scene.play(*update_indices())
+        else:
+            update_indices()
 
     def fetch_arr(self) -> list:
         """Fetches :attr:`__arr`.
