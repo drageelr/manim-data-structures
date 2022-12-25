@@ -329,7 +329,7 @@ class MArrayElement(VGroup):
     def update_mob_value(
         self,
         mob_value_args: dict = {},
-        update_anim: Animation = Indicate,
+        update_anim: Animation = Write,
         update_anim_args: dict = {},
         play_anim: bool = True,
         play_anim_args: dict = {},
@@ -378,7 +378,7 @@ class MArrayElement(VGroup):
     def update_mob_index(
         self,
         mob_index_args: dict = {},
-        update_anim: Animation = Indicate,
+        update_anim: Animation = Write,
         update_anim_args: dict = {},
         play_anim: bool = True,
         play_anim_args: dict = {},
@@ -427,7 +427,7 @@ class MArrayElement(VGroup):
     def update_mob_label(
         self,
         mob_label_args: dict = {},
-        update_anim: Animation = Indicate,
+        update_anim: Animation = Write,
         update_anim_args: dict = {},
         play_anim: bool = True,
         play_anim_args: dict = {},
@@ -998,10 +998,11 @@ class MArray(VGroup):
                 self.__mob_arr_label.next_to(
                     next_to_mob, label_pos, self.__arr_label_gap
                 )
-                self.__mob_arr_label.shift(
-                    -self.__dir_map[self.__arr_dir.value]["arr"]
-                    * (next_to_mob.side_length / 2)
-                )
+                if len(self.__mob_arr) % 2 == 0:
+                    self.__mob_arr_label.shift(
+                        -self.__dir_map[self.__arr_dir.value]["arr"]
+                        * (next_to_mob.side_length / 2)
+                    )
             self.add(self.__mob_arr_label)
 
     def __deepcopy__(self, memo):
@@ -1110,7 +1111,7 @@ class MArray(VGroup):
         index: int,
         value,
         mob_value_args: dict = {},
-        update_anim: Animation = Indicate,
+        update_anim: Animation = Write,
         update_anim_args: dict = {},
         play_anim: bool = True,
         play_anim_args: dict = {},
@@ -1154,7 +1155,7 @@ class MArray(VGroup):
         index: int,
         value,
         mob_index_args: dict = {},
-        update_anim: Animation = Indicate,
+        update_anim: Animation = Write,
         update_anim_args: dict = {},
         play_anim: bool = True,
         play_anim_args: dict = {},
@@ -1279,7 +1280,7 @@ class MArray(VGroup):
         mob_square_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
-    ) -> None:
+    ) -> typing.List[Animation]:
         """Appends the `value` to :attr:`__arr` and creates a new :class:`MArrayElement` and appends it to :attr:`__mob_arr`.
 
         Parameters
@@ -1302,6 +1303,11 @@ class MArray(VGroup):
             Arguments for :class:`manim.Text` that represents the element value of :class:`MArrayElement`.
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index of :class:`MArrayElement`.
+
+        Returns
+        -------
+        List[:class:`manim.Animation`]
+            List of animations for appending.
         """
 
         self.__arr.append(value)
@@ -1318,6 +1324,8 @@ class MArray(VGroup):
 
         if play_anim:
             self.__scene.play(*anim_list, **play_anim_args)
+
+        return anim_list
 
     def remove_elem(
         self,
@@ -1353,6 +1361,13 @@ class MArray(VGroup):
             Specifies whether to play the :class:`manim.Animation`.
         play_anim_args : :class:`dict, default: `{}`
             Arguments for :meth:`manim.Scene.play`.
+
+        Returns
+        -------
+        :class:`manim.Succession`
+            Contains :class:`manim.Animations` played for removal and shifting of :class:`MArrayElement`.
+        Callable[[bool], List[:class:`manim.Animation`]]
+            Method that updates the indices of :class:`MArrayElement`(s) that occur after the removal and returns a list of update :class:`manim.Animation`(s).
         """
 
         if index < 0 or index > len(self.__mob_arr):

@@ -13,7 +13,7 @@ The most basic data structure this package provides is the :py:class:`MArray` (s
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3])
+            arr = MArray(self, [1, 2, 3])
             self.play(Create(arr))
             self.wait(1)
 
@@ -29,7 +29,7 @@ The most basic data structure this package provides is the :py:class:`MArray` (s
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3])
+            arr = MArray(self, [1, 2, 3])
             self.play(Create(arr))
             self.wait(1)
 
@@ -55,7 +55,7 @@ To animate the :py:class:`MArray`, simply invoke the ``animate`` property as sho
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3])
+            arr = MArray(self, [1, 2, 3])
             self.play(Create(arr))
             self.play(arr.animate.shift(UP * 2 + LEFT * 5))
             self.wait(1)
@@ -79,7 +79,7 @@ Moreover, you can also use the :py:func:`MArray.animate_elem` method to animate 
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3])
+            arr = MArray(self, [1, 2, 3])
             self.play(Create(arr))
             self.play(arr.animate_elem(1).shift(DOWN))
             self.wait(1)
@@ -107,7 +107,7 @@ Lastly, you can also animate the body, value and the index of any element using 
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3])
+            arr = MArray(self, [1, 2, 3])
             self.play(Create(arr))
             self.play(
                 arr.animate_elem_square(1).set_fill(BLACK),
@@ -125,6 +125,7 @@ The :py:class:`MArray` also allows you to alter the way your array looks. While 
     :linenos:
 
     arr = MArray(
+        self,
         [1, 2, 3],
         mob_square_args={'fill_color': RED_D},
         mob_value_args={'color': BLACK},
@@ -144,6 +145,7 @@ The :py:class:`MArray` also allows you to alter the way your array looks. While 
     class MyScene(Scene):
         def construct(self):
             arr = MArray(
+                self,
                 [1, 2, 3],
                 mob_square_args={'fill_color': RED_D},
                 mob_value_args={'color': BLACK},
@@ -166,10 +168,10 @@ To do this, simply pass your preferred direction enum from :py:class:`MArrayDire
 
     class MyScene(Scene):
         def construct(self):
-            arr_up = MArray([1, 2], arr_dir=MArrayDirection.UP)
-            arr_right = MArray([3, 4], arr_dir=MArrayDirection.RIGHT)
-            arr_down = MArray([5, 6], arr_dir=MArrayDirection.DOWN)
-            arr_left = MArray([7, 8], arr_dir=MArrayDirection.LEFT)
+            arr_up = MArray(self, [1, 2], arr_dir=MArrayDirection.UP)
+            arr_right = MArray(self, [3, 4], arr_dir=MArrayDirection.RIGHT)
+            arr_down = MArray(self, [5, 6], arr_dir=MArrayDirection.DOWN)
+            arr_left = MArray(self, [7, 8], arr_dir=MArrayDirection.LEFT)
 
             self.play(Create(arr_up))
             self.play(arr_up.animate.shift(UP * 2))
@@ -194,10 +196,10 @@ To do this, simply pass your preferred direction enum from :py:class:`MArrayDire
 
     class MyScene(Scene):
         def construct(self):
-            arr_up = MArray([1, 2], arr_dir=MArrayDirection.UP)
-            arr_right = MArray([3, 4], arr_dir=MArrayDirection.RIGHT)
-            arr_down = MArray([5, 6], arr_dir=MArrayDirection.DOWN)
-            arr_left = MArray([7, 8], arr_dir=MArrayDirection.LEFT)
+            arr_up = MArray(self, [1, 2], arr_dir=MArrayDirection.UP)
+            arr_right = MArray(self, [3, 4], arr_dir=MArrayDirection.RIGHT)
+            arr_down = MArray(self, [5, 6], arr_dir=MArrayDirection.DOWN)
+            arr_left = MArray(self, [7, 8], arr_dir=MArrayDirection.LEFT)
 
             self.play(Create(arr_up))
             self.play(arr_up.animate.shift(UP * 2))
@@ -226,10 +228,10 @@ Similar to how we specify the growth direction using :py:class:`MArrayDirection`
 
     class MyScene(Scene):
         def construct(self):
-            arr_label_left = MArray([1, 2, 3], label='Arr')
-            arr_label_right = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.RIGHT)
-            arr_label_down = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.DOWN)
-            arr_label_up = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.UP, arr_label_gap=0.75)
+            arr_label_left = MArray(self, [1, 2, 3], label='Arr')
+            arr_label_right = MArray(self, [1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.RIGHT)
+            arr_label_down = MArray(self, [1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.DOWN)
+            arr_label_up = MArray(self, [1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.UP, arr_label_gap=0.75)
 
             self.play(Create(arr_label_left))
             self.play(arr_label_left.animate.shift(UP * 2 + LEFT * 4))
@@ -254,10 +256,10 @@ Similar to how we specify the growth direction using :py:class:`MArrayDirection`
 
     class MyScene(Scene):
         def construct(self):
-            arr_label_left = MArray([1, 2, 3], label='Arr')
-            arr_label_right = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.RIGHT)
-            arr_label_down = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.DOWN)
-            arr_label_up = MArray([1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.UP, arr_label_gap=0.75)
+            arr_label_left = MArray(self, [1, 2, 3], label='Arr')
+            arr_label_right = MArray(self, [1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.RIGHT)
+            arr_label_down = MArray(self, [1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.DOWN)
+            arr_label_up = MArray(self, [1, 2, 3], label='Arr', arr_label_pos=MArrayDirection.UP, arr_label_gap=0.75)
 
             self.play(Create(arr_label_left))
             self.play(arr_label_left.animate.shift(UP * 2 + LEFT * 4))
@@ -287,6 +289,7 @@ Lets say you want to show a 4-byte integer array with its addresses. You can sim
     class MyScene(Scene):
         def construct(self):
             arr = MArray(
+                self,
                 [1, 2, 3, 4],
                 index_hex_display=True,
                 index_offset=4
@@ -307,6 +310,7 @@ Lets say you want to show a 4-byte integer array with its addresses. You can sim
     class MyScene(Scene):
         def construct(self):
             arr = MArray(
+                self,
                 [1, 2, 3, 4],
                 index_hex_display=True,
                 index_offset=4
@@ -325,6 +329,7 @@ Or if you don't want to show the indices at all, simply pass ``True`` as the ``h
     class MyScene(Scene):
         def construct(self):
             arr = MArray(
+                self,
                 [1, 2, 3, 4],
                 hide_index=True
             )
@@ -344,6 +349,7 @@ Or if you don't want to show the indices at all, simply pass ``True`` as the ``h
     class MyScene(Scene):
         def construct(self):
             arr = MArray(
+                self,
                 [1, 2, 3, 4],
                 hide_index=True
             )
@@ -365,10 +371,10 @@ For an existing array, you can also append an element simply by invoking the :py
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
+            arr = MArray(self, [1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
             self.add(arr)
             self.wait(1)
-            self.play(*arr.append_elem(4))
+            arr.append_elem(4)
             self.wait(1)
 
 .. raw:: html
@@ -383,24 +389,22 @@ For an existing array, you can also append an element simply by invoking the :py
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
+            arr = MArray(self, [1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
             self.add(arr)
             self.wait(1)
-            self.play(*arr.append_elem(4))
+            arr.append_elem(4)
             self.wait(1)
 
 .. note::
 
     You can also pass ``mob_*_args`` to this method to customize the inserted element.
 
-Did you notice the the ``*`` before we invoked the :py:func:`MArray.append_elem` method? Since the method returns a list of :py:class:`manim.Animation` therefore, we unpack it while feeding it to the ``self.play`` method of the ``Scene``.
-
-Moreover, you can also specify the animation that is played for the inserted element via the ``append_anim`` argument. The code snippet below passes the :py:class:`manim.GrowFromCenter` animation to the :py:class:`MArray.append_elem` method:
+Moreover, you can also specify the animation that is played for the inserted element via the ``append_anim`` argument. The code snippet below passes the :py:class:`manim.GrowFromCenter` animation to the :py:func:`MArray.append_elem` method:
 
 .. code-block:: python
     :linenos:
 
-    self.play(*arr.append_elem(4, append_anim=GrowFromCenter))
+    arr.append_elem(4, append_anim=GrowFromCenter)
 
 .. raw:: html
 
@@ -414,10 +418,10 @@ Moreover, you can also specify the animation that is played for the inserted ele
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
+            arr = MArray(self, [1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
             self.add(arr)
             self.wait(1)
-            self.play(*arr.append_elem(4, append_anim=GrowFromCenter))
+            arr.append_elem(4, append_anim=GrowFromCenter)
             self.wait(1)
 
 .. currentmodule:: manim_data_structures.m_enum
@@ -426,19 +430,26 @@ Moreover, you can also specify the animation that is played for the inserted ele
 
     You can also specify arguments to the passed animation via the ``append_anim_args`` parameter and also set the target of the animation using the ``append_anim_target`` parameter that takes in :py:class:`MArrayElementComp` enum.
 
+Did you notice that in both snippets, we didn't pass any animation to our :py:class:`manim.Scene` but the append animation still played? This is thanks to the ``self`` that we pass as the first argument to our :py:class:`MArray` constructor, which is basically a reference to the current :py:class:`manim.Scene`.
+
+However, if you'd like to play the animation yourself, we have got you covered! The :py:func:`MArrayElement` method returns a list of :py:class:`manim.Animation` that you can pass to the :py:func:`manim.Scene.play` method as follows:
+
+.. code-block:: python
+    :linenos:
+
+    self.play(*arr.append_elem(4, play_anim=False))
+
 Remove Element
 ^^^^^^^^^^^^^^
 
 .. currentmodule:: manim_data_structures.m_array
 
-To remove an element simply invoke the :py:class:`MArray.remove_elem` method with the index of element you wish to remove. The method returns two the removal animation and a function that udpates the indices of the remaining elements.
+To remove an element simply invoke the :py:class:`MArray.remove_elem` method with the index of element you wish to remove.
 
 .. code-block:: python
     :linenos:
 
-    (remove_anim, update_indices) = arr.remove_elem(1)
-    self.play(remove_anim)
-    self.play(*update_indices())
+    arr.remove_elem(1)
 
 .. raw:: html
 
@@ -452,15 +463,14 @@ To remove an element simply invoke the :py:class:`MArray.remove_elem` method wit
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
+            arr = MArray(self, [1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
             self.add(arr)
             self.wait(1)
-            (remove_anim, update_indices) = arr.remove_elem(1)
-            self.play(remove_anim)
-            self.play(*update_indices())
+            arr.remove_elem(1)
             self.wait(1)
 
 Similar to how you were able to pass the append animation to the :py:class:`MArray.append_elem` function, you can specify two animations for the :py:class:`MArray.remove_elem` method:
+
 1. Element removal animation via the ``removal_anim`` parameter.
 2. Indices update animation via the ``update_anim`` parameter.
 
@@ -469,7 +479,7 @@ The code snippet below provides an example:
 .. code-block:: python
     :linenos:
 
-    (remove_anim, update_indices) = arr.remove_elem(1, removal_anim=ShowPassingFlash , update_anim=Indicate)
+    arr.remove_elem(1, removal_anim=ShowPassingFlash , update_anim=Write)
 
 .. raw:: html
 
@@ -483,17 +493,24 @@ The code snippet below provides an example:
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
+            arr = MArray(self, [1, 2, 3], label='Array', arr_label_pos=MArrayDirection.DOWN)
             self.add(arr)
             self.wait(1)
-            (remove_anim, update_indices) = arr.remove_elem(1, removal_anim=ShowPassingFlash , update_anim=Indicate)
-            self.play(remove_anim)
-            self.play(*update_indices())
+            arr.remove_elem(1, removal_anim=ShowPassingFlash , update_anim=Write)
             self.wait(1)
 
 .. note::
 
     You can also specify arguments to the passed animation via the ``*_anim_args`` parameter and also set the target of the animation using the ``*_anim_target`` parameter.
+
+Lastly, as the :py:func:`MArray.append_elem` returns a list of :py:class:`manim.Animation`, the :py:func:`MArray.remove_elem` returns two objects; a removal animation and a function that udpates the indices of the remaining elements and returns their animations. Hence, you can animate this as follows:
+
+.. code-block:: python
+    :linenos:
+
+    (remove_anim, update_indices) = arr.remove_elem(1, removal_anim=ShowPassingFlash , update_anim=Write, play_anim=False)
+    self.play(remove_anim) # Play removal animation first
+    self.play(*update_indices(play_anim=False)) # Then play the update_indices animation
 
 Update Element
 ^^^^^^^^^^^^^^
@@ -505,13 +522,11 @@ You can also update the value and the index of an existing array using the :py:c
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3])
+            arr = MArray(self, [1, 2, 3])
             self.add(arr)
             self.wait(1)
-            self.play(
-                Write(arr.update_elem_value(1, 20)),
-                Write(arr.update_elem_index(1, -2))
-            )
+            arr.update_elem_value(1, 20)
+            arr.update_elem_index(1, -2)
             self.wait(1)
 
 .. raw:: html
@@ -526,13 +541,11 @@ You can also update the value and the index of an existing array using the :py:c
 
     class MyScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3])
+            arr = MArray(self, [1, 2, 3])
             self.add(arr)
             self.wait(1)
-            self.play(
-                Write(arr.update_elem_value(1, 20)),
-                Write(arr.update_elem_index(1, -2))
-            )
+            arr.update_elem_value(1, 20)
+            arr.update_elem_index(1, -2)
             self.wait(1)
 
 .. note::
