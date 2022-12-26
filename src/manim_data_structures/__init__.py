@@ -7,6 +7,7 @@ from .m_variable import *
 __all__ = [
     "MArrayElement",
     "MArray",
+    "MArrayPointer",
     "MArrayDirection",
     "MArrayElementComp",
     "MVariable",

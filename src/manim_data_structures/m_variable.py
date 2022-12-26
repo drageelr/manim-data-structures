@@ -10,6 +10,8 @@ class MVariable(MArrayElement):
 
     Parameters
     ----------
+    scene : :class:`manim.Scene`
+        The scene where the object should exist.
     value
         Specifies the value of the variable.
     index
@@ -22,6 +24,8 @@ class MVariable(MArrayElement):
         Arguments for :class:`manim.Text` that represents the element value.
     mob_index_args : :class:`dict`, default: `{}`
         Arguments for :class:`manim.Text` that represents the element index.
+    mob_label_args : :class:`dict`, default: `{}`
+        Arguments for :class:`manim.Text` that represents the element label.
 
     Attributes
     ----------
@@ -35,9 +39,11 @@ class MVariable(MArrayElement):
 
     def __init__(
         self,
+        scene: Scene,
         value="",
         index="",
         label="",
+        mob_square_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
         mob_label_args: dict = {},
@@ -47,6 +53,8 @@ class MVariable(MArrayElement):
 
         Parameters
         ----------
+        scene : :class:`manim.Scene`
+            The scene where the object should exist.
         value
             Specifies the value of the variable.
         index
@@ -59,15 +67,8 @@ class MVariable(MArrayElement):
             Arguments for :class:`manim.Text` that represents the element value.
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index.
-
-        Attributes
-        ----------
-        __value
-            Specifies the value of the variable.
-        __index
-            Specifies the index of the variable.
-        __label
-            Specifies the label of the variable.
+        mob_label_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the element label.
         """
 
         self.__value = value
@@ -79,6 +80,8 @@ class MVariable(MArrayElement):
         mob_label_args["text"] = label
 
         super().__init__(
+            scene=scene,
+            mob_square_args=mob_square_args,
             mob_value_args=mob_value_args,
             mob_index_args=mob_index_args,
             mob_label_args=mob_label_args,
@@ -118,13 +121,26 @@ class MVariable(MArrayElement):
 
         return self.__label
 
-    def update_value(self, value, mob_value_args: dict = {}) -> Text:
+    def update_value(
+        self,
+        value,
+        mob_value_args: dict = {},
+        update_anim: Animation = Indicate,
+        update_anim_args: dict = {},
+        play_anim: bool = True,
+    ) -> Text:
         """Updates :attr:`__value` and the :class:`manim.Text` that represents the element value.
 
         Parameters
         ----------
         mob_value_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element value.
+        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
+            Animation to be applied to the updated :class:`manim.Text`.
+        update_anim_args : :class:`dict`, default: `{}`
+            Arguments for update :class:`manim.Animation`.
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the update :class:`manim.Animation`.
 
         Returns
         -------
@@ -134,15 +150,30 @@ class MVariable(MArrayElement):
 
         self.__value = value
         mob_value_args["text"] = value
-        return self.update_mob_value(mob_value_args)
+        return self.update_mob_value(
+            mob_value_args, update_anim, update_anim_args, play_anim
+        )
 
-    def update_index(self, index, mob_index_args: dict = {}) -> Text:
+    def update_index(
+        self,
+        index,
+        mob_index_args: dict = {},
+        update_anim: Animation = Indicate,
+        update_anim_args: dict = {},
+        play_anim: bool = True,
+    ) -> Text:
         """Updates :attr:`__index` and the :class:`manim.Text` that represents the element index.
 
         Parameters
         ----------
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index.
+        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
+            Animation to be applied to the updated :class:`manim.Text`.
+        update_anim_args : :class:`dict`, default: `{}`
+            Arguments for update :class:`manim.Animation`.
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the update :class:`manim.Animation`.
 
         Returns
         -------
@@ -152,15 +183,30 @@ class MVariable(MArrayElement):
 
         self.__index = index
         mob_index_args["text"] = index
-        return self.update_mob_index(mob_index_args)
+        return self.update_mob_index(
+            mob_index_args, update_anim, update_anim_args, play_anim
+        )
 
-    def update_label(self, label, mob_label_args: dict = {}) -> Text:
+    def update_label(
+        self,
+        label,
+        mob_label_args: dict = {},
+        update_anim: Animation = Indicate,
+        update_anim_args: dict = {},
+        play_anim: bool = True,
+    ) -> Text:
         """Updates :attr:`__label` and the :class:`manim.Text` that represents the element label.
 
         Parameters
         ----------
         mob_label_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element label.
+        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
+            Animation to be applied to the updated :class:`manim.Text`.
+        update_anim_args : :class:`dict`, default: `{}`
+            Arguments for update :class:`manim.Animation`.
+        play_anim : :class:`bool`, default: `True`
+            Specifies whether to play the update :class:`manim.Animation`.
 
         Returns
         -------
@@ -170,4 +216,6 @@ class MVariable(MArrayElement):
 
         self.__value = label
         mob_label_args["text"] = label
-        return self.update_mob_label(mob_label_args)
+        return self.update_mob_label(
+            mob_label_args, update_anim, update_anim_args, play_anim
+        )

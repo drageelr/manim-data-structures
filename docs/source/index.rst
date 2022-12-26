@@ -36,7 +36,7 @@ Variables
 
     class VarScene(Scene):
         def construct(self):
-            var = MVariable(10, 0, 'Var')
+            var = MVariable(self, 10, 0, 'Var')
             self.add(var)
 
 Arrays
@@ -49,7 +49,7 @@ Arrays
 
     class ArrayScene(Scene):
         def construct(self):
-            arr = MArray([1, 2, 3], label='Arr')
+            arr = MArray(self, [1, 2, 3], label='Arr')
             self.add(arr)
 
 Next Steps
@@ -65,5 +65,6 @@ Index
 .. toctree::
    :maxdepth: 2
 
+   example
    guides/index
    reference/index
