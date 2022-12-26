@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "manim-data-structures"
-version = "0.1.5"
+version = "0.1.6"
 description = "A Manim implementation for data structures"
 authors = ["Hammad Nasir <hammadn99@gmail.com>"]
 readme = "README.md"
