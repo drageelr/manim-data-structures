@@ -24,6 +24,8 @@ class MVariable(MArrayElement):
         Arguments for :class:`manim.Text` that represents the element value.
     mob_index_args : :class:`dict`, default: `{}`
         Arguments for :class:`manim.Text` that represents the element index.
+    mob_label_args : :class:`dict`, default: `{}`
+        Arguments for :class:`manim.Text` that represents the element label.
 
     Attributes
     ----------
@@ -41,6 +43,7 @@ class MVariable(MArrayElement):
         value="",
         index="",
         label="",
+        mob_square_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
         mob_label_args: dict = {},
@@ -64,15 +67,8 @@ class MVariable(MArrayElement):
             Arguments for :class:`manim.Text` that represents the element value.
         mob_index_args : :class:`dict`, default: `{}`
             Arguments for :class:`manim.Text` that represents the element index.
-
-        Attributes
-        ----------
-        __value
-            Specifies the value of the variable.
-        __index
-            Specifies the index of the variable.
-        __label
-            Specifies the label of the variable.
+        mob_label_args : :class:`dict`, default: `{}`
+            Arguments for :class:`manim.Text` that represents the element label.
         """
 
         self.__value = value
@@ -85,6 +81,7 @@ class MVariable(MArrayElement):
 
         super().__init__(
             scene=scene,
+            mob_square_args=mob_square_args,
             mob_value_args=mob_value_args,
             mob_index_args=mob_index_args,
             mob_label_args=mob_label_args,

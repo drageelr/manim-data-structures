@@ -65,5 +65,6 @@ Index
 .. toctree::
    :maxdepth: 2
 
+   example
    guides/index
    reference/index

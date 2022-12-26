@@ -1879,6 +1879,17 @@ class MArrayPointer(VGroup):
 
         return self.__mob_label
 
+    def fetch_index(self) -> int:
+        """Fetches the index that the pointer is attached to.
+
+        Returns
+        -------
+        :class:`int`
+            Represents the index that the pointer is attached to.
+        """
+
+        return self.__index
+
     def update_mob_label(
         self,
         label: str,

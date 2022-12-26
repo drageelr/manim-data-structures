@@ -552,4 +552,56 @@ You can also update the value and the index of an existing array using the :py:c
 
     You can also pass ``mob_value_args`` and ``mob_index_args`` to respective methods to customize the updated element mobject.
 
+Using MArrayPointer
+~~~~~~~~~~~~~~~~~~~
+
+Thus far, if you had been hoping for a pointer to associate with your array, then your prayers have been answered. The :class:`MArrayPointer` allows you to attach a pointer with your array. The following snippet demonstrates its capabilities:
+
+.. code-block:: python
+    :linenos:
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray(self, [1, 2, 3, 4, 5], label='Array')
+            arr.shift(UP + LEFT * 2)
+            self.add(arr)
+
+            pointer = MArrayPointer(self, arr, 2, 'P')
+            self.play(Create(pointer))
+            self.wait(1)
+            pointer.shift_to_elem(4)
+            self.wait(1)
+            pointer.shift_to_elem(0)
+            self.wait(1)
+            pointer.attach_to_elem(2)
+
+            self.wait(1)
+
+.. raw:: html
+
+    <div>
+
+.. manim:: MyScene
+    :hide_source:
+    :quality: low
+
+    from manim_data_structures import *
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray(self, [1, 2, 3, 4, 5], label='Array')
+            arr.shift(UP + LEFT * 2)
+            self.add(arr)
+
+            pointer = MArrayPointer(self, arr, 2, 'P')
+            self.play(Create(pointer))
+            self.wait(1)
+            pointer.shift_to_elem(4)
+            self.wait(1)
+            pointer.shift_to_elem(0)
+            self.wait(1)
+            pointer.attach_to_elem(2)
+
+            self.wait(1)
+
 With this we conclude this guide. We hope you found it useful! ✌️
