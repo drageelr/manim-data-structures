@@ -1568,9 +1568,9 @@ class MArrayPointer(VGroup):
         """
 
         arr_dir_np = self.__dir_map[self.__arr.fetch_arr_dir().value]["np"]
-        arrow_pos_np = self.__dir_map[self.__pointer_pos.value]["np"]
+        arrow_pos_np = np.copy(self.__dir_map[self.__pointer_pos.value]["np"])
 
-        # If array's direction and pointer's direction are not parallel to each other
+        # If array's direction and pointer's direction are not perpendicular to each other
         if np.dot(arr_dir_np, arrow_pos_np):
             # swap the x and y values of arrow_pos_np
             arrow_pos_np[0], arrow_pos_np[1] = arrow_pos_np[1], arrow_pos_np[0]
@@ -1610,15 +1610,25 @@ class MArrayPointer(VGroup):
             A vector that represents how much the pointer should shift.
         """
 
+        to_lesser_index = False
         index_start = self.__index
         index_end = new_index
         if index_start > index_end:
             index_start, index_end = index_end, index_start
+            to_lesser_index = True
 
         return (
-            self.__arr._MArray__sum_elem_len(index_start, index_end)
-            - (self.__arr.fetch_mob_arr()[self.__index].fetch_mob_square().side_length)
-        ) * self.__dir_map[self.__arr.fetch_arr_dir().value]["np"]
+            (
+                self.__arr._MArray__sum_elem_len(index_start, index_end)
+                - (
+                    self.__arr.fetch_mob_arr()[self.__index]
+                    .fetch_mob_square()
+                    .side_length
+                )
+            )
+            * self.__dir_map[self.__arr.fetch_arr_dir().value]["np"]
+            * (-1 if to_lesser_index else 1)
+        )
 
     def __init_props(
         self,
@@ -1701,6 +1711,11 @@ class MArrayPointer(VGroup):
                 start=(-arrow_pos_np + (arrow_pos_np * self.__arrow_len)),
                 end=-arrow_pos_np,
                 **self.__mob_arrow_props
+            )
+            self.__mob_arrow.next_to(
+                self.__arr.fetch_mob_arr()[self.__index].fetch_mob_square(),
+                arrow_pos_np,
+                self.__arrow_gap,
             )
             self.add(self.__mob_arrow)
 
@@ -1790,9 +1805,6 @@ class MArrayPointer(VGroup):
 
         # Initialize mobjects
         self.__init_mobs(True, True)
-
-        # Initialize position
-        self.__init_pos()
 
         # Add updater
         self.__add_updater()
