@@ -60,7 +60,7 @@ To animate the :py:class:`~m_array.MArray`, simply invoke the :py:attr:`~manim.m
             self.play(arr.animate.shift(UP * 2 + LEFT * 5))
             self.wait(1)
 
-Moreover, you can also use the :py:func:`MArray.animate_elem() <m_array.MArray.animate_elem>` method to animate a single element of the :py:class:`~m_array.MArray` as well:
+Moreover, you can also use the :py:meth:`MArray.animate_elem() <m_array.MArray.animate_elem>` method to animate a single element of the :py:class:`~m_array.MArray` as well:
 
 .. code-block:: python
     :linenos:
@@ -84,7 +84,7 @@ Moreover, you can also use the :py:func:`MArray.animate_elem() <m_array.MArray.a
             self.play(arr.animate_elem(1).shift(DOWN))
             self.wait(1)
 
-Lastly, you can also animate the body, value and the index of any element using the :py:func:`MArray.animate_elem_square() <m_array.MArray.animate_elem_square>`, :py:func:`MArray.animate_elem_value() <m_array.MArray.animate_elem_value>` and :py:func:`MArray.animate_elem_index() <m_array.MArray.animate_elem_index>` respectively.
+Lastly, you can also animate the body, value and the index of any element using the :py:meth:`MArray.animate_elem_square() <m_array.MArray.animate_elem_square>`, :py:meth:`MArray.animate_elem_value() <m_array.MArray.animate_elem_value>` and :py:meth:`MArray.animate_elem_index() <m_array.MArray.animate_elem_index>` respectively.
 
 .. code-block:: python
     :linenos:
@@ -356,7 +356,7 @@ The :py:class:`~m_array.MArray` provides some auxiliary methods which this secio
 Append Element
 ^^^^^^^^^^^^^^
 
-For an existing array, you can also append an element simply by invoking the :py:func:`MArray.append_elem() <m_array.MArray.append_elem>` method.
+For an existing array, you can also append an element simply by invoking the :py:meth:`MArray.append_elem() <m_array.MArray.append_elem>` method.
 
 .. code-block:: python
     :linenos:
@@ -391,7 +391,7 @@ For an existing array, you can also append an element simply by invoking the :py
 
     You can also pass ``mob_*_args`` to this method to customize the inserted element.
 
-Moreover, you can also specify the animation that is played for the inserted element via the ``append_anim`` argument. The code snippet below passes the :py:class:`~manim.animation.growing.GrowFromCenter` animation to the :py:func:`MArray.append_elem() <m_array.MArray.append_elem>` method:
+Moreover, you can also specify the animation that is played for the inserted element via the ``append_anim`` argument. The code snippet below passes the :py:class:`~manim.animation.growing.GrowFromCenter` animation to the :py:meth:`MArray.append_elem() <m_array.MArray.append_elem>` method:
 
 .. code-block:: python
     :linenos:
@@ -422,7 +422,7 @@ Moreover, you can also specify the animation that is played for the inserted ele
 
 Did you notice that in both snippets, we didn't pass any animation to our :py:class:`~manim.scene.scene.Scene` but the append animation still played? This is thanks to the ``self`` that we pass as the first argument to our :py:class:`~m_array.MArray` constructor, which is basically a reference to the current :py:class:`~manim.scene.scene.Scene`.
 
-However, if you'd like to play the animation yourself, we have got you covered! The :py:class:`~m_array.MArrayElement` method returns a list of :py:class:`~manim.animation.animation.Animation` that you can pass to the :py:func:`Scene.play() <manim.scene.scene.Scene.play>` method as follows:
+However, if you'd like to play the animation yourself, we have got you covered! The :py:class:`~m_array.MArrayElement` method returns a list of :py:class:`~manim.animation.animation.Animation` that you can pass to the :py:meth:`Scene.play() <manim.scene.scene.Scene.play>` method as follows:
 
 .. code-block:: python
     :linenos:
@@ -432,7 +432,7 @@ However, if you'd like to play the animation yourself, we have got you covered! 
 Remove Element
 ^^^^^^^^^^^^^^
 
-To remove an element simply invoke the :py:func:`MArray.remove_elem() <m_array.MArray.remove_elem>` method with the index of element you wish to remove.
+To remove an element simply invoke the :py:meth:`MArray.remove_elem() <m_array.MArray.remove_elem>` method with the index of element you wish to remove.
 
 .. code-block:: python
     :linenos:
@@ -457,7 +457,7 @@ To remove an element simply invoke the :py:func:`MArray.remove_elem() <m_array.M
             arr.remove_elem(1)
             self.wait(1)
 
-Similar to how you were able to pass the append animation to the :py:func:`MArray.append_elem() <m_array.MArray.append_elem>` function, you can specify two animations for the :py:func:`MArray.remove_elem() <m_array.MArray.remove_elem>` method:
+Similar to how you were able to pass the append animation to the :py:meth:`MArray.append_elem() <m_array.MArray.append_elem>` function, you can specify two animations for the :py:meth:`MArray.remove_elem() <m_array.MArray.remove_elem>` method:
 
 1. Element removal animation via the ``removal_anim`` parameter.
 2. Indices update animation via the ``update_anim`` parameter.
@@ -491,7 +491,7 @@ The code snippet below provides an example:
 
     You can also specify arguments to the passed animation via the ``*_anim_args`` parameter and also set the target of the animation using the ``*_anim_target`` parameter.
 
-Lastly, as the :py:func:`MArray.append_elem() <m_array.MArray.append_elem>` returns a list of :py:class:`~manim.animation.animation.Animation`, the :py:func:`MArray.remove_elem() <m_array.MArray.remove_elem>` returns two objects; a removal animation and a function that udpates the indices of the remaining elements and returns their animations. Hence, you can animate this as follows:
+Lastly, as the :py:meth:`MArray.append_elem() <m_array.MArray.append_elem>` returns a list of :py:class:`~manim.animation.animation.Animation`, the :py:meth:`MArray.remove_elem() <m_array.MArray.remove_elem>` returns two objects; a removal animation and a function that udpates the indices of the remaining elements and returns their animations. Hence, you can animate this as follows:
 
 .. code-block:: python
     :linenos:
@@ -503,7 +503,7 @@ Lastly, as the :py:func:`MArray.append_elem() <m_array.MArray.append_elem>` retu
 Update Element
 ^^^^^^^^^^^^^^
 
-You can also update the value and the index of an existing array using the :py:func:`MArray.update_elem_value() <m_array.MArray.update_elem_value>` and :py:func:`MArray.update_elem_index() <m_array.MArray.update_elem_index>` methods respectively.
+You can also update the value and the index of an existing array using the :py:meth:`MArray.update_elem_value() <m_array.MArray.update_elem_value>` and :py:meth:`MArray.update_elem_index() <m_array.MArray.update_elem_index>` methods respectively.
 
 .. code-block:: python
     :linenos:
