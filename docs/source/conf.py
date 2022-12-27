@@ -24,11 +24,13 @@ extensions = [
     "sphinx.ext.duration",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
+    "sphinx.ext.intersphinx",
     "manim.utils.docbuild.manim_directive",
 ]
 
 templates_path = ["_templates"]
 exclude_patterns = []
+add_module_names = False
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -46,4 +48,11 @@ html_theme_options = {
     "top_of_page_button": None,
     "light_logo": "logo-color-no-bg.svg",
     "dark_logo": "logo-white-no-bg.svg",
+}
+
+# -- Options for Inter Sphinx ----------------------------------------------------
+
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "manim": ("https://docs.manim.community/en/stable/", None),
 }
