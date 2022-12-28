@@ -357,7 +357,7 @@ class MArrayElement(VGroup):
         play_anim
             If `True`, plays the animation(s).
         play_anim_args
-            Arguments for :meth:`Scene.play <manim.scene.scene.Scene>`.
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------
@@ -406,7 +406,7 @@ class MArrayElement(VGroup):
         play_anim
             If `True`, plays the animation(s).
         play_anim_args
-            Arguments for :meth:`Scene.play <manim.scene.scene.Scene>`.
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------
@@ -455,7 +455,7 @@ class MArrayElement(VGroup):
         play_anim
             If `True`, plays the animation(s).
         play_anim_args
-            Arguments for :meth:`Scene.play <manim.scene.scene.Scene>`.
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------

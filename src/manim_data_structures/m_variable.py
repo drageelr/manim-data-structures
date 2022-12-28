@@ -149,7 +149,7 @@ class MVariable(MArrayElement):
         play_anim
             Specifies whether to play the :class:`~manim.animation.animation.Animation`.
         play_anim_args
-            Arguments for :meth:`Scene.play <~manim.scene.scene.Scene.play>`.
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------
@@ -187,7 +187,7 @@ class MVariable(MArrayElement):
         play_anim
             Specifies whether to play the :class:`~manim.animation.animation.Animation`.
         play_anim_args
-            Arguments for :meth:`Scene.play <~manim.scene.scene.Scene.play>`.
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------
@@ -225,7 +225,7 @@ class MVariable(MArrayElement):
         play_anim
             Specifies whether to play the :class:`~manim.animation.animation.Animation`.
         play_anim_args
-            Arguments for :meth:`Scene.play <~manim.scene.scene.Scene.play>`.
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------
