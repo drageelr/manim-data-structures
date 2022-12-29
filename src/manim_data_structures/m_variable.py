@@ -33,7 +33,7 @@ class MVariable(MArrayElement):
     ----------
     __value : Any
         The value of the variable.
-    __index : Union[:class:`str`, :class:`int`]
+    __index : :data:`~typing.Union`\0[:class:`str`, :class:`int`]
         The value of the index.
     __label : :class:`str`
         The value of the label.
@@ -108,7 +108,7 @@ class MVariable(MArrayElement):
 
         Returns
         -------
-        Union[:class:`str`, :class:`int`]
+        :data:`~typing.Union`\0[:class:`str`, :class:`int`]
             :attr:`__index`.
         """
 

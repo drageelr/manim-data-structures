@@ -9,7 +9,7 @@ max-complexity = 15
 max-line-length = 88
 statistics = True
 # Prevents some flake8-rst-docstrings errors
-rst-roles = attr,class,func,meth,mod,obj,ref,doc,exc,py:meth
+rst-roles = attr,class,func,meth,mod,obj,ref,doc,exc,py:meth,data
 rst-directives = manim, SEEALSO, seealso
 docstring-convention=numpy
 
