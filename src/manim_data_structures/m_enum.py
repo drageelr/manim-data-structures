@@ -4,23 +4,23 @@ from enum import Enum
 
 
 class MArrayElementComp(Enum):
-    """Refers to the individual component :class:`manim.Mobject` of :class:`MArrayElement`."""
+    """Refers to individual component :class:`~manim.mobject.mobject.Mobject`\0s of :class:`~.m_array.MArrayElement`."""
 
     BODY = 0
-    """Body :class:`manim.Square`"""
+    """:class:`~manim.mobject.geometry.polygram.Square` that represents the body."""
 
     VALUE = 1
-    """Value :class:`manim.Text`"""
+    """:class:`~manim.mobject.text.text_mobject.Text` that represents the value."""
 
     INDEX = 2
-    """Index :class:`manim.Text`"""
+    """:class:`~manim.mobject.text.text_mobject.Text` that represents the index."""
 
     LABEL = 3
-    """Label :class:`manim.Text`"""
+    """:class:`~manim.mobject.text.text_mobject.Text` that represents the label."""
 
 
 class MArrayDirection(Enum):
-    """Specifies the growth direction of the :class:`MArray`."""
+    """Serves as the direction for :class:`~.m_array.MArray`."""
 
     UP = 0
     """Upward direction."""
