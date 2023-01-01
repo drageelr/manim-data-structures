@@ -24,11 +24,27 @@ extensions = [
     "sphinx.ext.duration",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.viewcode",
     "manim.utils.docbuild.manim_directive",
+    "sphinx.ext.napoleon",
+    "sphinx_autodoc_typehints",
 ]
 
 templates_path = ["_templates"]
 exclude_patterns = []
+
+# displays shorter function names that are documented via autodoc - sphinx.ext.autosummary
+add_module_names = False
+
+# displays type hint defaults - sphinx_autodoc_typehints
+typehints_defaults = "comma"
+
+# allows external documentation to be referred - sphinx.ext.intersphinx
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "manim": ("https://docs.manim.community/en/stable/", None),
+}
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

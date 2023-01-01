@@ -1,2 +1,3 @@
 manim
 furo
+sphinx-autodoc-typehints
