@@ -943,7 +943,7 @@ class MArray(VGroup):
         arr
             Specifies the array to represent.
         label
-            Specifies the label of the array.
+            Specifies the value of the array label.
         index_offset
             Specifies the difference between successive displayable indices.
         index_start
@@ -1063,7 +1063,7 @@ class MArray(VGroup):
         arr
             Specifies the array to represent.
         label
-            Specifies the label of the array.
+            Specifies the value of the array label.
         index_offset
             Specifies the difference between successive displayable indices.
         index_start
@@ -1512,53 +1512,57 @@ class MArrayPointer(VGroup):
 
     Parameters
     ----------
-    scene : :class:`manim.Scene`
-        The scene where the object should exist.
-    arr : typing.List[:class:`MArray`]
-        Array to attach the pointer to.
-    index : :class:`int`, default = `0`
-        Index of the array to attach the pointer to.
-    label : :class:`str`, default: `''`
-        Specifies the label of the pointer.
-    arrow_len : :class:`float`, default: `1`
-        Specifies the length of the arrow.
-    arrow_gap : :class:`float`, default: `0.25`
-        Specifies the distance between the array and the arrow head.
-    label_gap : :class:`float`, default: `0.25`
-        Specifies the distance betweem the label and the arrow tail.
-    pointer_pos : :class:`.m_enum.MArrayDirection`, default: :attr:`.m_enum.MArrayDirection.DOWN`
-        Specifies the poistion of the pointer w.r.t the array.
-    mob_arrow_args : :class:`dict`, default: `{}`
-        Arguments for :class:`manim.Arrow` that represents the arrow for :class:`MArrayPointer`.
-    mob_label_args : :class:`dict`, default: `{}`
-        Arguments for :class:`manim.Text` that represents the label for :class:`MArrayPointer`.
+    scene
+        Specifies the scene where the object is to be rendered.
+    arr
+        Specifies the array to which the pointer is to be attached.
+    index
+        Specifies the index of the element to which the pointer is to be attached.
+    label
+        Specifies the value of the pointer label.
+    arrow_len
+        Specifies the length of :attr:`__mob_arrow`.
+    arrow_gap
+        Specifies the distance between :attr:`__mob_arrow` and :attr:`__arr`.
+    label_gap
+        Specifies the distance between :attr:`__mob_arrow` and :attr:`__mob_label`.
+    pointer_pos
+        Specifies the position of the pointer w.r.t to :attr:`__arr`.
+    mob_arrow_args
+        Arguments for :class:`~manim.mobject.geometry.line.Arrow` that represents the pointer arrow.
+    mob_label_args
+        Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the pointer label.
     **kwargs
         Forwarded to constructor of the parent.
 
     Attributes
     ----------
-    __scene : :class:`manim.Scene`
-        The scene where the object should exist.
-    __arr : :class:`list`
-        Array to attach the pointer to.
-    __index : :class:`int`, default = `0`
-        Index of the array to attach the pointer to.
-    __label : :class:`str`, default: `''`
-        Specifies the label of the pointer.
-    __arrow_len : :class:`float`, default: `1`
-        Specifies the length of the arrow.
-    __arrow_gap : :class:`float`, default: `0.25`
-        Specifies the distance between the array and the arrow head.
-    __label_gap : :class:`float`, default: `0.25`
-        Specifies the distance betweem the label and the arrow tail.
-    __pointer_pos : :class:`.m_enum.MArrayDirection`, default: :attr:`.m_enum.MArrayDirection.DOWN`
-        Specifies the poistion of the pointer w.r.t the array.
-    __mob_arrow_props : :class:`dict`, default: `{}`
-        Arguments for :class:`manim.Arrow` that represents the arrow for :class:`MArrayPointer`.
-    __mob_label_props : :class:`dict`, default: `{}`
-        Arguments for :class:`manim.Text` that represents the label for :class:`MArrayPointer`.
-    __updater_pos : typing.Callable[[], None]
-        Updater function to keep the pointer intact with the array.
+    __scene : :class:`~manim.scene.scene.Scene`
+        The scene where the object is to be rendered.
+    __arr : :class:`~typing.List`\0[:class:`MArrayElement`]
+        The array to which the pointer is attached to.
+    __index : :class:`int`
+        The index of the element to which the pointer is attached to.
+    __label : :class:`str`
+        The value of the pointer label.
+    __arrow_len : :class:`float`
+        The length of :attr:`__mob_arrow`.
+    __arrow_gap : :class:`float`
+        The distance between :attr:`__mob_arrow` and :attr:`__arr`.
+    __label_gap : :class:`float`
+        The distance between :attr:`__mob_arrow` and :attr:`__mob_label`.
+    __pointer_pos : :class:`.m_enum.MArrayDirection`
+        The position of the pointer w.r.t to :attr:`__arr`.
+    __mob_arrow_props : :class:`dict`
+        Arguments for :class:`~manim.mobject.geometry.line.Arrow` that represents the pointer arrow.
+    __mob_label_props : :class:`dict`
+        Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the pointer label.
+    __mob_arrow : :class:`~manim.mobject.geometry.line.Arrow`
+        Represents the arrow of the element.
+    __mob_label : :class:`~manim.mobject.text.text_mobject.Text`
+        Represents the label of the element.
+    __updater_pos : :data:`typing.Callable`\0[[], None]
+        The updater function that keeps the pointer intact with the array.
     """
 
     __dir_map = [
@@ -1567,14 +1571,15 @@ class MArrayPointer(VGroup):
         {"np": RIGHT, "dir": MArrayDirection.RIGHT},
         {"np": LEFT, "dir": MArrayDirection.LEFT},
     ]
+    """Maps :class:`~.m_enum.MArrayDirection` to :class:`np.ndarray`."""
 
     def __calc_arrow_pos(self) -> np.ndarray:
-        """Calculates direction vector for :class:`manim.Arrow`.
+        """Calculates direction vector for the arrow mobject.
 
         Returns
         -------
         :class:`np.ndarray`
-            Position vector for the arrow.
+            Position vector for :attr:`__mob_arrow`.
         """
 
         arr_dir_np = self.__dir_map[self.__arr.fetch_arr_dir().value]["np"]
@@ -1592,7 +1597,7 @@ class MArrayPointer(VGroup):
         return arrow_pos_np
 
     def __add_updater(self) -> None:
-        """Attaches the position updater with the object."""
+        """Attaches the position updater function with the pointer."""
 
         def updater_pos(mob: Mobject) -> None:
             self.__init_pos()
@@ -1602,7 +1607,7 @@ class MArrayPointer(VGroup):
         self.add_updater(self.__updater_pos)
 
     def __remove_updater(self) -> None:
-        """Removes the attached updater from the object."""
+        """Removes the attached position updater function from the pointer."""
 
         self.remove_updater(self.__updater_pos)
 
@@ -1611,8 +1616,8 @@ class MArrayPointer(VGroup):
 
         Parameters
         ----------
-        :class:`int`
-            New index towards which the pointer should point to.
+        new_index
+            Specifies the prospective index of element to which the pointer is to be attached.
 
         Returns
         -------
@@ -1655,22 +1660,22 @@ class MArrayPointer(VGroup):
 
         Parameters
         ----------
-        scene : :class:`manim.Scene`
-            The scene where the object should exist.
-        arr : :class:`MArray`
-            Array to attach the pointer to.
-        index : :class:`int`
-            Index of the array to which the pointer is attached.
-        label : :class:`str`
-            Specifies the label of the pointer.
-        arrow_len : :class:`.enum.MArrayDirection`
-            Specifies the length of :class:`manim.Arrow`.
-        arrow_pos_gap : :class:`float`
-            Specifies the distance between :attr:`__mob_arr` and :attr:`__mob_arrow`.
-        label_gap : :class:`float`
+        scene
+            Specifies the scene where the object is to be rendered.
+        arr
+            Specifies the array to which the pointer is to be attached.
+        index
+            Specifies the index of the element to which the pointer is to be attached.
+        label
+            Specifies the value of the pointer label.
+        arrow_len
+            Specifies the length of :attr:`__mob_arrow`.
+        arrow_gap
+            Specifies the distance between :attr:`__mob_arrow` and :attr:`__arr`.
+        label_gap
             Specifies the distance between :attr:`__mob_arrow` and :attr:`__mob_label`.
-        pointer_pos : :class:`MArrayDirection`
-            Specifies the position of the pointer.
+        pointer_pos
+            Specifies the position of the pointer w.r.t to :attr:`__arr`.
         """
 
         self.__mob_arrow_props: dict = {"color": GOLD_D}
@@ -1686,15 +1691,17 @@ class MArrayPointer(VGroup):
         self.__label_gap: float = label_gap
         self.__pointer_pos: MArrayDirection = pointer_pos
 
-    def __update_props(self, mob_arrow_args: dict = {}, mob_label_args: dict = {}):
+    def __update_props(
+        self, mob_arrow_args: dict = {}, mob_label_args: dict = {}
+    ) -> None:
         """Updates the attributes of the class.
 
         Parameters
         ----------
-        mob_arrow_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Arrow` that represents the pointer arrow.
-        mob_label_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the pointer label.
+        mob_arrow_args
+            Arguments for :class:`~manim.mobject.geometry.line.Arrow` that represents the pointer arrow.
+        mob_label_args
+            Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the pointer label.
         """
 
         self.__mob_arrow_props.update(mob_arrow_args)
@@ -1704,15 +1711,15 @@ class MArrayPointer(VGroup):
         if type(self.__mob_label_props["text"]) != str:
             self.__mob_label_props["text"] = str(self.__mob_label_props["text"])
 
-    def __init_mobs(self, init_arrow: bool = False, init_label: bool = False):
-        """Initializes the :class:`Mobject`s for the class.
+    def __init_mobs(self, init_arrow: bool = False, init_label: bool = False) -> None:
+        """Initializes the mobjects for the class.
 
         Parameters
         ----------
-        init_arrow : :class:`bool`, default: `False`
-            Instantiates a :class:`manim.Arrow` and adds it to :attr:`__mob_arrpw`.
-        init_label : :class:`bool`, default: `False`
-            Instantiates a :class:`manim.Text` and adds it to :attr:`__mob_label`.
+        init_arrow
+            If `True`, instantiates a :class:`~manim.mobject.geometry.line.Arrow` and assigns it to :attr:`__mob_arrow`.
+        init_label
+            If `True`, instantiates a :class:`~manim.mobject.text.text_mobject.Text` and assigns it to :attr:`__mob_label`.
         """
 
         if init_arrow:
@@ -1779,26 +1786,26 @@ class MArrayPointer(VGroup):
 
         Parameters
         ----------
-        scene : :class:`manim.Scene`
-            The scene where the object should exist.
-        arr : typing.List[:class:`MArray`]
-            Array to attach the pointer to.
-        index : :class:`int`, default = `0`
-            Index of the array to attach the pointer to.
-        label : :class:`str`, default: `''`
-            Specifies the label of the pointer.
-        arrow_len : :class:`float`, default: `1`
-            Specifies the length of the arrow.
-        arrow_gap : :class:`float`, default: `0.25`
-            Specifies the distance between the array and the arrow head.
-        label_gap : :class:`float`, default: `0.25`
-            Specifies the distance betweem the label and the arrow tail.
-        pointer_pos : :class:`.m_enum.MArrayDirection`, default: :attr:`.m_enum.MArrayDirection.DOWN`
-            Specifies the poistion of the pointer w.r.t the array.
-        mob_arrow_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Arrow` that represents the arrow for :class:`MArrayPointer`.
-        mob_label_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the label for :class:`MArrayPointer`.
+        scene
+            Specifies the scene where the object is to be rendered.
+        arr
+            Specifies the array to which the pointer is to be attached.
+        index
+            Specifies the index of the element to which the pointer is to be attached.
+        label
+            Specifies the value of the pointer label.
+        arrow_len
+            Specifies the length of :attr:`__mob_arrow`.
+        arrow_gap
+            Specifies the distance between :attr:`__mob_arrow` and :attr:`__arr`.
+        label_gap
+            Specifies the distance between :attr:`__mob_arrow` and :attr:`__mob_label`.
+        pointer_pos
+            Specifies the position of the pointer w.r.t to :attr:`__arr`.
+        mob_arrow_args
+            Arguments for :class:`~manim.mobject.geometry.line.Arrow` that represents the pointer arrow.
+        mob_label_args
+            Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the pointer label.
         **kwargs
             Forwarded to constructor of the parent.
         """
@@ -1819,72 +1826,24 @@ class MArrayPointer(VGroup):
         # Add updater
         self.__add_updater()
 
-    def shift_to_elem(
-        self, index: int, play_anim: bool = True, play_anim_args: dict = {}
-    ) -> ApplyMethod:
-        """Shifts pointer to the specified element.
-
-        Parameters
-        ----------
-        index : :class:`int`
-            Index of the array to shift the pointer to.
-        play_anim : :class:`bool`, default: `True`
-            Specifies whether to play the :class:`manim.Animation`.
-        play_anim_args : :class:`dict, default: `{}`
-            Arguments for :meth:`manim.Scene.play`.
-
-        Returns
-        -------
-        :class:`manim.ApplyMethod`
-            Represents the shifting animation.
-        """
-
-        if index < 0 or index > len(self.__arr.fetch_mob_arr()):
-            raise Exception("Index out of bounds!")
-
-        shift_anim = ApplyMethod(
-            self.shift, self.__calc_shift_np(index), suspend_mobject_updating=True
-        )
-        self.__index = index
-
-        if play_anim:
-            self.__scene.play(shift_anim, **play_anim_args)
-
-        return shift_anim
-
-    def attach_to_elem(self, index: int) -> None:
-        """Attaches pointer to the specified element.
-
-        Parameters
-        ----------
-        index : :class:`int`
-            Index of the array to shift the pointer to.
-        """
-
-        if index < 0 or index > len(self.__arr.fetch_mob_arr()):
-            raise Exception("Index out of bounds!")
-
-        self.__index = index
-        self.__init_pos()
-
     def fetch_mob_arrow(self) -> Arrow:
-        """Fetches :attr:`__mob_arrow`.
+        """Fetches the arrow mobject of the pointer.
 
         Returns
         -------
-        :class:`manim.Arrow`
-            Represents the arrow stored in :attr:`__mob_arrow`.
+        :class:`~manim.mobject.geometry.line.Arrow`
+            :attr:`__mob_arrow`.
         """
 
         return self.__mob_arrow
 
     def fetch_mob_label(self) -> Text:
-        """Fetches the :class:`manim.Text` that represents the pointer label.
+        """Fetches the label mobject of the pointer.
 
         Returns
         -------
-        :class:`manim.Text`
-            Represents the pointer label.
+        :class:`~manim.mobject.text.text_mobject.Text`
+            :attr:`__mob_label`.
         """
 
         return self.__mob_label
@@ -1895,7 +1854,7 @@ class MArrayPointer(VGroup):
         Returns
         -------
         :class:`int`
-            Represents the index that the pointer is attached to.
+            :attr:`__index`.
         """
 
         return self.__index
@@ -1909,25 +1868,27 @@ class MArrayPointer(VGroup):
         play_anim: bool = True,
         play_anim_args: dict = {},
     ) -> Text:
-        """Re-intializes the :class:`manim.Text` that represents the pointer label.
+        """Updates the pointer label.
 
         Parameters
         ----------
-        mob_label_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the pointer label.
-        update_anim : :class:`manim.Animation`, default `manim.Write`
-            Animation to be applied to the updated :class:`manim.Text`.
-        update_anim_args : :class:`dict`, default: `{}`
-            Arguments for update :class:`manim.Animation`.
-        play_anim : :class:`bool`, default: `True`
-            Specifies whether to play the update :class:`manim.Animation`.
-        play_anim_args : :class:`dict, default: `{}`
-            Arguments for :meth:`manim.Scene.play`.
+        label
+            New value to be assigned to the pointer label.
+        mob_label_args
+            Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the pointer label.
+        update_anim
+            Animation to be applied to the updated pointer label.
+        update_anim_args
+            Arguments for update :class:`~manim.animation.animation.Animation`.
+        play_anim
+            If `True`, plays the animation(s).
+        play_anim_args
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------
-        :class:`manim.Text`
-            Represents the updated pointer label.
+        :class:`~manim.mobject.text.text_mobject.Text`
+            Updated :attr:`__mob_label`.
         """
 
         self.__label = label
@@ -1953,23 +1914,71 @@ class MArrayPointer(VGroup):
         return self.__mob_label
 
     def animate_mob_arrow(self) -> "_AnimationBuilder":  # type: ignore
-        """Invokes the :meth:`manim.Arrow.animate` property of :class:`manim.Arrow` for the pointer arrow.
+        """Invokes the animate property over arrow mobject.
 
         Returns
         -------
         :class:`_AnimationBuilder`
-            Value returned by :meth:`manim.Arrow.animate` property of :class:`manim.Arrow`.
+            Animate property of :attr:`__mob_arrow`.
         """
 
         return self.__mob_arrow.animate
 
     def animate_mob_label(self) -> "_AnimationBuilder":  # type: ignore
-        """Invokes the :meth:`manim.Text.animate` property of :class:`manim.Text` for the pointer label.
+        """Invokes the animate property over label mobject.
 
         Returns
         -------
         :class:`_AnimationBuilder`
-            Value returned by :meth:`manim.Text.animate` property of :class:`manim.Text`.
+            Animate property of :attr:`__mob_label`.
         """
 
         return self.__mob_label.animate
+
+    def shift_to_elem(
+        self, index: int, play_anim: bool = True, play_anim_args: dict = {}
+    ) -> ApplyMethod:
+        """Shifts pointer to the specified element.
+
+        Parameters
+        ----------
+        index
+            Specifies the index of the element to which the pointer is to be shifted.
+        play_anim
+            If `True`, plays the animation(s).
+        play_anim_args
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
+
+        Returns
+        -------
+        :class:`~manim.animation.transform.ApplyMethod`
+            Shift animation.
+        """
+
+        if index < 0 or index > len(self.__arr.fetch_mob_arr()):
+            raise Exception("Index out of bounds!")
+
+        shift_anim = ApplyMethod(
+            self.shift, self.__calc_shift_np(index), suspend_mobject_updating=True
+        )
+        self.__index = index
+
+        if play_anim:
+            self.__scene.play(shift_anim, **play_anim_args)
+
+        return shift_anim
+
+    def attach_to_elem(self, index: int) -> None:
+        """Attaches pointer to the specified element.
+
+        Parameters
+        ----------
+        index
+            Specifies the index of the element to which the pointer is to be attached.
+        """
+
+        if index < 0 or index > len(self.__arr.fetch_mob_arr()):
+            raise Exception("Index out of bounds!")
+
+        self.__index = index
+        self.__init_pos()
