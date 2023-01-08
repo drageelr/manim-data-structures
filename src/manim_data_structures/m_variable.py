@@ -10,39 +10,41 @@ class MVariable(MArrayElement):
 
     Parameters
     ----------
-    scene : :class:`manim.Scene`
-        The scene where the object should exist.
+    scene
+        Specifies the scene where the object is to be rendered.
     value
         Specifies the value of the variable.
     index
         Specifies the index of the variable.
     label
         Specifies the label of the variable.
-    mob_square_args : :class:`dict`, default: `{}`
-        Arguments for :class:`manim.Square` that represents the element body.
-    mob_value_args : :class:`dict`, default: `{}`
-        Arguments for :class:`manim.Text` that represents the element value.
-    mob_index_args : :class:`dict`, default: `{}`
-        Arguments for :class:`manim.Text` that represents the element index.
-    mob_label_args : :class:`dict`, default: `{}`
-        Arguments for :class:`manim.Text` that represents the element label.
+    mob_square_args
+        Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the variable body.
+    mob_value_args
+        Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable value.
+    mob_index_args
+        Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable index.
+    mob_label_args
+        Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable label.
+    **kwargs
+        Forwarded to constructor of the parent.
 
     Attributes
     ----------
-    __value
-        Specifies the value of the variable.
-    __index
-        Specifies the index of the variable.
-    __label
-        Specifies the label of the variable.
+    __value : Any
+        The value of the variable.
+    __index : :data:`~typing.Union`\0[:class:`str`, :class:`int`]
+        The value of the index.
+    __label : :class:`str`
+        The value of the label.
     """
 
     def __init__(
         self,
         scene: Scene,
-        value="",
-        index="",
-        label="",
+        value: Any = "",
+        index: typing.Union[str, int] = "",
+        label: str = "",
         mob_square_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
@@ -53,27 +55,29 @@ class MVariable(MArrayElement):
 
         Parameters
         ----------
-        scene : :class:`manim.Scene`
-            The scene where the object should exist.
+        scene
+            Specifies the scene where the object is to be rendered.
         value
             Specifies the value of the variable.
         index
             Specifies the index of the variable.
         label
             Specifies the label of the variable.
-        mob_square_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Square` that represents the element body.
-        mob_value_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the element value.
-        mob_index_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the element index.
-        mob_label_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the element label.
+        mob_square_args
+            Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the variable body.
+        mob_value_args
+            Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable value.
+        mob_index_args
+            Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable index.
+        mob_label_args
+            Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable label.
+        **kwargs
+            Forwarded to constructor of the parent.
         """
 
-        self.__value = value
-        self.__index = index
-        self.__label = label
+        self.__value: Any = value
+        self.__index: typing.Union[str, int] = index
+        self.__label: str = label
 
         mob_value_args["text"] = value
         mob_index_args["text"] = index
@@ -88,134 +92,149 @@ class MVariable(MArrayElement):
             **kwargs
         )
 
-    def fetch_value(self):
-        """Fetches :attr:`__value`.
+    def fetch_value(self) -> Any:
+        """Fetches the value of the variable.
 
         Returns
         -------
         Any
-            Value of :class:`MVariable`.
+            :attr:`__value`.
         """
 
         return self.__value
 
-    def fetch_index(self):
-        """Fetches :attr:`__index`.
+    def fetch_index(self) -> typing.Union[str, int]:
+        """Fetches the index of the variable.
 
         Returns
         -------
-        Any
-            Index of :class:`MVariable`.
+        :data:`~typing.Union`\0[:class:`str`, :class:`int`]
+            :attr:`__index`.
         """
 
         return self.__index
 
-    def fetch_label(self):
-        """Fetches :attr:`__label`.
+    def fetch_label(self) -> str:
+        """Fetches the label of the variable.
 
         Returns
         -------
-        Any
-            Label of :class:`MVariable`.
+        :class:`str`
+            :attr:`__label`.
         """
 
         return self.__label
 
     def update_value(
         self,
-        value,
+        value: Any,
         mob_value_args: dict = {},
         update_anim: Animation = Indicate,
         update_anim_args: dict = {},
         play_anim: bool = True,
+        play_anim_args: dict = {},
     ) -> Text:
-        """Updates :attr:`__value` and the :class:`manim.Text` that represents the element value.
+        """Updates the value of the variable.
 
         Parameters
         ----------
-        mob_value_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the element value.
-        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
-            Animation to be applied to the updated :class:`manim.Text`.
-        update_anim_args : :class:`dict`, default: `{}`
-            Arguments for update :class:`manim.Animation`.
-        play_anim : :class:`bool`, default: `True`
-            Specifies whether to play the update :class:`manim.Animation`.
+        value
+            New value to be assigned to the variable.
+        mob_value_args
+            Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable value.
+        update_anim
+            Animation to be applied to the updated :class:`~manim.mobject.text.text_mobject.Text`.
+        update_anim_args
+            Arguments for the update :class:`~manim.animation.animation.Animation`.
+        play_anim
+            Specifies whether to play the :class:`~manim.animation.animation.Animation`.
+        play_anim_args
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------
-        :class:`manim.Text`
-            Represents the updated element value.
+        :class:`~manim.mobject.text.text_mobject.Text`
+            Updated :attr:`__value`.
         """
 
         self.__value = value
         mob_value_args["text"] = value
         return self.update_mob_value(
-            mob_value_args, update_anim, update_anim_args, play_anim
+            mob_value_args, update_anim, update_anim_args, play_anim, play_anim_args
         )
 
     def update_index(
         self,
-        index,
+        index: typing.Union[str, int],
         mob_index_args: dict = {},
         update_anim: Animation = Indicate,
         update_anim_args: dict = {},
         play_anim: bool = True,
+        play_anim_args: dict = {},
     ) -> Text:
-        """Updates :attr:`__index` and the :class:`manim.Text` that represents the element index.
+        """Updates the index of the variable.
 
         Parameters
         ----------
-        mob_index_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the element index.
-        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
-            Animation to be applied to the updated :class:`manim.Text`.
-        update_anim_args : :class:`dict`, default: `{}`
-            Arguments for update :class:`manim.Animation`.
-        play_anim : :class:`bool`, default: `True`
-            Specifies whether to play the update :class:`manim.Animation`.
+        index
+            New index to be assigned to the variable.
+        mob_index_args
+            Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable index.
+        update_anim
+            Animation to be applied to the updated :class:`~manim.mobject.text.text_mobject.Text`.
+        update_anim_args
+            Arguments for the update :class:`~manim.animation.animation.Animation`.
+        play_anim
+            Specifies whether to play the :class:`~manim.animation.animation.Animation`.
+        play_anim_args
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------
-        :class:`manim.Text`
-            Represents the updated element index.
+        :class:`~manim.mobject.text.text_mobject.Text`
+            Updated :attr:`__index`.
         """
 
         self.__index = index
         mob_index_args["text"] = index
         return self.update_mob_index(
-            mob_index_args, update_anim, update_anim_args, play_anim
+            mob_index_args, update_anim, update_anim_args, play_anim, play_anim_args
         )
 
     def update_label(
         self,
-        label,
+        label: str,
         mob_label_args: dict = {},
         update_anim: Animation = Indicate,
         update_anim_args: dict = {},
         play_anim: bool = True,
+        play_anim_args: dict = {},
     ) -> Text:
-        """Updates :attr:`__label` and the :class:`manim.Text` that represents the element label.
+        """Updates the label of the variable.
 
         Parameters
         ----------
-        mob_label_args : :class:`dict`, default: `{}`
-            Arguments for :class:`manim.Text` that represents the element label.
-        update_anim : :class:`manim.Animation`, default `{manim.Indicate}`
-            Animation to be applied to the updated :class:`manim.Text`.
-        update_anim_args : :class:`dict`, default: `{}`
-            Arguments for update :class:`manim.Animation`.
-        play_anim : :class:`bool`, default: `True`
-            Specifies whether to play the update :class:`manim.Animation`.
+        label
+            New label to be assigned to the variable.
+        mob_value_args
+            Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the label value.
+        update_anim
+            Animation to be applied to the updated :class:`~manim.mobject.text.text_mobject.Text`.
+        update_anim_args
+            Arguments for the update :class:`~manim.animation.animation.Animation`.
+        play_anim
+            Specifies whether to play the :class:`~manim.animation.animation.Animation`.
+        play_anim_args
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
 
         Returns
         -------
-        :class:`manim.Text`
-            Represents the updated element label.
+        :class:`~manim.mobject.text.text_mobject.Text`
+            Updated :attr:`__label`.
         """
 
         self.__value = label
         mob_label_args["text"] = label
         return self.update_mob_label(
-            mob_label_args, update_anim, update_anim_args, play_anim
+            mob_label_args, update_anim, update_anim_args, play_anim, play_anim_args
         )

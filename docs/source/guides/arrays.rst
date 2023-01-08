@@ -1,12 +1,12 @@
+.. include:: ../refsub.rst
+
 Animating Arrays
 ================
-
-.. currentmodule:: manim_data_structures.m_array
 
 Manim Array - MArray
 --------------------
 
-The most basic data structure this package provides is the :py:class:`MArray` (short for Manim Array 😄). To create a :py:class:`MArray` simply create an instance by passing a python :py:class:`list`.
+The most basic data structure this package provides is the |MArray| (short for Manim Array 😄). To create a |MArray| simply create an instance by passing a python |list|.
 
 .. code-block:: python
     :linenos:
@@ -36,7 +36,7 @@ The most basic data structure this package provides is the :py:class:`MArray` (s
 Animating MArray
 ~~~~~~~~~~~~~~~~
 
-To animate the :py:class:`MArray`, simply invoke the ``animate`` property as shown below:
+To animate the |MArray|, simply invoke the |Mobject.animate| property as shown below:
 
 .. code-block:: python
     :linenos:
@@ -60,7 +60,7 @@ To animate the :py:class:`MArray`, simply invoke the ``animate`` property as sho
             self.play(arr.animate.shift(UP * 2 + LEFT * 5))
             self.wait(1)
 
-Moreover, you can also use the :py:func:`MArray.animate_elem` method to animate a single element of the :py:class:`MArray` as well:
+Moreover, you can also use the |MArray.animate_elem| method to animate a single element of the |MArray| as well:
 
 .. code-block:: python
     :linenos:
@@ -84,7 +84,7 @@ Moreover, you can also use the :py:func:`MArray.animate_elem` method to animate 
             self.play(arr.animate_elem(1).shift(DOWN))
             self.wait(1)
 
-Lastly, you can also animate the body, value and the index of any element using the :py:func:`MArray.animate_elem_square`, :py:func:`MArray.animate_elem_value` and :py:func:`MArray.animate_elem_index` respectively.
+Lastly, you can also animate the body, value and the index of any element using the |MArray.animate_elem_square|, |MArray.animate_elem_value| and |MArray.animate_elem_index| respectively.
 
 .. code-block:: python
     :linenos:
@@ -119,7 +119,7 @@ Lastly, you can also animate the body, value and the index of any element using 
 Customizing MArray
 ~~~~~~~~~~~~~~~~~~
 
-The :py:class:`MArray` also allows you to alter the way your array looks. While creating your array pass arguments to ``Square`` (used to represent the element body) and ``Text`` (used to represent the element value and index) mobjects.
+The |MArray| also allows you to alter the way your array looks. While creating your array pass arguments to |Square| (used to represent the element body) and |Text| (used to represent the element value and index) mobjects.
 
 .. code-block:: python
     :linenos:
@@ -157,11 +157,9 @@ The :py:class:`MArray` also allows you to alter the way your array looks. While 
 Growth Direction
 ^^^^^^^^^^^^^^^^
 
-Furthermore, you can also create :py:class:`MArray` that grows in different directions (e.g. up, down, right and left etc.).
+Furthermore, you can also create |MArray| that grows in different directions (e.g. up, down, right and left etc.).
 
-.. currentmodule:: manim_data_structures.m_enum
-
-To do this, simply pass your preferred direction enum from :py:class:`MArrayDirection` as the ``arr_dir`` argument to the constructor. The code snippet below generates four different arrays in each direction.
+To do this, simply pass your preferred direction enum from |MArrayDirection| as the ``arr_dir`` argument to the constructor. The code snippet below generates four different arrays in each direction.
 
 .. code-block:: python
     :linenos:
@@ -215,13 +213,9 @@ To do this, simply pass your preferred direction enum from :py:class:`MArrayDire
 Array Label
 ^^^^^^^^^^^
 
-.. currentmodule:: manim_data_structures.m_array
+For an |MArray|, you can also a label with the array via specifying the ``label`` argument.
 
-For an :py:class:`MArray`, you can also a label with the array via specifying the ``label`` argument.
-
-.. currentmodule:: manim_data_structures.m_enum
-
-Similar to how we specify the growth direction using :py:class:`MArrayDirection` enum, we can dictate the position of the label.
+Similar to how we specify the growth direction using |MArrayDirection| enum, we can dictate the position of the label.
 
 .. code-block:: python
     :linenos:
@@ -272,16 +266,14 @@ Similar to how we specify the growth direction using :py:class:`MArrayDirection`
 
             self.wait(1)
 
-.. currentmodule:: manim_data_structures.m_array
-
 .. note::
 
-    The ``arr_label_gap`` argument specifies the distance between the :py:class:`MArrayElement` 's :py:class:`manim.Square` and the array label itself.
+    The ``arr_label_gap`` argument specifies the distance between the |MArrayElement| 's |Square| and the array label itself.
 
 Hex Indices
 ^^^^^^^^^^^
 
-Lets say you want to show a 4-byte integer array with its addresses. You can simply achieve this by using ``index_hex_display`` and ``index_offset`` arguments of the :py:class:`MArray` constructor.
+Lets say you want to show a 4-byte integer array with its addresses. You can simply achieve this by using ``index_hex_display`` and ``index_offset`` arguments of the |MArray| constructor.
 
 .. code-block:: python
     :linenos:
@@ -359,12 +351,12 @@ Or if you don't want to show the indices at all, simply pass ``True`` as the ``h
 Misc Functions
 ~~~~~~~~~~~~~~
 
-The :py:class:`MArray` provides some auxiliary methods which this secion will discuss.
+The |MArray| provides some auxiliary methods which this secion will discuss.
 
 Append Element
 ^^^^^^^^^^^^^^
 
-For an existing array, you can also append an element simply by invoking the :py:func:`MArray.append_elem` method.
+For an existing array, you can also append an element simply by invoking the |MArray.append_elem| method.
 
 .. code-block:: python
     :linenos:
@@ -399,7 +391,7 @@ For an existing array, you can also append an element simply by invoking the :py
 
     You can also pass ``mob_*_args`` to this method to customize the inserted element.
 
-Moreover, you can also specify the animation that is played for the inserted element via the ``append_anim`` argument. The code snippet below passes the :py:class:`manim.GrowFromCenter` animation to the :py:func:`MArray.append_elem` method:
+Moreover, you can also specify the animation that is played for the inserted element via the ``append_anim`` argument. The code snippet below passes the |GrowFromCenter| animation to the |MArray.append_elem| method:
 
 .. code-block:: python
     :linenos:
@@ -424,15 +416,13 @@ Moreover, you can also specify the animation that is played for the inserted ele
             arr.append_elem(4, append_anim=GrowFromCenter)
             self.wait(1)
 
-.. currentmodule:: manim_data_structures.m_enum
-
 .. note::
 
-    You can also specify arguments to the passed animation via the ``append_anim_args`` parameter and also set the target of the animation using the ``append_anim_target`` parameter that takes in :py:class:`MArrayElementComp` enum.
+    You can also specify arguments to the passed animation via the ``append_anim_args`` parameter and also set the target of the animation using the ``append_anim_target`` parameter that takes in |MArrayElementComp| enum.
 
-Did you notice that in both snippets, we didn't pass any animation to our :py:class:`manim.Scene` but the append animation still played? This is thanks to the ``self`` that we pass as the first argument to our :py:class:`MArray` constructor, which is basically a reference to the current :py:class:`manim.Scene`.
+Did you notice that in both snippets, we didn't pass any animation to our |Scene| but the append animation still played? This is thanks to the ``self`` that we pass as the first argument to our |MArray| constructor, which is basically a reference to the current |Scene|.
 
-However, if you'd like to play the animation yourself, we have got you covered! The :py:func:`MArrayElement` method returns a list of :py:class:`manim.Animation` that you can pass to the :py:func:`manim.Scene.play` method as follows:
+However, if you'd like to play the animation yourself, we have got you covered! The |MArrayElement| method returns a list of |Animation| that you can pass to the |Scene.play| method as follows:
 
 .. code-block:: python
     :linenos:
@@ -442,9 +432,7 @@ However, if you'd like to play the animation yourself, we have got you covered! 
 Remove Element
 ^^^^^^^^^^^^^^
 
-.. currentmodule:: manim_data_structures.m_array
-
-To remove an element simply invoke the :py:class:`MArray.remove_elem` method with the index of element you wish to remove.
+To remove an element simply invoke the |MArray.remove_elem| method with the index of element you wish to remove.
 
 .. code-block:: python
     :linenos:
@@ -469,7 +457,7 @@ To remove an element simply invoke the :py:class:`MArray.remove_elem` method wit
             arr.remove_elem(1)
             self.wait(1)
 
-Similar to how you were able to pass the append animation to the :py:class:`MArray.append_elem` function, you can specify two animations for the :py:class:`MArray.remove_elem` method:
+Similar to how you were able to pass the append animation to the |MArray.append_elem| function, you can specify two animations for the |MArray.remove_elem| method:
 
 1. Element removal animation via the ``removal_anim`` parameter.
 2. Indices update animation via the ``update_anim`` parameter.
@@ -503,7 +491,7 @@ The code snippet below provides an example:
 
     You can also specify arguments to the passed animation via the ``*_anim_args`` parameter and also set the target of the animation using the ``*_anim_target`` parameter.
 
-Lastly, as the :py:func:`MArray.append_elem` returns a list of :py:class:`manim.Animation`, the :py:func:`MArray.remove_elem` returns two objects; a removal animation and a function that udpates the indices of the remaining elements and returns their animations. Hence, you can animate this as follows:
+Lastly, as the |MArray.append_elem| returns a list of |Animation|, the |MArray.remove_elem| returns two objects; a removal animation and a function that udpates the indices of the remaining elements and returns their animations. Hence, you can animate this as follows:
 
 .. code-block:: python
     :linenos:
@@ -515,7 +503,7 @@ Lastly, as the :py:func:`MArray.append_elem` returns a list of :py:class:`manim.
 Update Element
 ^^^^^^^^^^^^^^
 
-You can also update the value and the index of an existing array using the :py:class:`MArray.update_elem_value` and :py:class:`MArray.update_elem_index` methods respectively.
+You can also update the value and the index of an existing array using the |MArray.update_elem_value| and |MArray.update_elem_index| methods respectively.
 
 .. code-block:: python
     :linenos:
@@ -555,7 +543,7 @@ You can also update the value and the index of an existing array using the :py:c
 Using MArrayPointer
 ~~~~~~~~~~~~~~~~~~~
 
-Thus far, if you had been hoping for a pointer to associate with your array, then your prayers have been answered. The :class:`MArrayPointer` allows you to attach a pointer with your array. The following snippet demonstrates its capabilities:
+Thus far, if you had been hoping for a pointer to associate with your array, then your prayers have been answered. The |MArrayPointer| allows you to attach a pointer with your array. The following snippet demonstrates its capabilities:
 
 .. code-block:: python
     :linenos:
@@ -601,6 +589,66 @@ Thus far, if you had been hoping for a pointer to associate with your array, the
             pointer.shift_to_elem(0)
             self.wait(1)
             pointer.attach_to_elem(2)
+
+            self.wait(1)
+
+Using MArraySlidingWindow
+~~~~~~~~~~~~~~~~~~~
+
+In addition to the |MArrayPointer|, we also have the |MArraySlidingWindow| that allows you to attach a sliding window with your array. The following snippet demonstrates its capabilities:
+
+.. code-block:: python
+    :linenos:
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray(self, [1, 2, 3, 4, 5], label='Array')
+            arr.shift(UP + LEFT * 2)
+            self.add(arr)
+
+            window = MArraySlidingWindow(self, arr, 1, 1, 'W')
+            self.play(Create(window))
+            self.wait(1)
+            window.shift_to_elem(2)
+            self.wait(1)
+            window.resize_window(3)
+            self.wait(1)
+            window.shift_to_elem(0)
+            self.wait(1)
+            window.resize_window(1)
+            self.wait(1)
+            window.attach_to_elem(2)
+
+            self.wait(1)
+
+.. raw:: html
+
+    <div>
+
+.. manim:: MyScene
+    :hide_source:
+    :quality: low
+
+    from manim_data_structures import *
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray(self, [1, 2, 3, 4, 5], label='Array')
+            arr.shift(UP + LEFT * 2)
+            self.add(arr)
+
+            window = MArraySlidingWindow(self, arr, 1, 1, 'W')
+            self.play(Create(window))
+            self.wait(1)
+            window.shift_to_elem(2)
+            self.wait(1)
+            window.resize_window(3)
+            self.wait(1)
+            window.shift_to_elem(0)
+            self.wait(1)
+            window.resize_window(1)
+            self.wait(1)
+            window.attach_to_elem(2)
 
             self.wait(1)
 
