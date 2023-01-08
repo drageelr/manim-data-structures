@@ -14,6 +14,7 @@
 .. |MArrayDirection| replace:: :py:class:`~m_enum.MArrayDirection`
 .. |MArrayElementComp| replace:: :py:class:`~m_enum.MArrayElementComp`
 .. |MArrayPointer| replace:: :py:class:`~m_array.MArrayPointer`
+.. |MArraySlidingWindow| replace:: :py:class:`~m_array.MArraySlidingWindow`
 
 .. Manim substitutions
 .. |Mobject.animate| replace:: :py:attr:`~manim.mobject.mobject.Mobject.animate`

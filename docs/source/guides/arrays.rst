@@ -592,4 +592,64 @@ Thus far, if you had been hoping for a pointer to associate with your array, the
 
             self.wait(1)
 
+Using MArraySlidingWindow
+~~~~~~~~~~~~~~~~~~~
+
+In addition to the |MArrayPointer|, we also have the |MArraySlidingWindow| that allows you to attach a sliding window with your array. The following snippet demonstrates its capabilities:
+
+.. code-block:: python
+    :linenos:
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray(self, [1, 2, 3, 4, 5], label='Array')
+            arr.shift(UP + LEFT * 2)
+            self.add(arr)
+
+            window = MArraySlidingWindow(self, arr, 1, 1, 'W')
+            self.play(Create(window))
+            self.wait(1)
+            window.shift_to_elem(2)
+            self.wait(1)
+            window.resize_window(3)
+            self.wait(1)
+            window.shift_to_elem(0)
+            self.wait(1)
+            window.resize_window(1)
+            self.wait(1)
+            window.attach_to_elem(2)
+
+            self.wait(1)
+
+.. raw:: html
+
+    <div>
+
+.. manim:: MyScene
+    :hide_source:
+    :quality: low
+
+    from manim_data_structures import *
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray(self, [1, 2, 3, 4, 5], label='Array')
+            arr.shift(UP + LEFT * 2)
+            self.add(arr)
+
+            window = MArraySlidingWindow(self, arr, 1, 1, 'W')
+            self.play(Create(window))
+            self.wait(1)
+            window.shift_to_elem(2)
+            self.wait(1)
+            window.resize_window(3)
+            self.wait(1)
+            window.shift_to_elem(0)
+            self.wait(1)
+            window.resize_window(1)
+            self.wait(1)
+            window.attach_to_elem(2)
+
+            self.wait(1)
+
 With this we conclude this guide. We hope you found it useful! ✌️
