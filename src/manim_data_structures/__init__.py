@@ -8,6 +8,7 @@ __all__ = [
     "MArrayElement",
     "MArray",
     "MArrayPointer",
+    "MArraySlidingWindow",
     "MArrayDirection",
     "MArrayElementComp",
     "MVariable",
