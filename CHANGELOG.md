@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.7] - 2023-01-09
+
+### PRS
+
+- [#9](https://github.com/drageelr/manim-data-structures/pull/9)
+  - `MArraySlidingWindow` added.
+
+- [#8](https://github.com/drageelr/manim-data-structures/pull/8)
+  - Sphinx extensions added (intersphinx, napolean, viewcode, autodoc_typehints).
+  - Substitution reference file added `refsub.rst` and utilized in Animating Arrays guide.
+  - Docstrings of all classes updated.
+
 ## [0.1.6] - 2022-12-26
 
 ### PRS
