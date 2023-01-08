@@ -9,3 +9,4 @@ Arrays
     ~m_array.MArrayElement
     ~m_array.MArray
     ~m_array.MArrayPointer
+    ~m_array.MArraySlidingWindow

@@ -2406,7 +2406,7 @@ class MArraySlidingWindow(VGroup):
         Returns
         -------
         :class:`_AnimationBuilder`
-            Animate property of :attr:`__mob_arrow`.
+            Animate property of :attr:`__mob_window`.
         """
 
         return self.__mob_window.animate
