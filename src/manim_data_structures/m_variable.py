@@ -18,7 +18,7 @@ class MVariable(MArrayElement):
         Specifies the index of the variable.
     label
         Specifies the label of the variable.
-    mob_square_args
+    mob_body_args
         Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the variable body.
     mob_value_args
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable value.
@@ -45,7 +45,7 @@ class MVariable(MArrayElement):
         value: Any = "",
         index: typing.Union[str, int] = "",
         label: str = "",
-        mob_square_args: dict = {},
+        mob_body_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
         mob_label_args: dict = {},
@@ -63,7 +63,7 @@ class MVariable(MArrayElement):
             Specifies the index of the variable.
         label
             Specifies the label of the variable.
-        mob_square_args
+        mob_body_args
             Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the variable body.
         mob_value_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the variable value.
@@ -85,7 +85,7 @@ class MVariable(MArrayElement):
 
         super().__init__(
             scene=scene,
-            mob_square_args=mob_square_args,
+            mob_body_args=mob_body_args,
             mob_value_args=mob_value_args,
             mob_index_args=mob_index_args,
             mob_label_args=mob_label_args,

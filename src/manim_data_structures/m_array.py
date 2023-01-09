@@ -15,7 +15,7 @@ class MArrayElement(VGroup):
     ----------
     scene
         Specifies the scene where the object is to be rendered.
-    mob_square_args
+    mob_body_args
         Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
     mob_value_args
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
@@ -40,7 +40,7 @@ class MArrayElement(VGroup):
     ----------
     __scene : :class:`~manim.scene.scene.Scene`
         The scene where the object is to be rendered.
-    __mob_square_props : :class:`dict`
+    __mob_body_props : :class:`dict`
         Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
     __mob_value_props : :class:`dict`
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
@@ -90,7 +90,7 @@ class MArrayElement(VGroup):
             Specifies the distance between :attr:`__mob_label` and :attr:`__mob_square`.
         """
 
-        self.__mob_square_props: dict = {
+        self.__mob_body_props: dict = {
             "color": BLUE_B,
             "fill_color": BLUE_D,
             "fill_opacity": 1,
@@ -107,7 +107,7 @@ class MArrayElement(VGroup):
 
     def __update_props(
         self,
-        mob_square_args: dict = {},
+        mob_body_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
         mob_label_args: dict = {},
@@ -116,7 +116,7 @@ class MArrayElement(VGroup):
 
         Parameters
         ----------
-        mob_square_args
+        mob_body_args
             Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
         mob_value_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
@@ -126,7 +126,7 @@ class MArrayElement(VGroup):
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element label.
         """
 
-        self.__mob_square_props.update(mob_square_args)
+        self.__mob_body_props.update(mob_body_args)
         self.__mob_value_props.update(mob_value_args)
         self.__mob_index_props.update(mob_index_args)
         self.__mob_label_props.update(mob_label_args)
@@ -168,7 +168,7 @@ class MArrayElement(VGroup):
         """
 
         if init_square:
-            self.__mob_square: Square = Square(**self.__mob_square_props)
+            self.__mob_square: Square = Square(**self.__mob_body_props)
             if next_to_mob is not None:
                 self.__mob_square.next_to(
                     next_to_mob.fetch_mob_square(), next_to_dir, 0
@@ -210,7 +210,7 @@ class MArrayElement(VGroup):
     def __init__(
         self,
         scene: Scene,
-        mob_square_args: dict = {},
+        mob_body_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
         mob_label_args: dict = {},
@@ -228,7 +228,7 @@ class MArrayElement(VGroup):
         ----------
         scene
             Specifies the scene where the object is to be rendered.
-        mob_square_args
+        mob_body_args
             Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
         mob_value_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
@@ -257,7 +257,7 @@ class MArrayElement(VGroup):
 
         # Update props
         self.__update_props(
-            mob_square_args, mob_value_args, mob_index_args, mob_label_args
+            mob_body_args, mob_value_args, mob_index_args, mob_label_args
         )
 
         # Initialize mobjects
@@ -551,7 +551,7 @@ class MArray(VGroup):
         Specifies the distance between :attr:`__mob_arr_label` and :attr:`__mob_arr`.
     mob_arr_label_args
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the array label.
-    mob_square_args
+    mob_body_args
         Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
     mob_value_args
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
@@ -746,7 +746,7 @@ class MArray(VGroup):
         append_anim: Animation = Write,
         append_anim_args: dict = {},
         append_anim_target: MArrayElementComp = None,
-        mob_square_args: dict = {},
+        mob_body_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
     ) -> typing.List[Animation]:
@@ -764,7 +764,7 @@ class MArray(VGroup):
             Arguments for append :class:`~manim.animation.animation.Animation`.
         append_anim_target
             Specifies the target :class:`~manim.mobject.mobject.Mobject` of the :class:`MArrayElement` on which the append :class:`~manim.animation.animation.Animation` is to be played.
-        mob_square_args
+        mob_body_args
             Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
         mob_value_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
@@ -782,7 +782,7 @@ class MArray(VGroup):
         self.__mob_arr.append(
             MArrayElement(
                 scene=self.__scene,
-                mob_square_args=mob_square_args,
+                mob_body_args=mob_body_args,
                 mob_value_args=mob_value_args,
                 mob_index_args=mob_index_args,
                 index_pos=self.__calc_index_pos(),
@@ -1049,7 +1049,7 @@ class MArray(VGroup):
         arr_label_pos: MArrayDirection = MArrayDirection.LEFT,
         arr_label_gap: float = 0.5,
         mob_arr_label_args: dict = {},
-        mob_square_args: dict = {},
+        mob_body_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
         **kwargs
@@ -1080,7 +1080,7 @@ class MArray(VGroup):
             Specifies the distance between :attr:`__mob_arr_label` and :attr:`__mob_arr`.
         mob_arr_label_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the array label.
-        mob_square_args
+        mob_body_args
             Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
         mob_value_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
@@ -1115,7 +1115,7 @@ class MArray(VGroup):
             self.__append_elem(
                 v,
                 False,
-                mob_square_args=mob_square_args,
+                mob_body_args=mob_body_args,
                 mob_value_args=mob_value_args,
                 mob_index_args=mob_index_args,
             )
@@ -1390,7 +1390,7 @@ class MArray(VGroup):
         append_anim: Animation = Write,
         append_anim_args: dict = {},
         append_anim_target: MArrayElementComp = None,
-        mob_square_args: dict = {},
+        mob_body_args: dict = {},
         mob_value_args: dict = {},
         mob_index_args: dict = {},
         play_anim: bool = True,
@@ -1408,7 +1408,7 @@ class MArray(VGroup):
             Arguments for append :class:`~manim.animation.animation.Animation`.
         append_anim_target
             Specifies the target :class:`~manim.mobject.mobject.Mobject` of the :class:`MArrayElement` on which the append :class:`~manim.animation.animation.Animation` is to be played.
-        mob_square_args
+        mob_body_args
             Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
         mob_value_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
@@ -1429,7 +1429,7 @@ class MArray(VGroup):
 
         anim_list = self.__append_elem(
             value,
-            mob_square_args=mob_square_args,
+            mob_body_args=mob_body_args,
             mob_value_args=mob_value_args,
             mob_index_args=mob_index_args,
             append_anim=append_anim,
