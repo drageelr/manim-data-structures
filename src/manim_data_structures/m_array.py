@@ -24,17 +24,17 @@ class MArrayElement(VGroup):
     mob_label_args
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element label.
     index_pos
-        Specifies the position of :attr:`__mob_index` w.r.t :attr:`__mob_square`
+        Specifies the position of :attr:`__mob_index` w.r.t :attr:`__mob_body`
     index_gap
-        Specifies the distance between :attr:`__mob_index` and :attr:`__mob_square`.
+        Specifies the distance between :attr:`__mob_index` and :attr:`__mob_body`.
     label_pos
-        Specifies the position of :attr:`__mob_label` w.r.t :attr:`__mob_square`.
+        Specifies the position of :attr:`__mob_label` w.r.t :attr:`__mob_body`.
     label_gap
-        Specifies the distance between :attr:`__mob_label` and :attr:`__mob_square`.
+        Specifies the distance between :attr:`__mob_label` and :attr:`__mob_body`.
     next_to_mob
-        Specifies the placement for :attr:`__mob_square` w.r.t another :class:`MArrayElement`.
+        Specifies the placement for :attr:`__mob_body` w.r.t another :class:`MArrayElement`.
     next_to_dir
-        Specifies the direction of placement for :attr:`__mob_square` w.r.t another :class:`MArrayElement`.
+        Specifies the direction of placement for :attr:`__mob_body` w.r.t another :class:`MArrayElement`.
 
     Attributes
     ----------
@@ -49,14 +49,14 @@ class MArrayElement(VGroup):
     __mob_label_props : :class:`dict`
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element label.
     __index_pos : :class:`np.ndarray`
-        The position of :attr:`__mob_index` w.r.t :attr:`__mob_square`
+        The position of :attr:`__mob_index` w.r.t :attr:`__mob_body`
     __index_gap : :class:`float`
-        The distance between :attr:`__mob_index` and :attr:`__mob_square`.
+        The distance between :attr:`__mob_index` and :attr:`__mob_body`.
     __label_pos : :class:`np.ndarray`
-        The position of :attr:`__mob_label` w.r.t :attr:`__mob_square`.
+        The position of :attr:`__mob_label` w.r.t :attr:`__mob_body`.
     __label_gap : :class:`float`
-        The distance between :attr:`__mob_label` and :attr:`__mob_square`.
-    __mob_square : :class:`~manim.mobject.geometry.polygram.Square`
+        The distance between :attr:`__mob_label` and :attr:`__mob_body`.
+    __mob_body : :class:`~manim.mobject.geometry.polygram.Square`
         Represents the body of the element.
     __mob_value : :class:`~manim.mobject.text.text_mobject.Text`
         Represents the value of the element.
@@ -81,13 +81,13 @@ class MArrayElement(VGroup):
         scene
             Specifies the scene where the object is to be rendered.
         index_pos
-            Specifies the position of :attr:`__mob_index` w.r.t :attr:`__mob_square`
+            Specifies the position of :attr:`__mob_index` w.r.t :attr:`__mob_body`
         index_gap
-            Specifies the distance between :attr:`__mob_index` and :attr:`__mob_square`.
+            Specifies the distance between :attr:`__mob_index` and :attr:`__mob_body`.
         label_pos
-            Specifies the position of :attr:`__mob_label` w.r.t :attr:`__mob_square`.
+            Specifies the position of :attr:`__mob_label` w.r.t :attr:`__mob_body`.
         label_gap
-            Specifies the distance between :attr:`__mob_label` and :attr:`__mob_square`.
+            Specifies the distance between :attr:`__mob_label` and :attr:`__mob_body`.
         """
 
         self.__mob_body_props: dict = {
@@ -154,7 +154,7 @@ class MArrayElement(VGroup):
         Parameters
         ----------
         init_square
-            If `True`, instantiates a :class:`~manim.mobject.geometry.polygram.Square` and assigns it to :attr:`__mob_square`.
+            If `True`, instantiates a :class:`~manim.mobject.geometry.polygram.Square` and assigns it to :attr:`__mob_body`.
         init_value
             If `True`, instantiates a :class:`~manim.mobject.text.text_mobject.Text` and assigns it to :attr:`__mob_value`.
         init_index
@@ -162,35 +162,33 @@ class MArrayElement(VGroup):
         init_label
             If `True`, instantiates a :class:`~manim.mobject.text.text_mobject.Text` and assigns it to :attr:`__mob_label`.
         next_to_mob
-            Specifies placement for :attr:`__mob_square` w.r.t another :class:`MArrayElement`.
+            Specifies placement for :attr:`__mob_body` w.r.t another :class:`MArrayElement`.
         next_to_dir
-            Specifies direction of placement for :attr:`__mob_square` w.r.t another :class:`MArrayElement`.
+            Specifies direction of placement for :attr:`__mob_body` w.r.t another :class:`MArrayElement`.
         """
 
         if init_square:
-            self.__mob_square: Square = Square(**self.__mob_body_props)
+            self.__mob_body: Square = Square(**self.__mob_body_props)
             if next_to_mob is not None:
-                self.__mob_square.next_to(
-                    next_to_mob.fetch_mob_square(), next_to_dir, 0
-                )
-            self.add(self.__mob_square)
+                self.__mob_body.next_to(next_to_mob.fetch_mob_body(), next_to_dir, 0)
+            self.add(self.__mob_body)
 
         if init_value:
             self.__mob_value: Text = Text(**self.__mob_value_props)
-            self.__mob_value.next_to(self.__mob_square, np.array([0, 0, 0]), 0)
+            self.__mob_value.next_to(self.__mob_body, np.array([0, 0, 0]), 0)
             self.add(self.__mob_value)
 
         if init_index:
             self.__mob_index: Text = Text(**self.__mob_index_props)
             self.__mob_index.next_to(
-                self.__mob_square, self.__index_pos, self.__index_gap
+                self.__mob_body, self.__index_pos, self.__index_gap
             )
             self.add(self.__mob_index)
 
         if init_label:
             self.__mob_label: Text = Text(**self.__mob_label_props)
             self.__mob_label.next_to(
-                self.__mob_square, self.__label_pos, self.__label_gap
+                self.__mob_body, self.__label_pos, self.__label_gap
             )
             self.add(self.__mob_label)
 
@@ -237,17 +235,17 @@ class MArrayElement(VGroup):
         mob_label_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element label.
         index_pos
-            Specifies the position of :attr:`__mob_index` w.r.t :attr:`__mob_square`
+            Specifies the position of :attr:`__mob_index` w.r.t :attr:`__mob_body`
         index_gap
-            Specifies the distance between :attr:`__mob_index` and :attr:`__mob_square`.
+            Specifies the distance between :attr:`__mob_index` and :attr:`__mob_body`.
         label_pos
-            Specifies the position of :attr:`__mob_label` w.r.t :attr:`__mob_square`.
+            Specifies the position of :attr:`__mob_label` w.r.t :attr:`__mob_body`.
         label_gap
-            Specifies the distance between :attr:`__mob_label` and :attr:`__mob_square`.
+            Specifies the distance between :attr:`__mob_label` and :attr:`__mob_body`.
         next_to_mob
-            Specifies the placement for :attr:`__mob_square` w.r.t another :class:`MArrayElement`.
+            Specifies the placement for :attr:`__mob_body` w.r.t another :class:`MArrayElement`.
         next_to_dir
-            Specifies the direction of placement for :attr:`__mob_square` w.r.t another :class:`MArrayElement`.
+            Specifies the direction of placement for :attr:`__mob_body` w.r.t another :class:`MArrayElement`.
         """
 
         super().__init__(**kwargs)
@@ -263,16 +261,16 @@ class MArrayElement(VGroup):
         # Initialize mobjects
         self.__init_mobs(True, True, True, True, next_to_mob, next_to_dir)
 
-    def fetch_mob_square(self) -> Square:
+    def fetch_mob_body(self) -> Square:
         """Fetches the square mobject.
 
         Returns
         -------
         :class:`~manim.mobject.geometry.polygram.Square`
-            :attr:`__mob_square`.
+            :attr:`__mob_body`.
         """
 
-        return self.__mob_square
+        return self.__mob_body
 
     def fetch_mob_value(self) -> Text:
         """Fetches the value mobject.
@@ -322,7 +320,7 @@ class MArrayElement(VGroup):
         """
 
         if mob_target == MArrayElementComp.BODY:
-            return self.fetch_mob_square()
+            return self.fetch_mob_body()
         elif mob_target == MArrayElementComp.VALUE:
             return self.fetch_mob_value()
         elif mob_target == MArrayElementComp.INDEX:
@@ -479,16 +477,16 @@ class MArrayElement(VGroup):
 
         return self.__mob_label
 
-    def animate_mob_square(self) -> "_AnimationBuilder":  # type: ignore
+    def animate_mob_body(self) -> "_AnimationBuilder":  # type: ignore
         """Invokes the animate property over square mobject.
 
         Returns
         -------
         :class:`_AnimationBuilder`
-            Animate property of :attr:`__mob_square`.
+            Animate property of :attr:`__mob_body`.
         """
 
-        return self.__mob_square.animate
+        return self.__mob_body.animate
 
     def animate_mob_value(self) -> "_AnimationBuilder":  # type: ignore
         """Invokes the animate property over value mobject.
@@ -551,11 +549,11 @@ class MArray(VGroup):
         Specifies the distance between :attr:`__mob_arr_label` and :attr:`__mob_arr`.
     mob_arr_label_args
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the array label.
-    mob_body_args
+    mob_elem_body_args
         Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
-    mob_value_args
+    mob_elem_value_args
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
-    mob_index_args
+    mob_elem_index_args
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element index.
     **kwargs
         Forwarded to constructor of the parent.
@@ -584,6 +582,12 @@ class MArray(VGroup):
         The distance between :attr:`__mob_arr_label` and :attr:`__mob_arr`.
     __mob_arr_label_props : :class:`dict`
         Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the array label.
+    __mob_elem_body_props
+        Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
+    __mob_elem_value_props
+        Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
+    __mob_elem_index_props
+        Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element index.
     __mob_arr : :class:`~typing.List`\0[:class:`MArrayElement`]
         Represents the array.
     __mob_arr_label : :class:`~manim.mobject.text.text_mobject.Text`
@@ -624,7 +628,7 @@ class MArray(VGroup):
 
         total_len = 0
         for i in range(index_start, index_end + 1):
-            total_len += self.__mob_arr[i].fetch_mob_square().side_length
+            total_len += self.__mob_arr[i].fetch_mob_body().side_length
         return total_len
 
     def __calc_label_pos_and_mob(self) -> typing.Tuple[Square, np.ndarray]:
@@ -644,7 +648,7 @@ class MArray(VGroup):
             self.__dir_map[self.__arr_dir.value]["arr"],
         ):
             return (
-                self.__mob_arr[-1].fetch_mob_square(),
+                self.__mob_arr[-1].fetch_mob_body(),
                 self.__dir_map[self.__arr_label_pos.value]["arr"],
             )
         elif np.array_equal(
@@ -652,7 +656,7 @@ class MArray(VGroup):
             -self.__dir_map[self.__arr_dir.value]["arr"],
         ):
             return (
-                self.__mob_arr[0].fetch_mob_square(),
+                self.__mob_arr[0].fetch_mob_body(),
                 self.__dir_map[self.__arr_label_pos.value]["arr"],
             )
 
@@ -668,7 +672,7 @@ class MArray(VGroup):
                     len(self.__mob_arr) - 1,
                 )
             return (
-                self.__mob_arr[middle_index].fetch_mob_square(),
+                self.__mob_arr[middle_index].fetch_mob_body(),
                 self.__dir_map[self.__arr_label_pos.value]["arr"]
                 + self.__dir_map[self.__arr_dir.value]["arr"]
                 * ((len_after - len_before) / 2),
@@ -731,12 +735,12 @@ class MArray(VGroup):
             self.__dir_map[self.__arr_label_pos.value]["arr"],
             self.__dir_map[self.__arr_dir.value]["arr"],
         ):
-            return mob.fetch_mob_square().side_length
+            return mob.fetch_mob_body().side_length
         elif not np.array_equal(
             self.__dir_map[self.__arr_label_pos.value]["arr"],
             -self.__dir_map[self.__arr_dir.value]["arr"],
         ):
-            return mob.fetch_mob_square().side_length / 2
+            return mob.fetch_mob_body().side_length / 2
         return 0
 
     def __append_elem(
@@ -746,9 +750,9 @@ class MArray(VGroup):
         append_anim: Animation = Write,
         append_anim_args: dict = {},
         append_anim_target: MArrayElementComp = None,
-        mob_body_args: dict = {},
-        mob_value_args: dict = {},
-        mob_index_args: dict = {},
+        mob_elem_body_args: dict = {},
+        mob_elem_value_args: dict = {},
+        mob_elem_index_args: dict = {},
     ) -> typing.List[Animation]:
         """Creates and inserts a new element in the array.
 
@@ -764,11 +768,11 @@ class MArray(VGroup):
             Arguments for append :class:`~manim.animation.animation.Animation`.
         append_anim_target
             Specifies the target :class:`~manim.mobject.mobject.Mobject` of the :class:`MArrayElement` on which the append :class:`~manim.animation.animation.Animation` is to be played.
-        mob_body_args
+        mob_elem_body_args
             Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
-        mob_value_args
+        mob_elem_value_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
-        mob_index_args
+        mob_elem_index_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element index.
 
         Returns
@@ -777,14 +781,23 @@ class MArray(VGroup):
             List of append animations.
         """
 
-        mob_value_args["text"] = value
-        mob_index_args["text"] = self.__calc_index(len(self.__mob_arr))
+        mob_elem_body_props = deepcopy(self.__mob_elem_body_props)
+        mob_elem_value_props = deepcopy(self.__mob_elem_value_props)
+        mob_elem_index_props = deepcopy(self.__mob_elem_index_props)
+
+        mob_elem_body_props.update(mob_elem_body_args)
+        mob_elem_value_props.update(mob_elem_value_args)
+        mob_elem_index_props.update(mob_elem_value_props)
+
+        mob_elem_value_props["text"] = value
+        mob_elem_index_props["text"] = self.__calc_index(len(self.__mob_arr))
+
         self.__mob_arr.append(
             MArrayElement(
                 scene=self.__scene,
-                mob_body_args=mob_body_args,
-                mob_value_args=mob_value_args,
-                mob_index_args=mob_index_args,
+                mob_body_args=mob_elem_body_props,
+                mob_value_args=mob_elem_value_props,
+                mob_index_args=mob_elem_index_props,
                 index_pos=self.__calc_index_pos(),
                 next_to_mob=self.__mob_arr[-1] if len(self.__mob_arr) else None,
                 next_to_dir=self.__dir_map[self.__arr_dir.value]["arr"],
@@ -860,7 +873,7 @@ class MArray(VGroup):
                     self.__mob_arr[i].shift,
                     -(
                         self.__dir_map[self.__arr_dir.value]["arr"]
-                        * removed_mob.fetch_mob_square().side_length
+                        * removed_mob.fetch_mob_body().side_length
                     ),
                 )
             )
@@ -965,6 +978,9 @@ class MArray(VGroup):
             "color": BLUE_A,
             "font_size": 38,
         }
+        self.__mob_elem_body_props: dict = {}
+        self.__mob_elem_value_props: dict = {}
+        self.__mob_elem_index_props: dict = {}
         self.__scene: Scene = scene
         self.__arr: typing.List[Any] = arr
         self.__label: str = label
@@ -981,6 +997,9 @@ class MArray(VGroup):
     def __update_props(
         self,
         mob_arr_label_args: dict = {},
+        mob_elem_body_args: dict = {},
+        mob_elem_value_args: dict = {},
+        mob_elem_index_args: dict = {},
     ) -> None:
         """Updates the attributes of the class.
 
@@ -992,6 +1011,9 @@ class MArray(VGroup):
 
         self.__mob_arr_label_props["text"] = self.__label
         self.__mob_arr_label_props.update(mob_arr_label_args)
+        self.__mob_elem_body_props.update(mob_elem_body_args)
+        self.__mob_elem_value_props.update(mob_elem_value_args)
+        self.__mob_elem_index_props.update(mob_elem_index_args)
 
         if type(self.__mob_arr_label_props["text"]) != str:
             self.__mob_arr_label_props["text"] = str(self.__mob_arr_label_props["text"])
@@ -1049,9 +1071,9 @@ class MArray(VGroup):
         arr_label_pos: MArrayDirection = MArrayDirection.LEFT,
         arr_label_gap: float = 0.5,
         mob_arr_label_args: dict = {},
-        mob_body_args: dict = {},
-        mob_value_args: dict = {},
-        mob_index_args: dict = {},
+        mob_elem_body_args: dict = {},
+        mob_elem_value_args: dict = {},
+        mob_elem_index_args: dict = {},
         **kwargs
     ) -> None:
         """Initializes the class.
@@ -1080,11 +1102,11 @@ class MArray(VGroup):
             Specifies the distance between :attr:`__mob_arr_label` and :attr:`__mob_arr`.
         mob_arr_label_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the array label.
-        mob_body_args
+        mob_elem_body_args
             Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
-        mob_value_args
+        mob_elem_value_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
-        mob_index_args
+        mob_elem_index_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element index.
         **kwargs
             Forwarded to constructor of the parent.
@@ -1115,9 +1137,9 @@ class MArray(VGroup):
             self.__append_elem(
                 v,
                 False,
-                mob_body_args=mob_body_args,
-                mob_value_args=mob_value_args,
-                mob_index_args=mob_index_args,
+                mob_body_args=mob_elem_body_args,
+                mob_value_args=mob_elem_value_args,
+                mob_index_args=mob_elem_index_args,
             )
 
         # Initialize other mobjects (e.g. __arr_label)
@@ -1327,7 +1349,7 @@ class MArray(VGroup):
 
         return self.__mob_arr[index].animate
 
-    def animate_elem_square(self, index: int) -> "_AnimationBuilder":  # type: ignore
+    def animate_elem_body(self, index: int) -> "_AnimationBuilder":  # type: ignore
         """Invokes the animate property over square mobject of the specified element.
 
         Parameters
@@ -1344,7 +1366,7 @@ class MArray(VGroup):
         if index < 0 or index > len(self.__mob_arr):
             raise Exception("Index out of bounds!")
 
-        return self.__mob_arr[index].animate_mob_square()
+        return self.__mob_arr[index].animate_mob_body()
 
     def animate_elem_value(self, index: int) -> "_AnimationBuilder":  # type: ignore
         """Invokes the animate property over value mobject of the specified element.
@@ -1637,7 +1659,7 @@ class MArrayPointer(VGroup):
                 self.__arr._MArray__sum_elem_len(index_start, index_end)
                 - (
                     self.__arr.fetch_mob_arr()[self.__index]
-                    .fetch_mob_square()
+                    .fetch_mob_body()
                     .side_length
                 )
             )
@@ -1730,7 +1752,7 @@ class MArrayPointer(VGroup):
                 **self.__mob_arrow_props
             )
             self.__mob_arrow.next_to(
-                self.__arr.fetch_mob_arr()[self.__index].fetch_mob_square(),
+                self.__arr.fetch_mob_arr()[self.__index].fetch_mob_body(),
                 arrow_pos_np,
                 self.__arrow_gap,
             )
@@ -1750,7 +1772,7 @@ class MArrayPointer(VGroup):
 
         arrow_pos_np = self.__calc_arrow_pos()
         self.next_to(
-            self.__arr.fetch_mob_arr()[self.__index].fetch_mob_square(),
+            self.__arr.fetch_mob_arr()[self.__index].fetch_mob_body(),
             arrow_pos_np,
             self.__arrow_gap,
         )
@@ -2057,7 +2079,7 @@ class MArraySlidingWindow(VGroup):
             Width of :attr:`__mob_window`.
         """
 
-        height = self.__arr.fetch_mob_arr()[self.__index].fetch_mob_square().side_length
+        height = self.__arr.fetch_mob_arr()[self.__index].fetch_mob_body().side_length
         width = self.__arr._MArray__sum_elem_len(
             self.__index, self.__index + self.__size - 1
         )
@@ -2078,25 +2100,23 @@ class MArraySlidingWindow(VGroup):
             Align vector for :attr:`__mob_window`
         """
 
-        point_np = (
-            self.__arr.fetch_mob_arr()[self.__index].fetch_mob_square().get_left()
-        )
+        point_np = self.__arr.fetch_mob_arr()[self.__index].fetch_mob_body().get_left()
         align_np = LEFT
 
         arr_dir = self.__arr.fetch_arr_dir()
         if arr_dir == MArrayDirection.LEFT:
             point_np = (
-                self.__arr.fetch_mob_arr()[self.__index].fetch_mob_square().get_right()
+                self.__arr.fetch_mob_arr()[self.__index].fetch_mob_body().get_right()
             )
             align_np = RIGHT
         elif arr_dir == MArrayDirection.UP:
             point_np = (
-                self.__arr.fetch_mob_arr()[self.__index].fetch_mob_square().get_bottom()
+                self.__arr.fetch_mob_arr()[self.__index].fetch_mob_body().get_bottom()
             )
             align_np = DOWN
         elif arr_dir == MArrayDirection.DOWN:
             point_np = (
-                self.__arr.fetch_mob_arr()[self.__index].fetch_mob_square().get_top()
+                self.__arr.fetch_mob_arr()[self.__index].fetch_mob_body().get_top()
             )
             align_np = UP
 
