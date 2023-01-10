@@ -127,9 +127,9 @@ The |MArray| also allows you to alter the way your array looks. While creating y
     arr = MArray(
         self,
         [1, 2, 3],
-        mob_square_args={'fill_color': RED_D},
-        mob_value_args={'color': BLACK},
-        mob_index_args={'color': GOLD_A}
+        mob_elem_body_args={'fill_color': RED_D},
+        mob_elem_value_args={'color': BLACK},
+        mob_elem_index_args={'color': GOLD_A}
     )
 
 .. raw:: html
@@ -147,9 +147,9 @@ The |MArray| also allows you to alter the way your array looks. While creating y
             arr = MArray(
                 self,
                 [1, 2, 3],
-                mob_square_args={'fill_color': RED_D},
-                mob_value_args={'color': BLACK},
-                mob_index_args={'color': GOLD_A}
+                mob_elem_body_args={'fill_color': RED_D},
+                mob_elem_value_args={'color': BLACK},
+                mob_elem_index_args={'color': GOLD_A}
             )
             self.play(Create(arr))
             self.wait(1)
@@ -389,7 +389,7 @@ For an existing array, you can also append an element simply by invoking the |MA
 
 .. note::
 
-    You can also pass ``mob_*_args`` to this method to customize the inserted element.
+    You can also pass ``mob_elem_*_args`` to this method to customize the inserted element.
 
 Moreover, you can also specify the animation that is played for the inserted element via the ``append_anim`` argument. The code snippet below passes the |GrowFromCenter| animation to the |MArray.append_elem| method:
 
@@ -538,7 +538,7 @@ You can also update the value and the index of an existing array using the |MArr
 
 .. note::
 
-    You can also pass ``mob_value_args`` and ``mob_index_args`` to respective methods to customize the updated element mobject.
+    You can also pass ``mob_elem_value_args`` and ``mob_elem_index_args`` to respective methods to customize the updated element mobject.
 
 Using MArrayPointer
 ~~~~~~~~~~~~~~~~~~~
