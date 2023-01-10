@@ -66,6 +66,55 @@ class MArrayElement(VGroup):
         Represents the label of the element.
     """
 
+    def __copy_prop_refs(
+        self,
+        prop_list: typing.List[str] = [
+            "_MArrayElement__mob_body_props",
+            "_MArrayElement__mob_value_props",
+            "_MArrayElement__mob_index_props",
+            "_MArrayElement__mob_label_props",
+            "_MArrayElement__index_pos",
+            "_MArrayElement__index_gap",
+            "_MArrayElement__label_pos",
+            "_MArrayElement__label_gap",
+            "_MArrayElement__mob_body",
+            "_MArrayElement__mob_value",
+            "_MArrayElement__mob_index",
+            "_MArrayElement__mob_label",
+        ],
+    ) -> dict:
+        """Copies the references of specified attributes of the class in a dict.
+
+        Parameters
+        ----------
+        prop_list
+            Specifies the attributes of the class whose references to copy.
+
+        Returns
+        -------
+        :class:`dict`
+            References of the specified attributes of the class.
+        """
+
+        prop_refs: dict = {}
+
+        for prop_name in prop_list:
+            prop_refs[prop_name] = getattr(self, prop_name)
+
+        return prop_refs
+
+    def __update_prop_refs(self, prop_refs: dict) -> None:
+        """Updates the references of the specified attributes of the class.
+
+        Parameters
+        ----------
+        prop_refs
+            Specifies the attributes and their new values.
+        """
+
+        for k, v in prop_refs.items():
+            setattr(self, k, v)
+
     def __init_props(
         self,
         scene: Scene,
@@ -520,6 +569,38 @@ class MArrayElement(VGroup):
         """
 
         return self.__mob_label.animate
+
+    def swap_with_elem(
+        self,
+        elem: "MArrayElement",
+        mob_list: typing.List[str] = [
+            "_MArrayElement__mob_body",
+            "_MArrayElement__mob_value",
+        ],
+    ) -> None:
+        """Swaps the attributes and mobjects of the class with the one specified.
+
+        Parameters
+        ----------
+        elem
+            Specifies the element to swap attributes with.
+        mob_list
+            Specifies the attribute names of the :class:`~manim.mobject.mobject.Mobject`\0(s) to swap.
+        """
+
+        self_prop_refs = self.__copy_prop_refs()
+        elem_prop_refs = elem.__copy_prop_refs()
+
+        for mob_name in mob_list:
+            self.remove(getattr(self, mob_name))
+            elem.remove(getattr(elem, mob_name))
+
+        self.__update_prop_refs(elem_prop_refs)
+        elem.__update_prop_refs(self_prop_refs)
+
+        for mob_name in mob_list:
+            self.add(getattr(self, mob_name))
+            elem.add(getattr(elem, mob_name))
 
 
 class MArray(VGroup):
@@ -1139,7 +1220,10 @@ class MArray(VGroup):
 
         # Append elements to __mob_arr
         for v in arr:
-            self.__append_elem(v, False)
+            self.__append_elem(
+                v,
+                False,
+            )
 
         # Initialize other mobjects (e.g. __arr_label)
         self.__init_mobs(True)
@@ -1526,6 +1610,81 @@ class MArray(VGroup):
             update_indices(play_anim_args=play_anim_args)
 
         return (remove_anim, update_indices)
+
+    def swap_elems(
+        self,
+        index_1: int,
+        index_2: int,
+        swap_body: bool = False,
+        play_anim: bool = True,
+        play_anim_args: dict = {},
+    ) -> typing.Tuple[CyclicReplace, typing.Callable[[], None]]:
+        """Swap two elements of the array.
+
+        Parameters
+        ----------
+        index_1
+            Specifies the index of the first element to swap.
+        index_2
+            Specifies the index of the second element to swap.
+        swap_body
+            If `True`, the swapping animation is played on the body as well; otherwise animation is only played on value.
+        play_anim
+            If `True`, plays the animation(s).
+        play_anim_args
+            Arguments for :py:meth:`Scene.play() <manim.scene.scene.Scene.play>`.
+
+        Returns
+        -------
+        :class:`~manim.animation.transform.CyclicReplace`
+            Animation for swapping of elements.
+        :data:`~typing.Callable`\0[`[]`, `None`]
+            Method that updates the submobjects and references of the swapped elements.
+        """
+
+        if (
+            index_1 < 0
+            or index_1 > len(self.__mob_arr)
+            or index_2 < 0
+            or index_2 > len(self.__mob_arr)
+        ):
+            raise Exception("Index out of bounds!")
+
+        swap_elem_1 = self.__mob_arr[index_1]
+        swap_elem_2 = self.__mob_arr[index_2]
+
+        self.__arr[index_1], self.__arr[index_2] = (
+            self.__arr[index_2],
+            self.__arr[index_1],
+        )
+
+        anim: CyclicReplace = None
+        if swap_body:
+            group_1 = VGroup(
+                swap_elem_1.fetch_mob_body(), swap_elem_1.fetch_mob_value()
+            )
+            group_2 = VGroup(
+                swap_elem_2.fetch_mob_body(), swap_elem_2.fetch_mob_value()
+            )
+            anim = CyclicReplace(group_1, group_2, remover=True)
+        else:
+            anim = CyclicReplace(
+                swap_elem_1.fetch_mob_value(),
+                swap_elem_2.fetch_mob_value(),
+                remover=True,
+            )
+
+        def update_references():
+            """Updates references of submobjects and attributes for the swapped elements."""
+
+            swap_elem_1.swap_with_elem(swap_elem_2)
+            self.__scene.add(swap_elem_1, swap_elem_2)
+
+        if play_anim:
+            self.__scene.play(anim, **play_anim_args)
+            update_references()
+
+        return (anim, update_references)
 
 
 class MArrayPointer(VGroup):
