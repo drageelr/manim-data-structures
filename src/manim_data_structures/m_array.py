@@ -68,6 +68,21 @@ class MArrayElement(VGroup):
 
     def __copy_prop_refs(
         self,
+        exclude_list: typing.List[str] = [],
+    ) -> dict:
+        """Copies the references of specified attributes of the class in a dict.
+
+        Parameters
+        ----------
+        exclude_list
+            Specifies the attributes of the class whose references to exclude while copying.
+
+        Returns
+        -------
+        :class:`dict`
+            References of the specified attributes of the class.
+        """
+
         prop_list: typing.List[str] = [
             "_MArrayElement__mob_body_props",
             "_MArrayElement__mob_value_props",
@@ -81,25 +96,13 @@ class MArrayElement(VGroup):
             "_MArrayElement__mob_value",
             "_MArrayElement__mob_index",
             "_MArrayElement__mob_label",
-        ],
-    ) -> dict:
-        """Copies the references of specified attributes of the class in a dict.
-
-        Parameters
-        ----------
-        prop_list
-            Specifies the attributes of the class whose references to copy.
-
-        Returns
-        -------
-        :class:`dict`
-            References of the specified attributes of the class.
-        """
+        ]
 
         prop_refs: dict = {}
 
         for prop_name in prop_list:
-            prop_refs[prop_name] = getattr(self, prop_name)
+            if prop_name not in exclude_list:
+                prop_refs[prop_name] = getattr(self, prop_name)
 
         return prop_refs
 
@@ -573,10 +576,13 @@ class MArrayElement(VGroup):
     def swap_with_elem(
         self,
         elem: "MArrayElement",
-        mob_list: typing.List[str] = [
-            "_MArrayElement__mob_body",
-            "_MArrayElement__mob_value",
+        exclude_list: typing.List[str] = [
+            "_MArrayElement__mob_index",
+            "_MArrayElement__mob_label",
         ],
+        text_swap_mob_value: bool = True,
+        text_swap_mob_index: bool = False,
+        text_swap_mob_label: bool = False,
     ) -> None:
         """Swaps the attributes and mobjects of the class with the one specified.
 
@@ -584,21 +590,52 @@ class MArrayElement(VGroup):
         ----------
         elem
             Specifies the element to swap attributes with.
-        mob_list
-            Specifies the attribute names of the :class:`~manim.mobject.mobject.Mobject`\0(s) to swap.
+        exclude_list
+            Specifies the attributes of the class whose references to exclude while swapping.
+        text_swap_mob_value
+            If `True`, swaps the textual value of :attr:`__mob_value`
+        text_swap_mob_index
+            If `True`, swaps the textual value of :attr:`__mob_index`
+        text_swap_mob_label
+            If `True`, swaps the textual value of :attr:`__mob_label`
         """
 
-        self_prop_refs = self.__copy_prop_refs()
-        elem_prop_refs = elem.__copy_prop_refs()
+        mobs_list: typing.List[str] = [
+            "_MArrayElement__mob_body",
+            "_MArrayElement__mob_value",
+            "_MArrayElement__mob_index",
+            "_MArrayElement__mob_label",
+        ]
 
-        for mob_name in mob_list:
+        self_prop_refs = self.__copy_prop_refs(exclude_list=exclude_list)
+        elem_prop_refs = elem.__copy_prop_refs(exclude_list=exclude_list)
+
+        if not text_swap_mob_value:
+            self.__mob_value_props["text"], elem.__mob_value_props["text"] = (
+                elem.__mob_value_props["text"],
+                self.__mob_value_props["text"],
+            )
+
+        if not text_swap_mob_index:
+            self.__mob_index_props["text"], elem.__mob_index_props["text"] = (
+                elem.__mob_index_props["text"],
+                self.__mob_index_props["text"],
+            )
+
+        if not text_swap_mob_label:
+            self.__mob_label_props["text"], elem.__mob_label_props["text"] = (
+                elem.__mob_label_props["text"],
+                self.__mob_label_props["text"],
+            )
+
+        for mob_name in mobs_list:
             self.remove(getattr(self, mob_name))
             elem.remove(getattr(elem, mob_name))
 
         self.__update_prop_refs(elem_prop_refs)
         elem.__update_prop_refs(self_prop_refs)
 
-        for mob_name in mob_list:
+        for mob_name in mobs_list:
             self.add(getattr(self, mob_name))
             elem.add(getattr(elem, mob_name))
 
