@@ -3,11 +3,12 @@
 .. Manim Data Structures substitutions
 .. |MArray| replace:: :py:class:`~m_array.MArray`
 .. |MArray.animate_elem| replace:: :py:meth:`MArray.animate_elem() <m_array.MArray.animate_elem>`
-.. |MArray.animate_elem_square| replace:: :py:meth:`MArray.animate_elem_square() <m_array.MArray.animate_elem_square>`
+.. |MArray.animate_elem_body| replace:: :py:meth:`MArray.animate_elem_body() <m_array.MArray.animate_elem_body>`
 .. |MArray.animate_elem_value| replace:: :py:meth:`MArray.animate_elem_value() <m_array.MArray.animate_elem_value>`
 .. |MArray.animate_elem_index| replace:: :py:meth:`MArray.animate_elem_index() <m_array.MArray.animate_elem_index>`
 .. |MArray.append_elem| replace:: :py:meth:`MArray.append_elem() <m_array.MArray.append_elem>`
 .. |MArray.remove_elem| replace:: :py:meth:`MArray.remove_elem() <m_array.MArray.remove_elem>`
+.. |MArray.swap_elems| replace:: :py:meth:`MArray.swap_elems() <m_array.MArray.swap_elems>`
 .. |MArray.update_elem_value| replace:: :py:meth:`MArray.update_elem_value() <m_array.MArray.update_elem_value>`
 .. |MArray.update_elem_index| replace:: :py:meth:`MArray.update_elem_index() <m_array.MArray.update_elem_index>`
 .. |MArrayElement| replace:: :py:class:`~m_array.MArrayElement`

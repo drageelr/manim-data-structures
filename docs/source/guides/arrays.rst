@@ -84,13 +84,13 @@ Moreover, you can also use the |MArray.animate_elem| method to animate a single 
             self.play(arr.animate_elem(1).shift(DOWN))
             self.wait(1)
 
-Lastly, you can also animate the body, value and the index of any element using the |MArray.animate_elem_square|, |MArray.animate_elem_value| and |MArray.animate_elem_index| respectively.
+Lastly, you can also animate the body, value and the index of any element using the |MArray.animate_elem_body|, |MArray.animate_elem_value| and |MArray.animate_elem_index| respectively.
 
 .. code-block:: python
     :linenos:
 
     self.play(
-        arr.animate_elem_square(1).set_fill(BLACK),
+        arr.animate_elem_body(1).set_fill(BLACK),
         arr.animate_elem_value(1).set_fill(RED),
         arr.animate_elem_index(1).rotate(PI / 2)
     )
@@ -110,7 +110,7 @@ Lastly, you can also animate the body, value and the index of any element using 
             arr = MArray(self, [1, 2, 3])
             self.play(Create(arr))
             self.play(
-                arr.animate_elem_square(1).set_fill(BLACK),
+                arr.animate_elem_body(1).set_fill(BLACK),
                 arr.animate_elem_value(1).set_fill(RED),
                 arr.animate_elem_index(1).rotate(PI / 2)
             )
@@ -127,9 +127,9 @@ The |MArray| also allows you to alter the way your array looks. While creating y
     arr = MArray(
         self,
         [1, 2, 3],
-        mob_square_args={'fill_color': RED_D},
-        mob_value_args={'color': BLACK},
-        mob_index_args={'color': GOLD_A}
+        mob_elem_body_args={'fill_color': RED_D},
+        mob_elem_value_args={'color': BLACK},
+        mob_elem_index_args={'color': GOLD_A}
     )
 
 .. raw:: html
@@ -147,9 +147,9 @@ The |MArray| also allows you to alter the way your array looks. While creating y
             arr = MArray(
                 self,
                 [1, 2, 3],
-                mob_square_args={'fill_color': RED_D},
-                mob_value_args={'color': BLACK},
-                mob_index_args={'color': GOLD_A}
+                mob_elem_body_args={'fill_color': RED_D},
+                mob_elem_value_args={'color': BLACK},
+                mob_elem_index_args={'color': GOLD_A}
             )
             self.play(Create(arr))
             self.wait(1)
@@ -389,7 +389,7 @@ For an existing array, you can also append an element simply by invoking the |MA
 
 .. note::
 
-    You can also pass ``mob_*_args`` to this method to customize the inserted element.
+    You can also pass ``mob_elem_*_args`` to this method to customize the inserted element.
 
 Moreover, you can also specify the animation that is played for the inserted element via the ``append_anim`` argument. The code snippet below passes the |GrowFromCenter| animation to the |MArray.append_elem| method:
 
@@ -500,6 +500,65 @@ Lastly, as the |MArray.append_elem| returns a list of |Animation|, the |MArray.r
     self.play(remove_anim) # Play removal animation first
     self.play(*update_indices(play_anim=False)) # Then play the update_indices animation
 
+Swap Element
+^^^^^^^^^^^^
+
+To implement many of the sorting algorithms, you can leverage the |MArray.swap_elems| method as shown below:
+
+.. code-block:: python
+    :linenos:
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray(self, [1, 2, 3, 4, 5])
+            arr.center()
+            self.add(arr)
+            arr.swap_elems(1, 3)
+            self.wait(1)
+
+.. raw:: html
+
+    <div>
+
+.. manim:: MyScene
+    :hide_source:
+    :quality: low
+
+    from manim_data_structures import *
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray(self, [1, 2, 3, 4, 5])
+            arr.center()
+            self.add(arr)
+            arr.swap_elems(1, 3)
+            self.wait(1)
+
+Additionally, if you want the swap animation to depict swapping of the element body, you can simply do so by passing true as the third argument to the method:
+
+.. code-block:: python
+    :linenos:
+
+    arr.swap_elems(1, 3, True)
+
+.. raw:: html
+
+    <div>
+
+.. manim:: MyScene
+    :hide_source:
+    :quality: low
+
+    from manim_data_structures import *
+
+    class MyScene(Scene):
+        def construct(self):
+            arr = MArray(self, [1, 2, 3, 4, 5])
+            arr.center()
+            self.add(arr)
+            arr.swap_elems(1, 3, True)
+            self.wait(1)
+
 Update Element
 ^^^^^^^^^^^^^^
 
@@ -538,7 +597,7 @@ You can also update the value and the index of an existing array using the |MArr
 
 .. note::
 
-    You can also pass ``mob_value_args`` and ``mob_index_args`` to respective methods to customize the updated element mobject.
+    You can also pass ``mob_elem_value_args`` and ``mob_elem_index_args`` to respective methods to customize the updated element mobject.
 
 Using MArrayPointer
 ~~~~~~~~~~~~~~~~~~~
@@ -593,7 +652,7 @@ Thus far, if you had been hoping for a pointer to associate with your array, the
             self.wait(1)
 
 Using MArraySlidingWindow
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to the |MArrayPointer|, we also have the |MArraySlidingWindow| that allows you to attach a sliding window with your array. The following snippet demonstrates its capabilities:
 
