@@ -787,7 +787,7 @@ class MArray(VGroup):
 
         mob_elem_body_props.update(mob_elem_body_args)
         mob_elem_value_props.update(mob_elem_value_args)
-        mob_elem_index_props.update(mob_elem_value_props)
+        mob_elem_index_props.update(mob_elem_index_args)
 
         mob_elem_value_props["text"] = value
         mob_elem_index_props["text"] = self.__calc_index(len(self.__mob_arr))
@@ -1130,17 +1130,16 @@ class MArray(VGroup):
         )
 
         # Update props
-        self.__update_props(mob_arr_label_args)
+        self.__update_props(
+            mob_arr_label_args,
+            mob_elem_body_args,
+            mob_elem_value_args,
+            mob_elem_index_args,
+        )
 
         # Append elements to __mob_arr
         for v in arr:
-            self.__append_elem(
-                v,
-                False,
-                mob_body_args=mob_elem_body_args,
-                mob_value_args=mob_elem_value_args,
-                mob_index_args=mob_elem_index_args,
-            )
+            self.__append_elem(v, False)
 
         # Initialize other mobjects (e.g. __arr_label)
         self.__init_mobs(True)
@@ -1412,9 +1411,9 @@ class MArray(VGroup):
         append_anim: Animation = Write,
         append_anim_args: dict = {},
         append_anim_target: MArrayElementComp = None,
-        mob_body_args: dict = {},
-        mob_value_args: dict = {},
-        mob_index_args: dict = {},
+        mob_elem_body_args: dict = {},
+        mob_elem_value_args: dict = {},
+        mob_elem_index_args: dict = {},
         play_anim: bool = True,
         play_anim_args: dict = {},
     ) -> typing.List[Animation]:
@@ -1430,11 +1429,11 @@ class MArray(VGroup):
             Arguments for append :class:`~manim.animation.animation.Animation`.
         append_anim_target
             Specifies the target :class:`~manim.mobject.mobject.Mobject` of the :class:`MArrayElement` on which the append :class:`~manim.animation.animation.Animation` is to be played.
-        mob_body_args
+        mob_elem_body_args
             Arguments for :class:`~manim.mobject.geometry.polygram.Square` that represents the element body.
-        mob_value_args
+        mob_elem_value_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element value.
-        mob_index_args
+        mob_elem_index_args
             Arguments for :class:`~manim.mobject.text.text_mobject.Text` that represents the element index.
         play_anim
             If `True`, plays the animation(s).
@@ -1451,9 +1450,9 @@ class MArray(VGroup):
 
         anim_list = self.__append_elem(
             value,
-            mob_body_args=mob_body_args,
-            mob_value_args=mob_value_args,
-            mob_index_args=mob_index_args,
+            mob_elem_body_args=mob_elem_body_args,
+            mob_elem_value_args=mob_elem_value_args,
+            mob_elem_index_args=mob_elem_index_args,
             append_anim=append_anim,
             append_anim_args=append_anim_args,
             append_anim_target=append_anim_target,
