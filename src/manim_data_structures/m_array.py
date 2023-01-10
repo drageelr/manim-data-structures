@@ -577,6 +577,7 @@ class MArrayElement(VGroup):
         self,
         elem: "MArrayElement",
         exclude_list: typing.List[str] = [
+            "_MArrayElement__mob_body",
             "_MArrayElement__mob_index",
             "_MArrayElement__mob_label",
         ],
@@ -1714,7 +1715,16 @@ class MArray(VGroup):
         def update_references():
             """Updates references of submobjects and attributes for the swapped elements."""
 
-            swap_elem_1.swap_with_elem(swap_elem_2)
+            if swap_body:
+                swap_elem_1.swap_with_elem(
+                    swap_elem_2,
+                    exclude_list=[
+                        "_MArrayElement__mob_index",
+                        "_MArrayElement__mob_label",
+                    ],
+                )
+            else:
+                swap_elem_1.swap_with_elem(swap_elem_2)
             self.__scene.add(swap_elem_1, swap_elem_2)
 
         if play_anim:
