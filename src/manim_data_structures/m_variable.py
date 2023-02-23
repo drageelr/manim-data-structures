@@ -245,7 +245,7 @@ class MVariable(MArrayElement):
         if other is MArrayPointer, then return if self.__value < other.fetch_index()
         if other is Any, then return if self.__value < other
         """
-        from .m_array import MArrayPointer
+        from .m_array_pointer import MArrayPointer
         if isinstance(other, MVariable):
             return self.__value < other.__value
         elif isinstance(other, MArrayPointer):
@@ -260,7 +260,7 @@ class MVariable(MArrayElement):
         if other is Any, then return if self.__value <= other
         """
         
-        from .m_array import MArrayPointer
+        from .m_array_pointer import MArrayPointer
         if isinstance(other, MVariable):
             return self.__value <= other.__value
         elif isinstance(other, MArrayPointer):
@@ -275,7 +275,7 @@ class MVariable(MArrayElement):
         if other is Any, then return if self.__value > other
         """
         
-        from .m_array import MArrayPointer
+        from .m_array_pointer import MArrayPointer
         if isinstance(other, MVariable):
             return self.__value > other.__value
         elif isinstance(other, MArrayPointer):
@@ -290,7 +290,7 @@ class MVariable(MArrayElement):
         if other is Any, then return if self.__value >= other
         """
 
-        from .m_array import MArrayPointer
+        from .m_array_pointer import MArrayPointer
         if isinstance(other, MVariable):
             return self.__value >= other.__value
         elif isinstance(other, MArrayPointer):
@@ -305,7 +305,7 @@ class MVariable(MArrayElement):
         if other is Any, then return if self.__value == other
         """
 
-        from .m_array import MArrayPointer
+        from .m_array_pointer import MArrayPointer
         if isinstance(other, MVariable):
             return self.__value == other.__value
         elif isinstance(other, MArrayPointer):
@@ -320,7 +320,7 @@ class MVariable(MArrayElement):
         if other is Any, then return if self.__value != other
         """
 
-        from .m_array import MArrayPointer
+        from .m_array_pointer import MArrayPointer
         if isinstance(other, MVariable):
             return self.__value != other.__value
         elif isinstance(other, MArrayPointer):
@@ -334,7 +334,7 @@ class MVariable(MArrayElement):
         if other is MArrayPointer, then return self.__value + other.fetch_index()
         """
         
-        from .m_array import MArrayPointer
+        from .m_array_pointer import MArrayPointer
         if isinstance(other, MVariable):
             return self.__value + other.__value
         elif isinstance(other, MArrayPointer):
@@ -348,7 +348,7 @@ class MVariable(MArrayElement):
         if other is MArrayPointer, then return self.__value - other.fetch_index()
         """
         
-        from .m_array import MArrayPointer
+        from .m_array_pointer import MArrayPointer
         if isinstance(other, MVariable):
             return self.__value - other.__value
         elif isinstance(other, MArrayPointer):
