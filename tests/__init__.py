@@ -1,6 +1,6 @@
 from manim import *
 import sys
-sys.path.append('../src/')
+sys.path.append('./src/')
 from manim_data_structures import *
 
 
