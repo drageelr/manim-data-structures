@@ -1,5 +1,5 @@
 """Contains classes to construct variable."""
-
+from __future__ import annotations
 from manim import *
 
 from .m_array import MArrayElement
@@ -238,3 +238,123 @@ class MVariable(MArrayElement):
         return self.update_mob_label(
             mob_label_args, update_anim, update_anim_args, play_anim, play_anim_args
         )
+        
+    def __lt__(self, other : MVariable | MArrayPointer | Any):
+        """ return if self < other
+        if other is MVariable, then return if self.__value < other.__value
+        if other is MArrayPointer, then return if self.__value < other.fetch_index()
+        if other is Any, then return if self.__value < other
+        """
+        from .m_array import MArrayPointer
+        if isinstance(other, MVariable):
+            return self.__value < other.__value
+        elif isinstance(other, MArrayPointer):
+            return self.__value < other.fetch_index()
+        else:
+            return self.__value < other
+    
+    def __le__(self, other : MVariable | MArrayPointer | Any):
+        """ return if self <= other
+        if other is MVariable, then return if self.__value <= other.__value
+        if other is MArrayPointer, then return if self.__value <= other.fetch_index()
+        if other is Any, then return if self.__value <= other
+        """
+        
+        from .m_array import MArrayPointer
+        if isinstance(other, MVariable):
+            return self.__value <= other.__value
+        elif isinstance(other, MArrayPointer):
+            return self.__value <= other.fetch_index()
+        else:
+            return self.__value <= other
+    
+    def __gt__(self, other : MVariable | MArrayPointer | Any):
+        """ return if self > other
+        if other is MVariable, then return if self.__value > other.__value
+        if other is MArrayPointer, then return if self.__value > other.fetch_index()
+        if other is Any, then return if self.__value > other
+        """
+        
+        from .m_array import MArrayPointer
+        if isinstance(other, MVariable):
+            return self.__value > other.__value
+        elif isinstance(other, MArrayPointer):
+            return self.__value > other.fetch_index()
+        else:
+            return self.__value > other
+    
+    def __ge__(self, other : MVariable | MArrayPointer | Any):
+        """ return if self >= other
+        if other is MVariable, then return if self.__value >= other.__value
+        if other is MArrayPointer, then return if self.__value >= other.fetch_index()
+        if other is Any, then return if self.__value >= other
+        """
+
+        from .m_array import MArrayPointer
+        if isinstance(other, MVariable):
+            return self.__value >= other.__value
+        elif isinstance(other, MArrayPointer):
+            return self.__value >= other.fetch_index()
+        else :
+            return self.__value >= other
+    
+    def __eq__(self, other : MVariable | MArrayPointer | Any):
+        """ return if self == other
+        if other is MVariable, then return if self.__value == other.__value
+        if other is MArrayPointer, then return if self.__value == other.fetch_index()
+        if other is Any, then return if self.__value == other
+        """
+
+        from .m_array import MArrayPointer
+        if isinstance(other, MVariable):
+            return self.__value == other.__value
+        elif isinstance(other, MArrayPointer):
+            return self.__value == other.fetch_index()
+        else:
+            return self.__value == other
+        
+    def __ne__(self, other : MVariable | MArrayPointer | Any):
+        """ return if self != other
+        if other is MVariable, then return if self.__value != other.__value
+        if other is MArrayPointer, then return if self.__value != other.fetch_index()
+        if other is Any, then return if self.__value != other
+        """
+
+        from .m_array import MArrayPointer
+        if isinstance(other, MVariable):
+            return self.__value != other.__value
+        elif isinstance(other, MArrayPointer):
+            return self.__value != other.fetch_index()
+        else:
+            return self.__value != other
+        
+    def __add__(self, other : MVariable | MArrayPointer | Any):
+        """ return self + other
+        if other is MVariable, then return self.__value + other.__value
+        if other is MArrayPointer, then return self.__value + other.fetch_index()
+        """
+        
+        from .m_array import MArrayPointer
+        if isinstance(other, MVariable):
+            return self.__value + other.__value
+        elif isinstance(other, MArrayPointer):
+            return self.__value + other.fetch_index()
+        else:
+            return self.__value + other
+    
+    def __sub__(self, other : MVariable | MArrayPointer | Any):
+        """ return self - other
+        if other is MVariable, then return self.__value - other.__value
+        if other is MArrayPointer, then return self.__value - other.fetch_index()
+        """
+        
+        from .m_array import MArrayPointer
+        if isinstance(other, MVariable):
+            return self.__value - other.__value
+        elif isinstance(other, MArrayPointer):
+            return self.__value - other.fetch_index()
+        else:
+            return self.__value - other
+        
+    def __hash__(self):
+        return id(self)

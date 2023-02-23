@@ -24,7 +24,7 @@ class MyScene(Scene):
         # find first larger or equal to target value
         while (l <= r):
             anims = []
-            if (mid < tar_val):
+            if (tar_val > mid):
                 anims.append(l.shift_to_elem(mid + 1, play_anim=False))
             else:
                 anims.append(r.shift_to_elem(mid - 1, play_anim=False))
