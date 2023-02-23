@@ -31,3 +31,4 @@ class MyScene(Scene):
             anims.append(mid.shift_to_elem((l + r) // 2, play_anim=False))
             self.play(AnimationGroup(*anims))
             self.wait(1)
+            
