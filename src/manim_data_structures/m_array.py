@@ -1,12 +1,12 @@
 """Contains classes to construct an array."""
 
+from __future__ import annotations
 from copy import deepcopy
 
 import numpy as np
 from manim import *
 
 from .m_enum import MArrayDirection, MArrayElementComp
-
 
 class MArrayElement(VGroup):
     """A class that represents an array element.
@@ -615,10 +615,10 @@ class MArray(VGroup):
         """
 
         if (
-            index_start < 0
-            or index_end < 0
-            or index_start > len(self.__mob_arr)
-            or index_end > len(self.__mob_arr)
+            index_start < 0 or
+            index_end < 0 or
+            index_start > len(self.__mob_arr) or
+            index_end > len(self.__mob_arr)
         ):
             raise Exception("Index out of bounds!")
 
@@ -1983,6 +1983,179 @@ class MArrayPointer(VGroup):
         self.__index = index
         self.__init_pos()
 
+    def __lt__(self, other: MArrayPointer | int | MVariable) -> bool:
+        """Checks if the pointer is less than the other pointer.
+
+        Parameters
+        ----------
+        other
+            The other pointer.
+
+        Returns
+        -------
+        :class:`bool`
+            `True` if the pointer's pointing index in the `MArray` is less than the other pointer, `False` otherwise.
+        """
+        from .m_variable import MVariable
+        if isinstance(other, MArrayPointer):
+            return self.__index < other.fetch_index()
+        elif isinstance(other, MVariable):
+            return self.__index < other.fetch_value()
+        else:
+            return self.__index < other
+
+    def __le__(self, other: MArrayPointer | int | MVariable) -> bool:
+        """Checks if the pointer is less than or equal to the other pointer.
+
+        Parameters
+        ----------
+        other
+            The other pointer.
+
+        Returns
+        -------
+        :class:`bool`
+            `True` if the pointer's pointing index in the `MArray` is less than or equal to the other pointer, `False` otherwise.
+        """
+        from .m_variable import MVariable
+        if isinstance(other, MArrayPointer):
+            return self.__index <= other.fetch_index()
+        elif isinstance(other, MVariable):
+            return self.__index <= other.fetch_value()
+        else:
+            return self.__index <= other
+
+    def __gt__(self, other: MArrayPointer | int | MVariable) -> bool:
+        """Checks if the pointer is greater than the other pointer.
+
+        Parameters
+        ----------
+        other
+            The other pointer.
+
+        Returns
+        -------
+        :class:`bool`
+            `True` if the pointer's pointing index in the `MArray` is greater than the other pointer, `False` otherwise.
+        """
+        from .m_variable import MVariable
+        if isinstance(other, MArrayPointer):
+            return self.__index > other.fetch_index()
+        elif isinstance(other, MVariable):
+            return self.__index > other.fetch_value()
+        else:
+            return self.__index > other
+
+    def __ge__(self, other: MArrayPointer | int | MVariable) -> bool:
+        """Checks if the pointer is greater than or equal to the other pointer.
+
+        Parameters
+        ----------
+        other
+            The other pointer.
+
+        Returns
+        -------
+        :class:`bool`
+            `True` if the pointer's pointing index in the `MArray` is greater than or equal to the other pointer, `False` otherwise.
+        """
+        from .m_variable import MVariable
+        if isinstance(other, MArrayPointer):
+            return self.__index >= other.fetch_index()
+        elif isinstance(other, MVariable):
+            return self.__index >= other.fetch_value()
+        else:
+            return self.__index >= other
+
+    def __eq__(self, other: MArrayPointer | int | MVariable) -> bool:
+        """Checks if the pointer is equal to the other pointer.
+
+        Parameters
+        ----------
+        other
+            The other pointer.
+
+        Returns
+        -------
+        :class:`bool`
+            `True` if the pointer's pointing index in the `MArray` is equal to the other pointer, `False` otherwise.
+        """
+        from .m_variable import MVariable
+        if isinstance(other, MArrayPointer):
+            return self.__index == other.fetch_index()
+        elif isinstance(other, MVariable):
+            return self.__index == other.fetch_value()
+        else:
+            return self.__index == other
+
+    def __ne__(self, other: MArrayPointer | int | MVariable) -> bool:
+        """Checks if the pointer is not equal to the other pointer.
+
+        Parameters
+        ----------
+        other
+            The other pointer.
+
+        Returns
+        -------
+        :class:`bool`
+            `True` if the pointer's pointing index in the `MArray` is not equal to the other pointer, `False` otherwise.
+        """
+        from .m_variable import MVariable
+        return not self.__eq__(other)
+
+    def __add__(self, other: MArrayPointer | int | MVariable) -> int:
+        """
+        return the addition of the index of the current pointer and the index of the other pointer if other is another pointer.
+        return the addition of the index of the current pointer and the integer if other is an integer.
+        return the addition of the index of the current pointer and the value of the other variable if other is a MVariable.
+
+        Parameters
+        ----------
+        other
+            The value to be added.
+
+        Returns
+        -------
+        :class:`MArrayPointer`
+            The pointer after adding the value.
+        """
+        from .m_variable import MVariable # do this because of circular import
+        if isinstance(other, MArrayPointer):
+            return self.__index + other.fetch_index()
+        elif isinstance(other, MVariable):
+            return self.__index + other.fetch_value()
+        else:
+            return self.__index + other
+    def __sub__(self, other: MArrayPointer | int | MVariable) -> int:
+        """
+        return the subtraction of the index of the current pointer and the index of the other pointer if other is another pointer.
+        return the subtraction of the index of the current pointer and the integer if other is an integer.
+        return the subtraction of the index of the current pointer and the value of the other variable if other is a MVariable.
+        ----------
+        other
+            The value to be subtracted.
+
+        Returns
+        -------
+        :class:`MArrayPointer`
+            The pointer after subtracting the value.
+        """
+        from .m_variable import MVariable
+        if isinstance(other, MArrayPointer):
+            return self.__index - other.fetch_index()
+        elif isinstance(other, MVariable):
+            return self.__index - other.fetch_value()
+        else:
+            return self.__index - other
+
+    def __key(self) -> tuple:
+        # return the tuple of all attributues, used for hashing
+        return (self.__scene, self.__arr, self.__index, self.__label, self.__arrow_len, self.__arrow_gap, self.__label_gap,
+            self.__pointer_pos, self.__updater_pos 
+                )
+    def __hash__(self) -> int:
+        return id(self)
 
 class MArraySlidingWindow(VGroup):
     """A class that represents a sliding window
