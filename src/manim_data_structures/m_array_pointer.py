@@ -654,5 +654,5 @@ class MArrayPointer(VGroup):
         return (self.__scene, self.__arr, self.__index, self.__label, self.__arrow_len, self.__arrow_gap, self.__label_gap,
             self.__pointer_pos, self.__updater_pos 
                 )
-    # def __hash__(self) -> int:
-    #     return id(self)
+    def __hash__(self) -> int:
+        return id(self)
